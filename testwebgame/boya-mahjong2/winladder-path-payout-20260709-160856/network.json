@@ -1,0 +1,393 @@
+{
+  "verdict": "FAIL",
+  "url": "http://127.0.0.1:18082/__game/winladder",
+  "out": "testwebgame/boya-mahjong2/winladder-path-payout-20260709-160856",
+  "spins": 6,
+  "heartbeatWaitMs": 70000,
+  "finalUrl": null,
+  "pageErrors": [],
+  "httpErrors": [],
+  "clientCloses": [
+    {
+      "url": "ws://127.0.0.1:18082/gate/ws?mode=winladder?BAZxCARHMQNIPAVTLDU4MDkzNzU1Mg==",
+      "frameCount": 32
+    },
+    {
+      "url": "ws://127.0.0.1:18082/gate/ws?mode=winladder?CANJNQRHOgJMOAVTLAQ1MgFeOQMwMAExOTM3NTc3",
+      "frameCount": 32
+    }
+  ],
+  "spinResults": [
+    {
+      "spin": 1,
+      "frameId": 30,
+      "totalWin": 400,
+      "roundWin": 400,
+      "lineSum": 400,
+      "lines": [
+        {
+          "iconId": 19,
+          "axleId": 3,
+          "lineNum": 1,
+          "score": 400,
+          "multi": 4,
+          "odds": 3
+        }
+      ],
+      "lineIconsOnBoard": true
+    }
+  ],
+  "freeSpinResults": [],
+  "counts": {
+    "send40002": 2,
+    "receive40003": 2,
+    "send40006": 0,
+    "receive40007": 0,
+    "send40004": 0,
+    "receive40005": 0,
+    "send5000": 0,
+    "receive5001": 0
+  },
+  "observedFrames": [
+    {
+      "id": 1,
+      "direction": "send",
+      "cmd": 10000,
+      "rawCmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 2,
+      "direction": "receive",
+      "cmd": 10001,
+      "rawCmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 3,
+      "direction": "send",
+      "cmd": 20026,
+      "rawCmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 4,
+      "direction": "send",
+      "cmd": 20012,
+      "rawCmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 5,
+      "direction": "send",
+      "cmd": 20000,
+      "rawCmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 6,
+      "direction": "send",
+      "cmd": 20022,
+      "rawCmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 7,
+      "direction": "send",
+      "cmd": 20004,
+      "rawCmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 8,
+      "direction": "send",
+      "cmd": 20016,
+      "rawCmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 9,
+      "direction": "send",
+      "cmd": 23209,
+      "rawCmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 10,
+      "direction": "send",
+      "cmd": 24001,
+      "rawCmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 11,
+      "direction": "send",
+      "cmd": 20020,
+      "rawCmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 12,
+      "direction": "receive",
+      "cmd": 20027,
+      "rawCmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 13,
+      "direction": "receive",
+      "cmd": 20013,
+      "rawCmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 14,
+      "direction": "receive",
+      "cmd": 20001,
+      "rawCmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 15,
+      "direction": "receive",
+      "cmd": 20023,
+      "rawCmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 16,
+      "direction": "receive",
+      "cmd": 20005,
+      "rawCmd": 2147503653,
+      "bytes": 473
+    },
+    {
+      "id": 17,
+      "direction": "receive",
+      "cmd": 20017,
+      "rawCmd": 2147503665,
+      "bytes": 468
+    },
+    {
+      "id": 18,
+      "direction": "receive",
+      "cmd": 23210,
+      "rawCmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 19,
+      "direction": "receive",
+      "cmd": 24002,
+      "rawCmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 20,
+      "direction": "receive",
+      "cmd": 20021,
+      "rawCmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 21,
+      "direction": "send",
+      "cmd": 30000,
+      "rawCmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 22,
+      "direction": "receive",
+      "cmd": 30001,
+      "rawCmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 23,
+      "direction": "send",
+      "cmd": 31008,
+      "rawCmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 24,
+      "direction": "receive",
+      "cmd": 31009,
+      "rawCmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 25,
+      "direction": "send",
+      "cmd": 31010,
+      "rawCmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 26,
+      "direction": "receive",
+      "cmd": 31011,
+      "rawCmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 27,
+      "direction": "send",
+      "cmd": 40000,
+      "rawCmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 28,
+      "direction": "receive",
+      "cmd": 40001,
+      "rawCmd": 40001,
+      "bytes": 88
+    },
+    {
+      "id": 29,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 30,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 125,
+      "rotate": {
+        "totalWin": 400,
+        "roundWin": 400,
+        "roundScore": 0,
+        "lineSum": 400,
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 400,
+            "multi": 4,
+            "odds": 3
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          101,
+          15,
+          13,
+          13,
+          19,
+          3,
+          19,
+          17,
+          6,
+          12,
+          12,
+          6,
+          10,
+          4,
+          2,
+          11,
+          19,
+          11,
+          17,
+          7,
+          101,
+          17,
+          17,
+          9,
+          13
+        ],
+        "topResult": [
+          17,
+          17,
+          8,
+          17,
+          13
+        ],
+        "buttomResult": [
+          11,
+          3,
+          10,
+          3,
+          9
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 32,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 126,
+      "rotate": {
+        "totalWin": 1200,
+        "roundWin": 1200,
+        "roundScore": 800,
+        "lineSum": 1200,
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 1200,
+            "multi": 4,
+            "odds": 3
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          101,
+          15,
+          13,
+          13,
+          19,
+          3,
+          19,
+          17,
+          6,
+          12,
+          12,
+          6,
+          10,
+          4,
+          2,
+          11,
+          19,
+          11,
+          17,
+          7,
+          101,
+          17,
+          17,
+          9,
+          13
+        ],
+        "topResult": [
+          17,
+          17,
+          8,
+          17,
+          13
+        ],
+        "buttomResult": [
+          11,
+          3,
+          10,
+          3,
+          9
+        ]
+      }
+    }
+  ]
+}

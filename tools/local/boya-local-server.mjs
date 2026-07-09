@@ -437,8 +437,12 @@ function handleClientWsFrame(socket, state, replay, mode, connectionIndex, frame
       source: responseInfo.source || "har",
       datasetIndex: responseInfo.datasetIndex,
       datasetCount: responseInfo.datasetCount,
+      sourceConnectionIndex: responseInfo.sourceConnectionIndex,
       sourceMessageIndex: responseInfo.sourceMessageIndex,
-      winAmount: responseInfo.winAmount
+      winAmount: responseInfo.winAmount,
+      boardIndex: responseInfo.boardIndex,
+      templateIndex: responseInfo.templateIndex,
+      originalRoundWin: responseInfo.originalRoundWin
     });
     logEvent(state, {
       kind: "server-frame",
@@ -450,7 +454,9 @@ function handleClientWsFrame(socket, state, replay, mode, connectionIndex, frame
       source: responseInfo.source || "har",
       datasetIndex: responseInfo.datasetIndex,
       datasetCount: responseInfo.datasetCount,
-      winAmount: responseInfo.winAmount
+      winAmount: responseInfo.winAmount,
+      templateIndex: responseInfo.templateIndex,
+      originalRoundWin: responseInfo.originalRoundWin
     });
   }
 }

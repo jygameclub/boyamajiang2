@@ -9,8 +9,10 @@ import {
   createConnectionReplay,
   createGeneratedWinFrame,
   createReplayResponder,
+  createWinLadderFrameFromBase,
   decodeBoyaRotateFromPayload,
   extractAssetsFromHarObject,
+  extractBoardFields,
   importFramesFromHarObject,
   normalizeReplayMode,
   parseFrameBase64
@@ -241,8 +243,122 @@ test("createGeneratedWinFrame builds a 40003 response with the requested totalWi
   assert.match(rotate.seq, /^local-winladder-3-/);
 });
 
-test("createReplayResponder winladder mode returns generated wins from small to large", async () => {
-  const dir = await mkdtemp(path.join(tmpdir(), "boya-winladder-"));
+test("createWinLadderFrameFromBase overrides only money fields and preserves the recorded spin", () => {
+  const base = createGeneratedWinFrame({ winAmount: 0, sequence: 7, coin: 987654 });
+  const baseRotate = decodeBoyaRotateFromPayload(parseFrameBase64(base).payload);
+
+  const patched = createWinLadderFrameFromBase(base, { winAmount: 6000 });
+  const parsed = parseFrameBase64(patched);
+  const rotate = decodeBoyaRotateFromPayload(parsed.payload);
+
+  assert.equal(parsed.cmd, 40003);
+  assert.equal(rotate.totalWin, 6000);
+  assert.equal(rotate.roundWin, 6000);
+  assert.equal(rotate.roundScore, 6000 - 400);
+  // Everything else must survive untouched so the client keeps a valid game state.
+  assert.equal(rotate.coin, baseRotate.coin);
+  assert.equal(rotate.seq, baseRotate.seq);
+  assert.deepEqual(rotate.drawResult, baseRotate.drawResult);
+});
+
+test("winladder responder keeps the recorded base spin safe when no free data exists", async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), "boya-winladder-clone-"));
+  try {
+    const recordedBet = createGeneratedWinFrame({ winAmount: 0, sequence: 1, coin: 555000 }).toString("base64");
+    const raw = await importFramesFromHarObject({
+      log: {
+        entries: [
+          {
+            request: { url: "wss://gateway.666789.site/gate/ws?game" },
+            response: { status: 101, content: { mimeType: "x-unknown" } },
+            _webSocketMessages: [
+              { time: 1, type: "send", opcode: 2, data: frameBase64(40000) },
+              { time: 2, type: "receive", opcode: 2, data: frameBase64(40001, Buffer.from([1])) },
+              { time: 3, type: "send", opcode: 2, data: frameBase64(40002) },
+              { time: 4, type: "receive", opcode: 2, data: recordedBet }
+            ]
+          }
+        ]
+      }
+    }, dir);
+
+    const responder = createReplayResponder(raw, 0, "winladder");
+    responder.nextResponsesForClientFrame(frameBase64(40000));
+    const spin = responder.nextResponsesForClientFrame(frameBase64(40002))[0];
+    const rotate = decodeBoyaRotateFromPayload(parseFrameBase64(spin.buffer).payload);
+
+    assert.equal(spin.source, "winladder-base");
+    assert.equal(rotate.totalWin, 0);
+    assert.equal(rotate.lines.length, 1);
+    // coin comes from the recorded 40003, proving the frame is cloned, not fabricated.
+    assert.equal(rotate.coin, 555000);
+  } finally {
+    await rm(dir, { recursive: true, force: true });
+  }
+});
+
+test("winladder real-data free cascades keep board, paths, and payout consistent", async () => {
+  const raw = JSON.parse(await readFile(
+    path.join(process.cwd(), "debugserver-data/boya-mahjong2/raw-frames.json"),
+    "utf8"
+  ));
+  const responder = createReplayResponder(raw, 1, "winladder");
+
+  const base = responder.nextResponsesForClientFrame(frameBase64(40002))[0];
+  assert.equal(parseFrameBase64(base.buffer).cmd, 40003);
+  assert.equal(base.source, "winladder-base");
+
+  const trigger = responder.nextResponsesForClientFrame(frameBase64(40006))[0];
+  assert.equal(parseFrameBase64(trigger.buffer).cmd, 40007);
+  assert.equal(trigger.source, "freespin-trigger");
+
+  const expectedWins = [400, 1200, 2400, 6000, 12000, 20000];
+  const observedWins = [];
+  for (let index = 0; observedWins.length < expectedWins.length && index < 20; index += 1) {
+    const step = responder.nextResponsesForClientFrame(frameBase64(40004))[0];
+    const parsed = parseFrameBase64(step.buffer);
+    const rotate = decodeBoyaRotateFromPayload(parsed.payload);
+    if (!rotate.lines.length) {
+      continue;
+    }
+    const scoreSum = rotate.lines.reduce((sum, line) => sum + line.score, 0);
+    const visibleSymbols = new Set([
+      ...rotate.drawResult,
+      ...rotate.topResult,
+      ...rotate.buttomResult
+    ]);
+
+    assert.equal(parsed.cmd, 40005);
+    assert.equal(scoreSum, step.winAmount);
+    assert.equal(rotate.roundWin, scoreSum);
+    for (const line of rotate.lines) {
+      assert.ok(
+        visibleSymbols.has(line.iconId),
+        `line icon ${line.iconId} must exist on the visible board`
+      );
+    }
+    observedWins.push(rotate.roundWin);
+  }
+
+  assert.deepEqual(observedWins, expectedWins);
+});
+
+test("createWinLadderFrameFromBase swaps in a supplied board while keeping the win override", () => {
+  const base = createGeneratedWinFrame({ winAmount: 0, sequence: 1, coin: 222 });
+  const board = extractBoardFields(base);
+
+  const framed = createWinLadderFrameFromBase(base, { winAmount: 2400, board });
+  const rotate = decodeBoyaRotateFromPayload(parseFrameBase64(framed).payload);
+
+  assert.equal(rotate.totalWin, 2400);
+  assert.deepEqual(
+    rotate.drawResult,
+    decodeBoyaRotateFromPayload(parseFrameBase64(base).payload).drawResult
+  );
+});
+
+test("winladder responder replays the recorded free-spin trigger and cascade steps", async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), "boya-freespin-"));
   try {
     const raw = await importFramesFromHarObject({
       log: {
@@ -254,7 +370,13 @@ test("createReplayResponder winladder mode returns generated wins from small to 
               { time: 1, type: "send", opcode: 2, data: frameBase64(40000) },
               { time: 2, type: "receive", opcode: 2, data: frameBase64(40001, Buffer.from([1])) },
               { time: 3, type: "send", opcode: 2, data: frameBase64(40002) },
-              { time: 4, type: "receive", opcode: 2, data: frameBase64(40003, Buffer.from([10])) }
+              { time: 4, type: "receive", opcode: 2, data: frameBase64(40003, Buffer.from([10])) },
+              { time: 5, type: "send", opcode: 2, data: frameBase64(40006) },
+              { time: 6, type: "receive", opcode: 2, data: frameBase64(40007, Buffer.from([70])) },
+              { time: 7, type: "send", opcode: 2, data: frameBase64(40004) },
+              { time: 8, type: "receive", opcode: 2, data: frameBase64(40005, Buffer.from([51])) },
+              { time: 9, type: "send", opcode: 2, data: frameBase64(40004) },
+              { time: 10, type: "receive", opcode: 2, data: frameBase64(40005, Buffer.from([52])) }
             ]
           }
         ]
@@ -262,20 +384,22 @@ test("createReplayResponder winladder mode returns generated wins from small to 
     }, dir);
 
     const responder = createReplayResponder(raw, 0, "winladder");
-    assert.equal(parseFrameBase64(responder.nextResponsesForClientFrame(frameBase64(40000))[0].buffer).cmd, 40001);
+    responder.nextResponsesForClientFrame(frameBase64(40000));
 
-    const wins = [
-      responder.nextResponsesForClientFrame(frameBase64(40002))[0],
-      responder.nextResponsesForClientFrame(frameBase64(40002))[0],
-      responder.nextResponsesForClientFrame(frameBase64(40002))[0]
-    ];
+    const trigger = responder.nextResponsesForClientFrame(frameBase64(40006))[0];
+    assert.equal(trigger.source, "freespin-trigger");
+    assert.equal(parseFrameBase64(trigger.buffer).cmd, 40007);
 
-    assert.deepEqual(wins.map((item) => item.source), ["winladder", "winladder", "winladder"]);
-    assert.deepEqual(wins.map((item) => item.winAmount), [400, 1200, 2400]);
-    assert.deepEqual(
-      wins.map((item) => decodeBoyaRotateFromPayload(parseFrameBase64(item.buffer).payload).totalWin),
-      [400, 1200, 2400]
-    );
+    const step1 = responder.nextResponsesForClientFrame(frameBase64(40004))[0];
+    const step2 = responder.nextResponsesForClientFrame(frameBase64(40004))[0];
+    const step3 = responder.nextResponsesForClientFrame(frameBase64(40004))[0];
+
+    assert.equal(step1.source, "freespin-cascade");
+    assert.deepEqual([...parseFrameBase64(step1.buffer).payload], [51]);
+    assert.deepEqual([...parseFrameBase64(step2.buffer).payload], [52]);
+    // Once the recorded cascade is exhausted it clamps to the last (settle) step
+    // instead of throwing, so the connection never dies mid-feature.
+    assert.deepEqual([...parseFrameBase64(step3.buffer).payload], [52]);
   } finally {
     await rm(dir, { recursive: true, force: true });
   }

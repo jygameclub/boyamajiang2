@@ -296,6 +296,289 @@ export function createReplayResponder(rawFrames, connectionIndex, mode = "replay
   };
 }
 
+// MsgRotate submessage protobuf field numbers.
+const ROTATE_FIELD_ROUND_SCORE = 15;
+const ROTATE_FIELD_TOTAL_WIN = 16;
+const ROTATE_FIELD_ROUND_WIN = 17;
+const ROTATE_FIELD_LINE = 11;
+// Board fields: main 5x5 grid + top/bottom padding rows (length-delimited packed ints).
+const ROTATE_BOARD_FIELDS = [8, 9, 10];
+const FREE_SPIN_ONLY_FIELDS = new Set([19, 20, 21, 22, 23, 24, 25, 26]);
+
+// Split a protobuf message into ordered fields while keeping each field's raw wire
+// bytes intact, so untouched fields survive a round-trip byte-for-byte.
+function splitOrderedFields(buffer) {
+  const fields = [];
+  let offset = 0;
+  while (offset < buffer.length) {
+    const start = offset;
+    const tag = readVarint(buffer, offset);
+    offset = tag.next;
+    const field = Number(tag.value >> 3n);
+    const wire = Number(tag.value & 7n);
+    if (wire === 0) {
+      offset = readVarint(buffer, offset).next;
+    } else if (wire === 2) {
+      const length = readVarint(buffer, offset);
+      offset = length.next + Number(length.value);
+    } else {
+      throw new Error(`Unsupported protobuf wire type ${wire} at field ${field}`);
+    }
+    fields.push({ field, wire, raw: Buffer.from(buffer.subarray(start, offset)) });
+  }
+  return fields;
+}
+
+// Rebuild a MsgRotate submessage: replace varint fields by value and length-delimited
+// fields (e.g. the board) by raw wire bytes, keeping every other recorded field exactly
+// as captured. Missing varint overrides are appended in ascending field order.
+function rebuildRotateInner(
+  inner,
+  {
+    varintOverrides = {},
+    rawFieldOverrides = {},
+    repeatedFieldOverrides = {},
+    insertRepeatedAfterField = {},
+    omitFields = []
+  } = {}
+) {
+  const fields = splitOrderedFields(inner);
+  const present = new Set(fields.map((entry) => entry.field));
+  const omitted = new Set(omitFields);
+  const repeatedInserted = new Set();
+  const chunks = [];
+  for (const entry of fields) {
+    let emittedEntry = false;
+    if (omitted.has(entry.field)) {
+      continue;
+    }
+    if (Object.prototype.hasOwnProperty.call(repeatedFieldOverrides, entry.field)) {
+      if (!repeatedInserted.has(entry.field)) {
+        chunks.push(...repeatedFieldOverrides[entry.field]);
+        repeatedInserted.add(entry.field);
+      }
+    } else if (Object.prototype.hasOwnProperty.call(rawFieldOverrides, entry.field)) {
+      chunks.push(rawFieldOverrides[entry.field]);
+      emittedEntry = true;
+    } else if (Object.prototype.hasOwnProperty.call(varintOverrides, entry.field)) {
+      chunks.push(encodeVarintField(entry.field, varintOverrides[entry.field]));
+      emittedEntry = true;
+    } else {
+      chunks.push(entry.raw);
+      emittedEntry = true;
+    }
+    if (emittedEntry && Object.prototype.hasOwnProperty.call(insertRepeatedAfterField, entry.field)) {
+      for (const [field, fieldChunks] of insertRepeatedAfterField[entry.field]) {
+        if (!repeatedInserted.has(field) && !omitted.has(field)) {
+          chunks.push(...fieldChunks);
+          repeatedInserted.add(field);
+        }
+      }
+    }
+  }
+  for (const key of Object.keys(varintOverrides).map(Number).sort((a, b) => a - b)) {
+    if (!present.has(key)) {
+      chunks.push(encodeVarintField(key, varintOverrides[key]));
+    }
+  }
+  for (const key of Object.keys(repeatedFieldOverrides).map(Number).sort((a, b) => a - b)) {
+    if (!present.has(key) && !repeatedInserted.has(key) && !omitted.has(key)) {
+      chunks.push(...repeatedFieldOverrides[key]);
+    }
+  }
+  return Buffer.concat(chunks);
+}
+
+function rotateInnerOf(frameBuffer) {
+  const parsed = parseFrameBase64(frameBuffer);
+  const outer = readFields(parsed.payload);
+  const rotateField = outer.find((field) => field.field === 1 && field.wire === 2);
+  if (!rotateField) {
+    throw new Error("Frame has no MsgRotate submessage");
+  }
+  return rotateField.value;
+}
+
+// Extract the board field group (raw wire bytes for fields 8/9/10) from a recorded
+// spin frame, so it can be transplanted into another frame's structure.
+export function extractBoardFields(frameBuffer) {
+  const fields = splitOrderedFields(rotateInnerOf(frameBuffer));
+  const board = {};
+  for (const entry of fields) {
+    if (ROTATE_BOARD_FIELDS.includes(entry.field)) {
+      board[entry.field] = entry.raw;
+    }
+  }
+  return board;
+}
+
+// Collect distinct real boards from recorded 40003/40005 frames (base + cascade steps),
+// so winladder can vary the board every spin instead of repeating one frame.
+export function collectRealBoards(rawFrames, connectionIndex) {
+  const seen = new Set();
+  const boards = [];
+  const connection = rawFrames?.connections?.[connectionIndex];
+  const pools = [connection?.messages, rawFrames?.frames];
+  for (const messages of pools) {
+    if (!Array.isArray(messages)) {
+      continue;
+    }
+    for (const message of messages) {
+      if (message.type !== "receive" || (message.cmd !== 40003 && message.cmd !== 40005)) {
+        continue;
+      }
+      let board;
+      let key;
+      try {
+        const frame = Buffer.from(message.rawFrameBase64, "base64");
+        board = extractBoardFields(frame);
+        if (!board[8]) {
+          continue;
+        }
+        key = board[8].toString("base64");
+      } catch {
+        continue;
+      }
+      if (seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      boards.push(board);
+    }
+  }
+  return boards;
+}
+
+export function collectWinningSpinTemplates(rawFrames, connectionIndex) {
+  const connection = rawFrames?.connections?.[connectionIndex];
+  const pools = [connection?.messages, rawFrames?.frames];
+  const templates = [];
+
+  for (const messages of pools) {
+    if (!Array.isArray(messages)) {
+      continue;
+    }
+    for (const message of messages) {
+      if (message.type !== "receive" || message.cmd !== 40005) {
+        continue;
+      }
+      try {
+        const frame = Buffer.from(message.rawFrameBase64, "base64");
+        const rotate = decodeBoyaRotateFromPayload(parseFrameBase64(frame).payload);
+        const lineScoreSum = rotate.lines.reduce((sum, line) => sum + (line.score || 0), 0);
+        if (!rotate.lines.length || lineScoreSum <= 0 || rotate.roundWin <= 0 || rotate.drawResult.length !== 25) {
+          continue;
+        }
+        templates.push({
+          frame,
+          rotate,
+          lineScoreSum,
+          sourceConnectionIndex: message.connectionIndex,
+          sourceMessageIndex: message.messageIndex
+        });
+      } catch {
+        continue;
+      }
+    }
+    if (templates.length) {
+      break;
+    }
+  }
+
+  const preferred = templates.filter((template) => !template.rotate.goldToWildPos.length);
+  return (preferred.length ? preferred : templates)
+    .sort((a, b) => a.lineScoreSum - b.lineScoreSum || a.sourceMessageIndex - b.sourceMessageIndex);
+}
+
+// Build a winladder 40003 by cloning a REAL recorded spin result and overriding only the
+// money fields (and optionally swapping in a different recorded board). Real frames carry
+// a structure the client accepts, avoiding the malformed-frame path that made the client
+// show "登录认证超时"; the board swap keeps the reels visibly changing between spins.
+export function createWinLadderFrameFromBase(baseFrameBuffer, { winAmount, betCoin = 400, board } = {}) {
+  const inner = rotateInnerOf(baseFrameBuffer);
+  const patchedInner = rebuildRotateInner(inner, {
+    varintOverrides: {
+      [ROTATE_FIELD_ROUND_SCORE]: Math.max(0, Number(winAmount) - Number(betCoin)),
+      [ROTATE_FIELD_TOTAL_WIN]: Number(winAmount),
+      [ROTATE_FIELD_ROUND_WIN]: Number(winAmount)
+    },
+    rawFieldOverrides: board || {}
+  });
+  return encodeGameFrame(40003, encodeLengthDelimited(1, patchedInner));
+}
+
+export function createWinLadderFrameFromWinningTemplate(templateFrameBuffer, { winAmount, betCoin = 400 } = {}) {
+  const parsed = parseFrameBase64(templateFrameBuffer);
+  const rotate = decodeBoyaRotateFromPayload(parsed.payload);
+  const targetWin = Number(winAmount);
+  if (!rotate.lines.length) {
+    throw new Error("Winning template must contain lines");
+  }
+
+  const scaledLines = scaleLineScores(rotate.lines, targetWin);
+  const patchedInner = rebuildRotateInner(rotateInnerOf(templateFrameBuffer), {
+    varintOverrides: {
+      [ROTATE_FIELD_ROUND_SCORE]: Math.max(0, targetWin - Number(betCoin)),
+      [ROTATE_FIELD_TOTAL_WIN]: targetWin,
+      [ROTATE_FIELD_ROUND_WIN]: targetWin,
+      20: targetWin
+    },
+    repeatedFieldOverrides: {
+      [ROTATE_FIELD_LINE]: scaledLines.map((line) => encodeLengthDelimited(ROTATE_FIELD_LINE, encodeLineReward(line)))
+    }
+  });
+  return encodeGameFrame(40003, encodeLengthDelimited(1, patchedInner));
+}
+
+export function createWinLadderFrameFromBaseWinningTemplate(baseFrameBuffer, templateFrameBuffer, { winAmount, betCoin = 400 } = {}) {
+  const parsed = parseFrameBase64(templateFrameBuffer);
+  const rotate = decodeBoyaRotateFromPayload(parsed.payload);
+  const targetWin = Number(winAmount);
+  if (!rotate.lines.length) {
+    throw new Error("Winning template must contain lines");
+  }
+
+  const scaledLines = scaleLineScores(rotate.lines, targetWin);
+  const patchedInner = rebuildRotateInner(rotateInnerOf(baseFrameBuffer), {
+    varintOverrides: {
+      [ROTATE_FIELD_ROUND_SCORE]: Math.max(0, targetWin - Number(betCoin)),
+      [ROTATE_FIELD_TOTAL_WIN]: targetWin,
+      [ROTATE_FIELD_ROUND_WIN]: targetWin
+    },
+    rawFieldOverrides: extractBoardFields(templateFrameBuffer),
+    repeatedFieldOverrides: {
+      [ROTATE_FIELD_LINE]: scaledLines.map((line) => encodeLengthDelimited(ROTATE_FIELD_LINE, encodeLineReward(line)))
+    },
+    insertRepeatedAfterField: {
+      10: [[ROTATE_FIELD_LINE, scaledLines.map((line) => encodeLengthDelimited(ROTATE_FIELD_LINE, encodeLineReward(line)))]]
+    }
+  });
+  return encodeGameFrame(40003, encodeLengthDelimited(1, patchedInner));
+}
+
+export function createWinLadderFreeCascadeFrame(templateFrameBuffer, { roundWin, cumulativeWin } = {}) {
+  const parsed = parseFrameBase64(templateFrameBuffer);
+  const rotate = decodeBoyaRotateFromPayload(parsed.payload);
+  const targetRoundWin = Number(roundWin);
+  const targetCumulativeWin = Number(cumulativeWin);
+  if (!rotate.lines.length) {
+    throw new Error("Free cascade template must contain lines");
+  }
+
+  const scaledLines = scaleLineScores(rotate.lines, targetRoundWin);
+  const patchedInner = rebuildRotateInner(rotateInnerOf(templateFrameBuffer), {
+    varintOverrides: {
+      [ROTATE_FIELD_TOTAL_WIN]: targetCumulativeWin,
+      [ROTATE_FIELD_ROUND_WIN]: targetRoundWin,
+      20: targetCumulativeWin
+    },
+    repeatedFieldOverrides: {
+      [ROTATE_FIELD_LINE]: scaledLines.map((line) => encodeLengthDelimited(ROTATE_FIELD_LINE, encodeLineReward(line)))
+    }
+  });
+  return encodeGameFrame(parsed.cmd, encodeLengthDelimited(1, patchedInner));
+}
+
 export function createGeneratedWinFrame({ winAmount, sequence = 1, coin = 455700000 } = {}) {
   const normalizedWin = Number.isFinite(Number(winAmount)) ? Number(winAmount) : 400;
   const rotate = encodeMsgRotate({
@@ -420,6 +703,7 @@ function createDatasetResponder(rawFrames, connectionIndex) {
   const replay = createConnectionReplay(rawFrames, connectionIndex);
   const betResponses = (connection.messages || [])
     .filter((message) => message.type === "receive" && message.cmd === 40003);
+  const freeSpins = createFreeSpinReplayer(rawFrames, connectionIndex);
   let betCursor = 0;
 
   return {
@@ -432,13 +716,26 @@ function createDatasetResponder(rawFrames, connectionIndex) {
       if (request.cmd === HEARTBEAT_REQUEST_CMD) {
         return [createHeartbeatResponse(rawFrames, connectionIndex)];
       }
-      if (request.cmd === 40002 && betResponses.length > 0) {
-        try {
-          replay.nextResponsesForClientFrame(input);
-        } catch {
-          // Dataset mode may continue spinning after the captured HAR sequence ends.
+      if (request.cmd === 40006 && freeSpins.hasData) {
+        const frame = freeSpins.trigger();
+        if (frame) {
+          return [{ buffer: frame, source: "freespin-trigger" }];
         }
-
+      }
+      if (request.cmd === 40004 && freeSpins.hasData) {
+        const step = freeSpins.nextCascade();
+        if (step) {
+          return [{
+            buffer: step.frame,
+            source: "freespin-cascade",
+            datasetIndex: step.datasetIndex ?? step.index,
+            datasetCount: step.datasetCount ?? step.count,
+            winAmount: step.winAmount,
+            originalRoundWin: step.originalRoundWin
+          }];
+        }
+      }
+      if (request.cmd === 40002 && betResponses.length > 0) {
         const datasetIndex = betCursor % betResponses.length;
         const selected = betResponses[datasetIndex];
         betCursor += 1;
@@ -460,9 +757,145 @@ function createDatasetResponder(rawFrames, connectionIndex) {
   };
 }
 
+function findRecordedBetFrame(rawFrames, connectionIndex) {
+  const connection = rawFrames?.connections?.[connectionIndex];
+  const fromConnection = connection?.messages?.find(
+    (message) => message.type === "receive" && message.cmd === 40003
+  );
+  const selected = fromConnection
+    || rawFrames?.frames?.find((message) => message.type === "receive" && message.cmd === 40003);
+  return selected ? Buffer.from(selected.rawFrameBase64, "base64") : null;
+}
+
+function selectWinningTemplate(templates, winIndex) {
+  if (!templates.length) {
+    return null;
+  }
+  if (templates.length === 1 || WIN_LADDER_AMOUNTS.length === 1) {
+    return { template: templates[0], templateIndex: 0 };
+  }
+  const templateIndex = Math.round((winIndex * (templates.length - 1)) / (WIN_LADDER_AMOUNTS.length - 1));
+  return { template: templates[Math.min(templateIndex, templates.length - 1)], templateIndex };
+}
+
+// Gather all recorded receive frames for a command, preferring the connection's own
+// frames and falling back to any connection.
+function collectRecordedFrames(rawFrames, connectionIndex, cmd) {
+  const connection = rawFrames?.connections?.[connectionIndex];
+  const local = (connection?.messages || [])
+    .filter((message) => message.type === "receive" && message.cmd === cmd);
+  const source = local.length
+    ? local
+    : (rawFrames?.frames || []).filter((message) => message.type === "receive" && message.cmd === cmd);
+  return source.map((message) => Buffer.from(message.rawFrameBase64, "base64"));
+}
+
+// Replays the recorded free-spin feature: 40006 (buy free) -> 40007 trigger, then each
+// 40004 (cascade/tumble request) -> the next recorded 40005 step. Using the real recorded
+// frames keeps the cascade animation and free-spin state machine valid, so controlled
+// modes can offer "盘面掉了" without desyncing the base-spin replay cursor.
+function createFreeSpinReplayer(rawFrames, connectionIndex, { ladderAmounts = null } = {}) {
+  const triggerFrames = collectRecordedFrames(rawFrames, connectionIndex, 40007);
+  const cascadeFrames = collectRecordedFrames(rawFrames, connectionIndex, 40005);
+  let cascadeCursor = 0;
+  let ladderCursor = 0;
+  let cumulativeWin = 0;
+  return {
+    hasData: triggerFrames.length > 0 && cascadeFrames.length > 0,
+    trigger() {
+      cascadeCursor = 0;
+      ladderCursor = 0;
+      cumulativeWin = 0;
+      return triggerFrames[0] || null;
+    },
+    nextCascade() {
+      if (!cascadeFrames.length) {
+        return null;
+      }
+      const index = Math.min(cascadeCursor, cascadeFrames.length - 1);
+      const selected = cascadeFrames[index];
+      cascadeCursor += 1;
+      if (Array.isArray(ladderAmounts) && ladderAmounts.length) {
+        try {
+          const rotate = decodeBoyaRotateFromPayload(parseFrameBase64(selected).payload);
+          if (rotate.lines.length && rotate.lines.reduce((sum, line) => sum + (line.score || 0), 0) > 0) {
+            const ladderIndex = Math.min(ladderCursor, ladderAmounts.length - 1);
+            const roundWin = ladderAmounts[ladderIndex];
+            ladderCursor += 1;
+            cumulativeWin += roundWin;
+            return {
+              frame: createWinLadderFreeCascadeFrame(selected, { roundWin, cumulativeWin }),
+              index,
+              count: cascadeFrames.length,
+              winAmount: roundWin,
+              datasetIndex: ladderIndex,
+              datasetCount: ladderAmounts.length,
+              originalRoundWin: rotate.roundWin
+            };
+          }
+        } catch {
+          // Fall back to the exact recorded cascade frame.
+        }
+      }
+      return { frame: selected, index, count: cascadeFrames.length };
+    }
+  };
+}
+
 function createWinLadderResponder(rawFrames, connectionIndex) {
   const replay = createConnectionReplay(rawFrames, connectionIndex);
+  const baseBetFrame = findRecordedBetFrame(rawFrames, connectionIndex);
+  const boards = collectRealBoards(rawFrames, connectionIndex);
+  const winningTemplates = collectWinningSpinTemplates(rawFrames, connectionIndex);
+  const freeSpins = createFreeSpinReplayer(rawFrames, connectionIndex, { ladderAmounts: WIN_LADDER_AMOUNTS });
   let spinIndex = 0;
+
+  function buildWinFrame(winAmount, sequence, winIndex, board) {
+    const selectedWinning = selectWinningTemplate(winningTemplates, winIndex);
+    if (selectedWinning) {
+      try {
+        return {
+          buffer: createWinLadderFrameFromWinningTemplate(selectedWinning.template.frame, { winAmount }),
+          templateIndex: selectedWinning.templateIndex,
+          sourceConnectionIndex: selectedWinning.template.sourceConnectionIndex,
+          sourceMessageIndex: selectedWinning.template.sourceMessageIndex,
+          originalRoundWin: selectedWinning.template.rotate.roundWin
+        };
+      } catch {
+        // Fall through to the base-shell path.
+      }
+    }
+    if (selectedWinning && baseBetFrame) {
+      try {
+        return {
+          buffer: createWinLadderFrameFromBaseWinningTemplate(baseBetFrame, selectedWinning.template.frame, { winAmount }),
+          templateIndex: selectedWinning.templateIndex,
+          sourceConnectionIndex: selectedWinning.template.sourceConnectionIndex,
+          sourceMessageIndex: selectedWinning.template.sourceMessageIndex,
+          originalRoundWin: selectedWinning.template.rotate.roundWin
+        };
+      } catch {
+        // Fall through to the sanitized-template path.
+      }
+    }
+    // Prefer cloning a real recorded spin result so the client keeps a valid game
+    // state; only fall back to a synthetic frame when no real 40003 was captured
+    // (e.g. unit-test fixtures with placeholder payloads).
+    if (baseBetFrame) {
+      try {
+        return { buffer: createWinLadderFrameFromBase(baseBetFrame, { winAmount, board }) };
+      } catch {
+        // Fall through to the synthetic frame below.
+      }
+    }
+    return {
+      buffer: createGeneratedWinFrame({
+        winAmount,
+        sequence,
+        coin: 455700000 + sequence * 1000 + winAmount
+      })
+    };
+  }
 
   return {
     mode: "winladder",
@@ -474,26 +907,44 @@ function createWinLadderResponder(rawFrames, connectionIndex) {
       if (request.cmd === HEARTBEAT_REQUEST_CMD) {
         return [createHeartbeatResponse(rawFrames, connectionIndex)];
       }
+      // Buy-free / free-spin cascade ("盘面掉了"): replay the recorded feature frames
+      // from a dedicated cursor so it never desyncs the base-spin ladder above.
+      if (request.cmd === 40006 && freeSpins.hasData) {
+        const frame = freeSpins.trigger();
+        if (frame) {
+          return [{ buffer: frame, source: "freespin-trigger" }];
+        }
+      }
+      if (request.cmd === 40004 && freeSpins.hasData) {
+        const step = freeSpins.nextCascade();
+        if (step) {
+          return [{
+            buffer: step.frame,
+            source: "freespin-cascade",
+            datasetIndex: step.datasetIndex ?? step.index,
+            datasetCount: step.datasetCount ?? step.count,
+            winAmount: step.winAmount,
+            originalRoundWin: step.originalRoundWin
+          }];
+        }
+      }
       if (request.cmd === 40002) {
-        try {
-          replay.nextResponsesForClientFrame(input);
-        } catch {
-          // Generated mode may continue after captured HAR frames are exhausted.
+        const boardIndex = boards.length ? spinIndex % boards.length : -1;
+        spinIndex += 1;
+        if (baseBetFrame) {
+          return [{
+            buffer: baseBetFrame,
+            source: "winladder-base",
+            datasetIndex: 0,
+            datasetCount: WIN_LADDER_AMOUNTS.length,
+            boardIndex
+          }];
         }
         const winIndex = spinIndex % WIN_LADDER_AMOUNTS.length;
         const winAmount = WIN_LADDER_AMOUNTS[winIndex];
-        spinIndex += 1;
-        return [{
-          buffer: createGeneratedWinFrame({
-            winAmount,
-            sequence: spinIndex,
-            coin: 455700000 + spinIndex * 1000 + winAmount
-          }),
-          source: "winladder",
-          datasetIndex: winIndex,
-          datasetCount: WIN_LADDER_AMOUNTS.length,
-          winAmount
-        }];
+        const board = boards.length ? boards[spinIndex % boards.length] : undefined;
+        const built = buildWinFrame(winAmount, spinIndex, winIndex, board);
+        return [{ buffer: built.buffer, source: "winladder", datasetIndex: winIndex, datasetCount: WIN_LADDER_AMOUNTS.length, winAmount, boardIndex }];
       }
 
       return replay.nextResponsesForClientFrame(input).map((buffer) => ({
@@ -551,6 +1002,27 @@ function encodeLineReward(line) {
     encodeVarintField(5, line.multi),
     encodeVarintField(6, line.odds)
   ]);
+}
+
+function scaleLineScores(lines, targetTotal) {
+  const normalizedTotal = Math.max(0, Number(targetTotal) || 0);
+  const sourceTotal = lines.reduce((sum, line) => sum + (Number(line.score) || 0), 0);
+  if (!lines.length || sourceTotal <= 0) {
+    return [];
+  }
+
+  let allocated = 0;
+  return lines.map((line, index) => {
+    const isLast = index === lines.length - 1;
+    const score = isLast
+      ? normalizedTotal - allocated
+      : Math.max(1, Math.round((normalizedTotal * line.score) / sourceTotal));
+    allocated += score;
+    return {
+      ...line,
+      score
+    };
+  });
 }
 
 function decodeLineReward(payload) {
