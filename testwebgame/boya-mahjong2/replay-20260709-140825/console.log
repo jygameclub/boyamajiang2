@@ -1,0 +1,19 @@
+[log] init language en
+[log] init language zh
+[warning] [.WebGL-0x13c00511e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[log] Cocos Creator v2.4.6
+[warning] [.WebGL-0x13c00511e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[warning] [.WebGL-0x13c00511e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[warning] [.WebGL-0x13c00511e00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[timeEnd] LoadScene dy_mjlltwo_en: 57.43701171875 ms
+[log] showGame
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] download failed: assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json, status: 404(no response) Error: download failed: assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json, status: 404(no response)
+    at o.onload (http://127.0.0.1:18082/v2/cocos2d-js-min.88923.js:1:360634)
+[error] download failed: assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json, status: 404(no response) Error: download failed: assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json, status: 404(no response)
+    at o.onload (http://127.0.0.1:18082/v2/cocos2d-js-min.88923.js:1:360634)
+[error] [bundle1.load] ERROR: Error: download failed: assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json, status: 404(no response)
+[error] [bundle1.load] ERROR: Error: download failed: assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json, status: 404(no response)

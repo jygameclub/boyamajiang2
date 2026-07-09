@@ -1,0 +1,296 @@
+{
+  "verdict": "PASS",
+  "url": "http://127.0.0.1:18082/v2/?token=uzuN0IxNjgzMDhGN0Y3Qjk4nPpYNzI2MTU3M0MwQzEyNEQ2NDA0RjIzQTg3NDkzN0MyMkQ4QUY4NTdEMjEwMUY4QThGMzBDNDBBRjAyMTdGREFFQzAyOUYxQkEyNEFBREI5NjFDMjVCNzJFMzMxODU0Mzk4QTBCNDE2RUU1OUE5Q0ZCMTU1RkFCQzM0Rjc0NTBENkM2QjE3RERGNTc5MDdFQTdFREFBRkMzRTgzNjk4NkRFQzNGMEUwQzg1NUM3MDlDRDc0vpEgl&deviceType=0&pcode=ZHlnd3N3&t=MTAz&ma=bWFpbmxhbmQ=&lang=CN&g=d3M6Ly8xMjcuMC4wLjE6MTgwODIvZ2F0ZS93cz9tb2RlPXdpbmxhZGRlcg%3D%3D&sound=0&music=0&localMode=winladder",
+  "out": "/Users/yang/work/git/sun/boyamajiang2/testwebgame/boya-mahjong2/winladder-heartbeat-20260709-143330",
+  "pageErrors": [],
+  "errorLogs": [],
+  "counts": {
+    "send5000": 4,
+    "receive5001": 4,
+    "send40002": 2,
+    "receive40003": 2,
+    "close": 0
+  },
+  "observed": [
+    {
+      "direction": "send",
+      "cmd": 10000,
+      "rawCmd": 10000,
+      "bytes": 328,
+      "t": 1783575211150
+    },
+    {
+      "direction": "receive",
+      "cmd": 10001,
+      "rawCmd": 10001,
+      "bytes": 52,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 20026,
+      "rawCmd": 20026,
+      "bytes": 12,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 20012,
+      "rawCmd": 20012,
+      "bytes": 12,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 20000,
+      "rawCmd": 20000,
+      "bytes": 12,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 20022,
+      "rawCmd": 20022,
+      "bytes": 12,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 20004,
+      "rawCmd": 20004,
+      "bytes": 12,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 20016,
+      "rawCmd": 20016,
+      "bytes": 12,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 23209,
+      "rawCmd": 23209,
+      "bytes": 14,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 24001,
+      "rawCmd": 24001,
+      "bytes": 12,
+      "t": 1783575211165
+    },
+    {
+      "direction": "send",
+      "cmd": 20020,
+      "rawCmd": 20020,
+      "bytes": 14,
+      "t": 1783575211165
+    },
+    {
+      "direction": "receive",
+      "cmd": 20027,
+      "rawCmd": 20027,
+      "bytes": 17,
+      "t": 1783575211176
+    },
+    {
+      "direction": "receive",
+      "cmd": 20013,
+      "rawCmd": 20013,
+      "bytes": 12,
+      "t": 1783575211186
+    },
+    {
+      "direction": "receive",
+      "cmd": 20001,
+      "rawCmd": 20001,
+      "bytes": 41,
+      "t": 1783575211186
+    },
+    {
+      "direction": "receive",
+      "cmd": 20023,
+      "rawCmd": 20023,
+      "bytes": 32,
+      "t": 1783575211186
+    },
+    {
+      "direction": "receive",
+      "cmd": 20005,
+      "rawCmd": 2147503653,
+      "bytes": 473,
+      "t": 1783575211188
+    },
+    {
+      "direction": "receive",
+      "cmd": 20017,
+      "rawCmd": 2147503665,
+      "bytes": 468,
+      "t": 1783575211188
+    },
+    {
+      "direction": "receive",
+      "cmd": 23210,
+      "rawCmd": 23210,
+      "bytes": 111,
+      "t": 1783575211188
+    },
+    {
+      "direction": "receive",
+      "cmd": 24002,
+      "rawCmd": 24002,
+      "bytes": 12,
+      "t": 1783575211188
+    },
+    {
+      "direction": "receive",
+      "cmd": 20021,
+      "rawCmd": 20021,
+      "bytes": 160,
+      "t": 1783575211189
+    },
+    {
+      "direction": "send",
+      "cmd": 30000,
+      "rawCmd": 30000,
+      "bytes": 21,
+      "t": 1783575211197
+    },
+    {
+      "direction": "receive",
+      "cmd": 30001,
+      "rawCmd": 30001,
+      "bytes": 36,
+      "t": 1783575211198
+    },
+    {
+      "direction": "send",
+      "cmd": 31008,
+      "rawCmd": 31008,
+      "bytes": 298,
+      "t": 1783575211199
+    },
+    {
+      "direction": "receive",
+      "cmd": 31009,
+      "rawCmd": 31009,
+      "bytes": 17,
+      "t": 1783575211199
+    },
+    {
+      "direction": "send",
+      "cmd": 31010,
+      "rawCmd": 31010,
+      "bytes": 12,
+      "t": 1783575211300
+    },
+    {
+      "direction": "receive",
+      "cmd": 31011,
+      "rawCmd": 31011,
+      "bytes": 12,
+      "t": 1783575211361
+    },
+    {
+      "direction": "send",
+      "cmd": 40000,
+      "rawCmd": 40000,
+      "bytes": 12,
+      "t": 1783575211676
+    },
+    {
+      "direction": "receive",
+      "cmd": 40001,
+      "rawCmd": 40001,
+      "bytes": 88,
+      "t": 1783575211734
+    },
+    {
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14,
+      "t": 1783575215525
+    },
+    {
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 155,
+      "t": 1783575215540
+    },
+    {
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14,
+      "t": 1783575219737
+    },
+    {
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 156,
+      "t": 1783575219751
+    },
+    {
+      "direction": "send",
+      "cmd": 5000,
+      "rawCmd": 5000,
+      "bytes": 12,
+      "t": 1783575241170
+    },
+    {
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 19,
+      "t": 1783575241170
+    },
+    {
+      "direction": "send",
+      "cmd": 5000,
+      "rawCmd": 5000,
+      "bytes": 12,
+      "t": 1783575241215
+    },
+    {
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 19,
+      "t": 1783575241215
+    },
+    {
+      "direction": "send",
+      "cmd": 5000,
+      "rawCmd": 5000,
+      "bytes": 12,
+      "t": 1783575271164
+    },
+    {
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 19,
+      "t": 1783575271164
+    },
+    {
+      "direction": "send",
+      "cmd": 5000,
+      "rawCmd": 5000,
+      "bytes": 12,
+      "t": 1783575271196
+    },
+    {
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 19,
+      "t": 1783575271196
+    }
+  ]
+}
