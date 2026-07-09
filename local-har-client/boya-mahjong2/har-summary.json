@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-09T04:53:10.338Z",
+  "written": 321,
+  "contentTypes": {
+    "text/html": 1,
+    "application/javascript": 20,
+    "image/gif": 1,
+    "application/json": 176,
+    "image/png": 42,
+    "image/webp": 18,
+    "application/octet-stream": 15,
+    "image/jpeg": 15,
+    "audio/mpeg": 29
+  },
+  "encodings": {
+    "plain": 197,
+    "base64": 120
+  }
+}

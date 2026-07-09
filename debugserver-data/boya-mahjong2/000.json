@@ -1,0 +1,10 @@
+{
+  "type": "enter",
+  "cmd": 40001,
+  "rawCmd": 40001,
+  "connectionIndex": 1,
+  "messageIndex": 5,
+  "sourceTime": 1783571190.215265,
+  "rawFrameBase64": "AAAAVAAAnEEAAAAACkoKLQjo2q8DGAIoFDIiGhgxMDMtMTc4MzU3MTE5MC0xNzg4ODI0LTEg/oym2QEoFBIVAgUKFGTIAfQD6AfQD5BOoJwB0IYDGBQgUA==",
+  "decodedJson": null
+}

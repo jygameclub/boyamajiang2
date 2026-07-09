@@ -1,0 +1,10 @@
+{
+  "type": "normal-bet",
+  "cmd": 40003,
+  "rawCmd": 40003,
+  "connectionIndex": 1,
+  "messageIndex": 7,
+  "sourceTime": 1783571192.400259,
+  "rawFrameBase64": "AAAAawAAnEMAAAAACmEaGDEwMy0xNzgzNTcxMTkyLTE3ODg4NDMtMSDuiabZASgUMJADQhllDw0PExERCxETEQsGCQcRDxQHCWUTBxEDSgUPEwkLE1IFAxMTBQliBAECAwVoAXjw/P////////8B",
+  "decodedJson": null
+}

@@ -1,0 +1,2226 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-09T04:53:10.338Z",
+  "sourceHost": "game.666789.site",
+  "files": {
+    "/v2/index.html": {
+      "sourceUrl": "https://game.666789.site/v2/?token=uzuN0IxNjgzMDhGN0Y3Qjk4nPpYNzI2MTU3M0MwQzEyNEQ2NDA0RjIzQTg3NDkzN0MyMkQ4QUY4NTdEMjEwMUY4QThGMzBDNDBBRjAyMTdGREFFQzAyOUYxQkEyNEFBREI5NjFDMjVCNzJFMzMxODU0Mzk4QTBCNDE2RUU1OUE5Q0ZCMTU1RkFCQzM0Rjc0NTBENkM2QjE3RERGNTc5MDdFQTdFREFBRkMzRTgzNjk4NkRFQzNGMEUwQzg1NUM3MDlDRDc0vpEgl&deviceType=0&pcode=ZHlnd3N3&t=MTAz&ma=bWFpbmxhbmQ=&lang=CN&g=d3NzOi8vZ2F0ZXdheS42NjY3ODkuc2l0ZS9nYXRlL3dz",
+      "status": 200,
+      "contentType": "text/html",
+      "encoding": "plain",
+      "bytes": 47316
+    },
+    "/v2/src/settings.058af.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/settings.058af.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 3361
+    },
+    "/v2/src/assets/gateConfig.6e55b.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/gateConfig.6e55b.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 277
+    },
+    "/v2/help/detection.js": {
+      "sourceUrl": "https://game.666789.site/v2/help/detection.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 81
+    },
+    "/v2/cocos2d-js-min.88923.js": {
+      "sourceUrl": "https://game.666789.site/v2/cocos2d-js-min.88923.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 1969426
+    },
+    "/v2/icon/mjll_loading.gif": {
+      "sourceUrl": "https://game.666789.site/v2/icon/mjll_loading.gif",
+      "status": 200,
+      "contentType": "image/gif",
+      "encoding": "base64",
+      "bytes": 563924
+    },
+    "/v2/physics-min.9bae2.js": {
+      "sourceUrl": "https://game.666789.site/v2/physics-min.9bae2.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 197359
+    },
+    "/v2/src/assets/games/dy_mjlltwo_en/config/i18n_dy_mjlltwo_en.c33bf.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/games/dy_mjlltwo_en/config/i18n_dy_mjlltwo_en.c33bf.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 5150
+    },
+    "/v2/src/assets/framework/net/base/protobuf.c5047.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/framework/net/base/protobuf.c5047.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 73688
+    },
+    "/v2/src/assets/framework/utils/es6-promise.auto.min.842ef.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/framework/utils/es6-promise.auto.min.842ef.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 6228
+    },
+    "/v2/src/assets/resources/i18n/en.7bf5e.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/en.7bf5e.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 17755
+    },
+    "/v2/src/assets/resources/i18n/id.f662c.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/id.f662c.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 18695
+    },
+    "/v2/src/assets/resources/i18n/in.e6a6d.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/in.e6a6d.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 53631
+    },
+    "/v2/src/assets/resources/i18n/kr.4c610.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/kr.4c610.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 28408
+    },
+    "/v2/src/assets/resources/i18n/thai.1264d.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/thai.1264d.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 52475
+    },
+    "/v2/src/assets/resources/i18n/tw.221eb.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/tw.221eb.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 24150
+    },
+    "/v2/src/assets/resources/i18n/vi.ac81e.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/vi.ac81e.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 27231
+    },
+    "/v2/src/assets/resources/i18n/zh.9ed8a.js": {
+      "sourceUrl": "https://game.666789.site/v2/src/assets/resources/i18n/zh.9ed8a.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 24067
+    },
+    "/v2/assets/internal/config.1b082.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/internal/config.1b082.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1608
+    },
+    "/v2/assets/internal/index.1b082.js": {
+      "sourceUrl": "https://game.666789.site/v2/assets/internal/index.1b082.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 463
+    },
+    "/v2/assets/resources/config.f3c15.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/config.f3c15.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 96230
+    },
+    "/v2/assets/resources/index.f3c15.js": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/index.f3c15.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 463
+    },
+    "/v2/assets/main/config.96d5b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/main/config.96d5b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 4794
+    },
+    "/v2/assets/main/index.96d5b.js": {
+      "sourceUrl": "https://game.666789.site/v2/assets/main/index.96d5b.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 2294198
+    },
+    "/v2/assets/internal/import/0b/0b6c4470e.9537f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/internal/import/0b/0b6c4470e.9537f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 140960
+    },
+    "/v2/assets/internal/native/60/600301aa-3357-4a10-b086-84f011fa32ba.c3a3a.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/internal/native/60/600301aa-3357-4a10-b086-84f011fa32ba.c3a3a.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 7518
+    },
+    "/v2/assets/internal/native/02/0275e94c-56a7-410f-bd1a-fc7483f7d14a.cea68.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/internal/native/02/0275e94c-56a7-410f-bd1a-fc7483f7d14a.cea68.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 82
+    },
+    "/v2/assets/main/import/0c/0ce3ef04b.4e366.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/main/import/0c/0ce3ef04b.4e366.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 11340
+    },
+    "/v2/assets/resources/import/b1/b1b17190-20be-466e-b691-0199a04332d4.192c0.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/b1/b1b17190-20be-466e-b691-0199a04332d4.192c0.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 4484
+    },
+    "/v2/assets/resources/import/06/060bd5e87.dbb39.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/06/060bd5e87.dbb39.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2069
+    },
+    "/v2/assets/main/import/06/062ab3da8.ab966.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/main/import/06/062ab3da8.ab966.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2379
+    },
+    "/v2/assets/main/import/0e/0edaf3540.d0c33.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/main/import/0e/0edaf3540.d0c33.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 406
+    },
+    "/v2/assets/resources/import/9e/9e502944-3339-4e03-98b5-608da6e84e2e.e5b6c.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/9e/9e502944-3339-4e03-98b5-608da6e84e2e.e5b6c.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 4474
+    },
+    "/v2/assets/resources/import/02/028005d9a.8f208.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/02/028005d9a.8f208.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 4637
+    },
+    "/v2/assets/resources/import/a2/a23235d1-15db-4b95-8439-a2e005bfff91.43d76.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/a2/a23235d1-15db-4b95-8439-a2e005bfff91.43d76.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 198
+    },
+    "/v2/assets/resources/import/8c/8cdb44ac-a3f6-449f-b354-7cd48cf84061.599b0.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/8c/8cdb44ac-a3f6-449f-b354-7cd48cf84061.599b0.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 195
+    },
+    "/v2/assets/resources/import/6c/6cf4eeb0-6d5c-4f34-a753-9f1770b89b03.20787.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/6c/6cf4eeb0-6d5c-4f34-a753-9f1770b89b03.20787.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 200
+    },
+    "/v2/assets/resources/import/4c/4cdec538-8220-4501-ba05-df904814c7d1.c2d9d.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/4c/4cdec538-8220-4501-ba05-df904814c7d1.c2d9d.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 201
+    },
+    "/v2/assets/resources/import/1d/1dd204dc-062a-4c95-97b3-60ccee0152e6.96c84.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/1d/1dd204dc-062a-4c95-97b3-60ccee0152e6.96c84.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 182
+    },
+    "/v2/assets/resources/import/33/33a424eb-a707-48d6-95a4-c38c210e2717.b4653.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/33/33a424eb-a707-48d6-95a4-c38c210e2717.b4653.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 182
+    },
+    "/v2/assets/resources/import/0c/0cf425fb4.0d6c2.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/0c/0cf425fb4.0d6c2.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 368
+    },
+    "/v2/assets/resources/import/29/29158224-f8dd-4661-a796-1ffab537140e.6dda3.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/29/29158224-f8dd-4661-a796-1ffab537140e.6dda3.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 205
+    },
+    "/v2/assets/resources/import/07/076fcdb65.19a54.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/07/076fcdb65.19a54.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 321
+    },
+    "/v2/assets/resources/import/c5/c5f9a439-db6f-4311-9c1c-b5d195787d92.6615a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/c5/c5f9a439-db6f-4311-9c1c-b5d195787d92.6615a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 188
+    },
+    "/v2/assets/resources/import/0c/0ccabb08c.4d12f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/0c/0ccabb08c.4d12f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 333
+    },
+    "/v2/assets/resources/import/8c/8c38037a-ee32-4aa4-ac33-974ad47c8fcf.e0739.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/8c/8c38037a-ee32-4aa4-ac33-974ad47c8fcf.e0739.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 106
+    },
+    "/v2/assets/resources/import/08/08c5a44b5.c334a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/08/08c5a44b5.c334a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 12142
+    },
+    "/v2/assets/dy_mjlltwo_en/config.f99f8.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/config.f99f8.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 42058
+    },
+    "/v2/assets/dy_mjlltwo_en/index.f99f8.js": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/index.f99f8.js",
+      "status": 200,
+      "contentType": "application/javascript",
+      "encoding": "plain",
+      "bytes": 313926
+    },
+    "/v2/assets/dy_mjlltwo_en/import/02/024700b5d.41929.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/02/024700b5d.41929.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1626
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0f/0f86c48f7.0e82a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0f/0f86c48f7.0e82a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1902
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0b/0bd774e56.02a1c.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0b/0bd774e56.02a1c.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 6836
+    },
+    "/v2/assets/dy_mjlltwo_en/native/1d/1da81dd67.785d0.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/1d/1da81dd67.785d0.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 26114
+    },
+    "/v2/assets/dy_mjlltwo_en/native/12/125010e9e.3b9eb.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/12/125010e9e.3b9eb.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 691692
+    },
+    "/v2/assets/dy_mjlltwo_en/import/d8/d88117e8-9d04-432a-b889-b4ad1924bdb3.10abe.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/d8/d88117e8-9d04-432a-b889-b4ad1924bdb3.10abe.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 3242
+    },
+    "/v2/assets/dy_mjlltwo_en/native/be/bed6f7b6-566d-4593-a2cc-1b95f762c5c8.e64f1.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/be/bed6f7b6-566d-4593-a2cc-1b95f762c5c8.e64f1.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 3543
+    },
+    "/v2/assets/resources/native/8c/8c38037a-ee32-4aa4-ac33-974ad47c8fcf.c8b1e/pingfang.ttf": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/8c/8c38037a-ee32-4aa4-ac33-974ad47c8fcf.c8b1e/pingfang.ttf",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 736620
+    },
+    "/v2/assets/resources/import/0a/0aed89a00.52a35.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/0a/0aed89a00.52a35.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 16492
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0b/0b4b8e73b.9f1be.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0b/0b4b8e73b.9f1be.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 6555
+    },
+    "/v2/assets/resources/import/09/099e134ea.8e3f4.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/09/099e134ea.8e3f4.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 869
+    },
+    "/v2/assets/resources/import/84/8489dba1-6de9-4452-a846-ad83e858709e.edabe.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/84/8489dba1-6de9-4452-a846-ad83e858709e.edabe.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 10428
+    },
+    "/v2/assets/resources/native/1f/1f119e695.48f04.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/1f/1f119e695.48f04.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 97634
+    },
+    "/v2/assets/resources/native/12/1292024d8.df697.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/12/1292024d8.df697.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 93130
+    },
+    "/v2/assets/dy_mjlltwo_en/native/17/178405486.e6f7c.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/17/178405486.e6f7c.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 152102
+    },
+    "/v2/assets/dy_mjlltwo_en/import/ac/ace58d2f-aa77-4dc6-a01f-55ac130458b4.7a99c.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/ac/ace58d2f-aa77-4dc6-a01f-55ac130458b4.7a99c.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 634
+    },
+    "/v2/assets/resources/native/45/45cf87ff-53aa-4720-8c08-02cab5862c57.dada0.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/45/45cf87ff-53aa-4720-8c08-02cab5862c57.dada0.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 148192
+    },
+    "/v2/assets/dy_mjlltwo_en/native/1a/1a205e83e.d0497.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/1a/1a205e83e.d0497.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 67956
+    },
+    "/v2/assets/dy_mjlltwo_en/import/02/023702e5e.69c86.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/02/023702e5e.69c86.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1410
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0f/0f2dcfbbd.5e9f7.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0f/0f2dcfbbd.5e9f7.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2374
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0a/0a6aedfc3.aa37a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0a/0a6aedfc3.aa37a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 12655
+    },
+    "/v2/assets/dy_mjlltwo_en/native/18/18794972d.1d4f1.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/18/18794972d.1d4f1.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 281396
+    },
+    "/v2/assets/dy_mjlltwo_en/native/1d/1d5bcc6f-12c1-4f29-9fd2-9c1bd5e49b94.40bc0.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/1d/1d5bcc6f-12c1-4f29-9fd2-9c1bd5e49b94.40bc0.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 239979
+    },
+    "/v2/assets/dy_mjlltwo_en/import/04/04ef7dd18.fb661.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/04/04ef7dd18.fb661.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 8103
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0b/0b979caf3.279be.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0b/0b979caf3.279be.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 17121
+    },
+    "/v2/assets/dy_mjlltwo_en/import/aa/aa31940e-dfe7-4ddb-9504-184c5f59cf2b.765f0.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/aa/aa31940e-dfe7-4ddb-9504-184c5f59cf2b.765f0.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 186
+    },
+    "/v2/assets/dy_mjlltwo_en/native/13/132cf7905.06ad8.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/13/132cf7905.06ad8.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 142266
+    },
+    "/v2/assets/dy_mjlltwo_en/import/04/04bdf2818.79a15.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/04/04bdf2818.79a15.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2308
+    },
+    "/v2/assets/dy_mjlltwo_en/import/06/0680ffb89.bed16.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/06/0680ffb89.bed16.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2414
+    },
+    "/v2/assets/dy_mjlltwo_en/import/4a/4a69e72c-0463-4c3e-8a78-624bb83326c3.1a3e1.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/4a/4a69e72c-0463-4c3e-8a78-624bb83326c3.1a3e1.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 190
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0d/0d3e580a3.2f51f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0d/0d3e580a3.2f51f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2315
+    },
+    "/v2/assets/dy_mjlltwo_en/import/b5/b50f178e-99d1-4db7-a2f8-a35a362bf5de.23b72.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/b5/b50f178e-99d1-4db7-a2f8-a35a362bf5de.23b72.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2094
+    },
+    "/v2/assets/dy_mjlltwo_en/import/ab/ab758827-91ec-4e68-8562-39e8c9198ca9.89d12.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/ab/ab758827-91ec-4e68-8562-39e8c9198ca9.89d12.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2107
+    },
+    "/v2/assets/dy_mjlltwo_en/native/39/392be767-5794-4892-930d-98944dcd44a4.09184.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/39/392be767-5794-4892-930d-98944dcd44a4.09184.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 43397
+    },
+    "/v2/assets/dy_mjlltwo_en/native/78/788d7054-87cf-4743-9b4f-1de6466a4fee.5df85.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/78/788d7054-87cf-4743-9b4f-1de6466a4fee.5df85.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 126224
+    },
+    "/v2/assets/dy_mjlltwo_en/native/70/70fd29f7-b70f-4b95-91e2-63b4b55eb0af.baeeb.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/70/70fd29f7-b70f-4b95-91e2-63b4b55eb0af.baeeb.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 52304
+    },
+    "/v2/assets/dy_mjlltwo_en/import/91/9173f515-5513-470e-82a2-ed7be2dec76c.468e3.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/91/9173f515-5513-470e-82a2-ed7be2dec76c.468e3.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 7305
+    },
+    "/v2/assets/dy_mjlltwo_en/native/5d/5d5e5458-0f6d-4c45-b67b-d8d6b1e5fef7.64870.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/5d/5d5e5458-0f6d-4c45-b67b-d8d6b1e5fef7.64870.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 18147
+    },
+    "/v2/assets/dy_mjlltwo_en/native/74/74ace237-2615-401c-be17-2ea38519209b.e4d82.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/74/74ace237-2615-401c-be17-2ea38519209b.e4d82.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 24003
+    },
+    "/v2/assets/dy_mjlltwo_en/native/ab/ab758827-91ec-4e68-8562-39e8c9198ca9.4b74d.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/ab/ab758827-91ec-4e68-8562-39e8c9198ca9.4b74d.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 4434
+    },
+    "/v2/assets/dy_mjlltwo_en/native/b5/b50f178e-99d1-4db7-a2f8-a35a362bf5de.f75b3.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/b5/b50f178e-99d1-4db7-a2f8-a35a362bf5de.f75b3.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 1243
+    },
+    "/v2/assets/dy_mjlltwo_en/native/e5/e5dbfb44-c419-4c12-895e-9e15297d7b06.aeb97.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/e5/e5dbfb44-c419-4c12-895e-9e15297d7b06.aeb97.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 129438
+    },
+    "/v2/assets/dy_mjlltwo_en/native/91/9173f515-5513-470e-82a2-ed7be2dec76c.ea813.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/91/9173f515-5513-470e-82a2-ed7be2dec76c.ea813.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 5903
+    },
+    "/v2/assets/dy_mjlltwo_en/native/8f/8fab04a0-365b-474c-b009-8d263ef060d2.aac35.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/8f/8fab04a0-365b-474c-b009-8d263ef060d2.aac35.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 3734401
+    },
+    "/v2/assets/dy_mjlltwo_en/import/14/149443a3-e0f2-4c45-b00c-5e764954b379.9ddbb.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/14/149443a3-e0f2-4c45-b00c-5e764954b379.9ddbb.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 4151
+    },
+    "/v2/assets/dy_mjlltwo_en/native/36/36734ff5-4074-41f5-a74e-1bfc26bebbbd.c811f.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/36/36734ff5-4074-41f5-a74e-1bfc26bebbbd.c811f.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 220564
+    },
+    "/v2/assets/dy_mjlltwo_en/import/fe/fec7e334-85c0-447c-8db2-c2e50f55b662.6b59b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/fe/fec7e334-85c0-447c-8db2-c2e50f55b662.6b59b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 3444
+    },
+    "/v2/assets/resources/import/06/069790fd2.fbf17.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/06/069790fd2.fbf17.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 22591
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0f/0ff1b759c.332f1.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0f/0ff1b759c.332f1.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2382
+    },
+    "/v2/assets/dy_mjlltwo_en/native/3e/3e98828b-6447-462d-98be-e2a12b0bae5c.3ba1e.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/3e/3e98828b-6447-462d-98be-e2a12b0bae5c.3ba1e.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 219202
+    },
+    "/v2/assets/dy_mjlltwo_en/native/54/543bacb0-a2c3-4914-98b3-475744717f69.874a9.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/54/543bacb0-a2c3-4914-98b3-475744717f69.874a9.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 92756
+    },
+    "/v2/assets/dy_mjlltwo_en/native/fe/fec7e334-85c0-447c-8db2-c2e50f55b662.84765.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/fe/fec7e334-85c0-447c-8db2-c2e50f55b662.84765.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 1725
+    },
+    "/v2/assets/dy_mjlltwo_en/native/99/99e32282-2755-486b-a5d6-5c47dd209408.3a58b.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/99/99e32282-2755-486b-a5d6-5c47dd209408.3a58b.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 317394
+    },
+    "/v2/assets/resources/native/9d/9d60001f-b5f4-4726-a629-2659e3ded0b8.e0234.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/9d/9d60001f-b5f4-4726-a629-2659e3ded0b8.e0234.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 2066
+    },
+    "/v2/assets/dy_mjlltwo_en/native/14/149443a3-e0f2-4c45-b00c-5e764954b379.4b6cb.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/14/149443a3-e0f2-4c45-b00c-5e764954b379.4b6cb.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 1876
+    },
+    "/v2/assets/dy_mjlltwo_en/native/11/11fd2cf30.a8855.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/11/11fd2cf30.a8855.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 80502
+    },
+    "/v2/assets/resources/import/2d/2de5ac95-a7bf-44bc-8197-fc0d3018a78e.2a63f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/2d/2de5ac95-a7bf-44bc-8197-fc0d3018a78e.2a63f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 108
+    },
+    "/v2/assets/resources/native/1d/1d64ee72e.5e4d5.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/1d/1d64ee72e.5e4d5.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 106580
+    },
+    "/v2/assets/resources/import/00/00bd2ece-e70c-4f33-83d9-f680196b9afd.c8fe2.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/00/00bd2ece-e70c-4f33-83d9-f680196b9afd.c8fe2.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 184
+    },
+    "/v2/assets/resources/import/07/07eba9a5-74ee-4531-a1f5-0581905ff5f9.bc826.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/07/07eba9a5-74ee-4531-a1f5-0581905ff5f9.bc826.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 8639
+    },
+    "/v2/assets/resources/native/fe/fe3f841f-31aa-4ee1-ab13-c5acfd22924c.ba830.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/fe/fe3f841f-31aa-4ee1-ab13-c5acfd22924c.ba830.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 2861
+    },
+    "/v2/assets/resources/native/7e/7eeb5b20-8671-4f78-8b38-96ec9bfe9fbd.a0849.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/7e/7eeb5b20-8671-4f78-8b38-96ec9bfe9fbd.a0849.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 21086
+    },
+    "/v2/assets/resources/native/2d/2de5ac95-a7bf-44bc-8197-fc0d3018a78e.7ab93/BoxedBook.ttf": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/2d/2de5ac95-a7bf-44bc-8197-fc0d3018a78e.7ab93/BoxedBook.ttf",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 74348
+    },
+    "/v2/assets/resources/native/2b/2b290c13-18ac-45b1-a2f8-bc06ef8ef383.bc166.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/2b/2b290c13-18ac-45b1-a2f8-bc06ef8ef383.bc166.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 28600
+    },
+    "/v2/assets/resources/import/08/0853cc586.0c2d3.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/08/0853cc586.0c2d3.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1497
+    },
+    "/v2/assets/resources/native/71/71561142-4c83-4933-afca-cb7a17f67053.c06a9.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/71/71561142-4c83-4933-afca-cb7a17f67053.c06a9.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 1050
+    },
+    "/v2/assets/resources/native/b4/b43ff3c2-02bb-4874-81f7-f2dea6970f18.83fcc.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/b4/b43ff3c2-02bb-4874-81f7-f2dea6970f18.83fcc.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 1114
+    },
+    "/v2/assets/resources/native/e8/e851e89b-faa2-4484-bea6-5c01dd9f06e2.90cf4.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/e8/e851e89b-faa2-4484-bea6-5c01dd9f06e2.90cf4.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 1082
+    },
+    "/v2/assets/dy_mjlltwo_en/import/d6/d6f2165b-7491-484f-9945-058d2a902028.0eb69.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/d6/d6f2165b-7491-484f-9945-058d2a902028.0eb69.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 692
+    },
+    "/v2/assets/resources/native/86/86d0bdc7-2fc3-4652-8c29-c60bfa369d7e.267c5.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/86/86d0bdc7-2fc3-4652-8c29-c60bfa369d7e.267c5.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 3049
+    },
+    "/v2/assets/resources/import/20/202e822f-a3eb-41a2-9feb-d6e9c499ada0.de181.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/20/202e822f-a3eb-41a2-9feb-d6e9c499ada0.de181.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2330
+    },
+    "/v2/assets/resources/import/0c/0c3a1644d.cc518.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/0c/0c3a1644d.cc518.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 313
+    },
+    "/v2/assets/resources/import/37/37b3df77-2d5e-431c-9651-c7a98f25fa8e.081f2.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/37/37b3df77-2d5e-431c-9651-c7a98f25fa8e.081f2.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/dy_mjlltwo_en/import/44/444c8f11-8a46-4ed4-b70a-0539cdbc0f1d.25964.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/44/444c8f11-8a46-4ed4-b70a-0539cdbc0f1d.25964.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 204
+    },
+    "/v2/assets/dy_mjlltwo_en/import/6b/6b4c457c-7153-4947-9721-cb5379c91419.a95bd.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/6b/6b4c457c-7153-4947-9721-cb5379c91419.a95bd.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 203
+    },
+    "/v2/assets/dy_mjlltwo_en/import/20/203f0483-beb0-45c0-bee8-4ef0ebc4eb0b.2d52c.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/20/203f0483-beb0-45c0-bee8-4ef0ebc4eb0b.2d52c.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 202
+    },
+    "/v2/assets/dy_mjlltwo_en/import/97/97478631-c7b9-462e-8b66-37eeb63684cb.c9140.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/97/97478631-c7b9-462e-8b66-37eeb63684cb.c9140.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 202
+    },
+    "/v2/assets/dy_mjlltwo_en/import/4d/4d420322-0321-4c48-a83b-c1c3b5b13db0.1f5fb.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/4d/4d420322-0321-4c48-a83b-c1c3b5b13db0.1f5fb.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 205
+    },
+    "/v2/assets/dy_mjlltwo_en/native/13/13d300a64.f053e.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/13/13d300a64.f053e.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 115292
+    },
+    "/v2/assets/dy_mjlltwo_en/import/4d/4df8ba9b-4abf-4328-bc1c-92c8e808e38e.f2e0e.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/4d/4df8ba9b-4abf-4328-bc1c-92c8e808e38e.f2e0e.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 203
+    },
+    "/v2/assets/dy_mjlltwo_en/import/30/30cf3213-abbb-4cf8-b0be-e448561f11d0.2cb26.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/30/30cf3213-abbb-4cf8-b0be-e448561f11d0.2cb26.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 206
+    },
+    "/v2/assets/dy_mjlltwo_en/import/57/5795efe6-27b6-483c-b30f-3ae08e814441.7c532.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/57/5795efe6-27b6-483c-b30f-3ae08e814441.7c532.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 205
+    },
+    "/v2/assets/resources/native/22/22b2bd79-cb2e-4bf4-b07f-9e78d0d8cbcb.a1f8a.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/22/22b2bd79-cb2e-4bf4-b07f-9e78d0d8cbcb.a1f8a.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 128749
+    },
+    "/v2/assets/dy_mjlltwo_en/import/b8/b8821a82-1722-4f72-9a74-460a3bd2b33d.58e74.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/b8/b8821a82-1722-4f72-9a74-460a3bd2b33d.58e74.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 994
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0d/0dcdcd206.859d7.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0d/0dcdcd206.859d7.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 9802
+    },
+    "/v2/assets/dy_mjlltwo_en/import/ad/ad7ed6b1-ebbd-48e6-980c-9ec319f2baff.df1e0.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/ad/ad7ed6b1-ebbd-48e6-980c-9ec319f2baff.df1e0.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 119
+    },
+    "/v2/assets/dy_mjlltwo_en/import/fb/fb049487-e52c-46e2-98d0-046a2b50c0e6.b68de.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/fb/fb049487-e52c-46e2-98d0-046a2b50c0e6.b68de.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 436
+    },
+    "/v2/assets/dy_mjlltwo_en/native/ad/ad7ed6b1-ebbd-48e6-980c-9ec319f2baff.c1757.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/ad/ad7ed6b1-ebbd-48e6-980c-9ec319f2baff.c1757.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 588722
+    },
+    "/v2/assets/dy_mjlltwo_en/import/9f/9f6b976f-60a4-48aa-a646-d82ecea684a0.46960.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/9f/9f6b976f-60a4-48aa-a646-d82ecea684a0.46960.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 38607
+    },
+    "/v2/assets/dy_mjlltwo_en/import/95/956c6271-0589-4553-8496-dbdf99824de5.d25a2.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/95/956c6271-0589-4553-8496-dbdf99824de5.d25a2.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 193
+    },
+    "/v2/assets/dy_mjlltwo_en/import/85/855eb1ac-44bf-4d8a-92dd-ee0447bb5625.eeebe.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/85/855eb1ac-44bf-4d8a-92dd-ee0447bb5625.eeebe.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 180
+    },
+    "/v2/assets/dy_mjlltwo_en/import/88/882be5fa-e5a9-4222-bfec-c906a422bc7b.a5ccb.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/88/882be5fa-e5a9-4222-bfec-c906a422bc7b.a5ccb.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 193
+    },
+    "/v2/assets/dy_mjlltwo_en/import/c7/c7862886-0a5e-40a5-8489-1ab629bdb2ff.91b41.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/c7/c7862886-0a5e-40a5-8489-1ab629bdb2ff.91b41.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 178
+    },
+    "/v2/assets/resources/import/65/65b61adb-22a5-4bc6-8f93-3bee0115e608.bf574.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/65/65b61adb-22a5-4bc6-8f93-3bee0115e608.bf574.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 187
+    },
+    "/v2/assets/resources/import/db/dbb2c358-e2f1-4b45-ba07-f9bb71e7dac8.cf866.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/db/dbb2c358-e2f1-4b45-ba07-f9bb71e7dac8.cf866.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 187
+    },
+    "/v2/assets/resources/import/5a/5ac797cb-034f-4fb6-a3e9-01b5fb31d88f.471d7.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/5a/5ac797cb-034f-4fb6-a3e9-01b5fb31d88f.471d7.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/resources/native/18/1897d6557.b6f49.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/18/1897d6557.b6f49.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 36595
+    },
+    "/v2/assets/resources/import/46/4696a6f0-1fd6-46e8-8f06-971fbcc3e4c9.8b71a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/46/4696a6f0-1fd6-46e8-8f06-971fbcc3e4c9.8b71a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/resources/import/ec/ec7c2169-5827-4179-9386-0c5c6b888d1f.32ac8.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/ec/ec7c2169-5827-4179-9386-0c5c6b888d1f.32ac8.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/resources/import/01/012880d8-243a-45c6-9ce1-6c1084524ada.f4d32.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/01/012880d8-243a-45c6-9ce1-6c1084524ada.f4d32.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/resources/import/46/46963948-f077-404f-8838-81b2238fffb4.915cc.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/46/46963948-f077-404f-8838-81b2238fffb4.915cc.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/dy_mjlltwo_en/native/fb/fb049487-e52c-46e2-98d0-046a2b50c0e6.e29fb.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/fb/fb049487-e52c-46e2-98d0-046a2b50c0e6.e29fb.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 334
+    },
+    "/v2/assets/dy_mjlltwo_en/import/4f/4fc2e942-2161-4e5e-b1e7-c8f060533b18.13da5.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/4f/4fc2e942-2161-4e5e-b1e7-c8f060533b18.13da5.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 180
+    },
+    "/v2/assets/dy_mjlltwo_en/import/ee/eee9188a-077b-4f76-9e2f-e0ad2f48921b.3416b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/ee/eee9188a-077b-4f76-9e2f-e0ad2f48921b.3416b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 194
+    },
+    "/v2/assets/dy_mjlltwo_en/import/a5/a522828a-7232-41af-9c00-97b199c5c888.36daa.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/a5/a522828a-7232-41af-9c00-97b199c5c888.36daa.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 181
+    },
+    "/v2/assets/dy_mjlltwo_en/native/91/913e3467-d38b-4eaf-ada2-3f7c73267a42.afc1b.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/91/913e3467-d38b-4eaf-ada2-3f7c73267a42.afc1b.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 479690
+    },
+    "/v2/assets/dy_mjlltwo_en/native/10/10e73362-4b72-43b2-89b0-7e175af6800d.359ed.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/10/10e73362-4b72-43b2-89b0-7e175af6800d.359ed.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 1756630
+    },
+    "/v2/assets/dy_mjlltwo_en/native/65/65dc8366-ae4b-4423-b25a-c19090e77945.f97b9.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/65/65dc8366-ae4b-4423-b25a-c19090e77945.f97b9.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 417898
+    },
+    "/v2/assets/dy_mjlltwo_en/native/c8/c86c2191-29cf-418d-bf8b-560209a1c033.945c7.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/c8/c86c2191-29cf-418d-bf8b-560209a1c033.945c7.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 970477
+    },
+    "/v2/assets/dy_mjlltwo_en/native/ad/ada0ce58-83d1-448d-a7df-447dc16cd212.4139a.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/ad/ada0ce58-83d1-448d-a7df-447dc16cd212.4139a.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 3701
+    },
+    "/v2/assets/dy_mjlltwo_en/native/40/40fdd746-5634-456a-99cb-8a76139c5fbc.bf702.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/40/40fdd746-5634-456a-99cb-8a76139c5fbc.bf702.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 323712
+    },
+    "/v2/assets/dy_mjlltwo_en/native/14/1481937a7.374c6.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/14/1481937a7.374c6.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 331208
+    },
+    "/v2/assets/dy_mjlltwo_en/native/1c/1c60f691b.82439.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/1c/1c60f691b.82439.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 272910
+    },
+    "/v2/assets/dy_mjlltwo_en/import/c8/c891c437-5355-40b1-b41b-1e86d5ba5e81.f108a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/c8/c891c437-5355-40b1-b41b-1e86d5ba5e81.f108a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 193
+    },
+    "/v2/assets/dy_mjlltwo_en/import/2f/2fcfed0b-46af-4551-ba70-ed8e937a0d88.3920d.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/2f/2fcfed0b-46af-4551-ba70-ed8e937a0d88.3920d.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 180
+    },
+    "/v2/assets/dy_mjlltwo_en/import/b2/b26b40eb-5ab4-4f6d-8e76-b2cc245ae62d.75502.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/b2/b26b40eb-5ab4-4f6d-8e76-b2cc245ae62d.75502.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 193
+    },
+    "/v2/assets/dy_mjlltwo_en/import/eb/ebbae373-6e58-416a-8b37-e9565b1adc58.87fb5.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/eb/ebbae373-6e58-416a-8b37-e9565b1adc58.87fb5.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 191
+    },
+    "/v2/assets/dy_mjlltwo_en/import/27/27657539-dc07-4b1e-8cbd-92860e57b4e6.0131b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/27/27657539-dc07-4b1e-8cbd-92860e57b4e6.0131b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 193
+    },
+    "/v2/assets/dy_mjlltwo_en/import/a8/a86020f4-72df-41df-a060-c8935514e0b8.d7a15.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/a8/a86020f4-72df-41df-a060-c8935514e0b8.d7a15.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 190
+    },
+    "/v2/assets/dy_mjlltwo_en/import/a8/a8f995d8-22f2-4b6a-bbaa-3791f3642c04.d7be7.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/a8/a8f995d8-22f2-4b6a-bbaa-3791f3642c04.d7be7.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 192
+    },
+    "/v2/assets/dy_mjlltwo_en/import/ad/add45d7d-4b4b-435e-bbf1-2ea5cd24aa2b.2f083.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/ad/add45d7d-4b4b-435e-bbf1-2ea5cd24aa2b.2f083.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 189
+    },
+    "/v2/assets/dy_mjlltwo_en/import/1e/1e3f9c83-d8c0-4385-8a5c-c089acc3a3e6.e1b9a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/1e/1e3f9c83-d8c0-4385-8a5c-c089acc3a3e6.e1b9a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 192
+    },
+    "/v2/assets/dy_mjlltwo_en/import/e9/e9f90393-e211-46f5-8b4f-73cc7ca83378.c297e.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/e9/e9f90393-e211-46f5-8b4f-73cc7ca83378.c297e.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 180
+    },
+    "/v2/assets/dy_mjlltwo_en/import/e6/e651198c-a349-4686-80cb-da1b158a53b7.6089a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/e6/e651198c-a349-4686-80cb-da1b158a53b7.6089a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 193
+    },
+    "/v2/assets/dy_mjlltwo_en/import/6f/6f160da2-dccf-4f7a-8433-5713acfb0a6b.ed390.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/6f/6f160da2-dccf-4f7a-8433-5713acfb0a6b.ed390.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/dy_mjlltwo_en/import/8c/8c0d7645-558d-4f8c-ba3f-ad5ec2e6df81.e15c1.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/8c/8c0d7645-558d-4f8c-ba3f-ad5ec2e6df81.e15c1.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 189
+    },
+    "/v2/assets/dy_mjlltwo_en/import/58/5840bc5d-59dc-4439-8cc8-7f5ae587f1aa.1d903.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/58/5840bc5d-59dc-4439-8cc8-7f5ae587f1aa.1d903.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 188
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0c/0c5b8b8ce.6bfe3.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0c/0c5b8b8ce.6bfe3.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 12947
+    },
+    "/v2/assets/dy_mjlltwo_en/import/e5/e58111da-c778-43ea-9274-5a5f0e391120.1ec1b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/e5/e58111da-c778-43ea-9274-5a5f0e391120.1ec1b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 5885
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0c/0c42e17fe.04f1f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0c/0c42e17fe.04f1f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2473
+    },
+    "/v2/assets/dy_mjlltwo_en/import/fc/fc9602f0-bd30-4fac-862f-f0b72cadc8f1.bddc1.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/fc/fc9602f0-bd30-4fac-862f-f0b72cadc8f1.bddc1.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 43651
+    },
+    "/v2/assets/dy_mjlltwo_en/native/15/158ec11db.f3df6.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/15/158ec11db.f3df6.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 110242
+    },
+    "/v2/assets/dy_mjlltwo_en/native/d6/d6cb1b08-15f9-4f08-a5fd-e6687767501f.883e5.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/d6/d6cb1b08-15f9-4f08-a5fd-e6687767501f.883e5.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 124142
+    },
+    "/v2/assets/dy_mjlltwo_en/native/17/17f48804-6f0e-4ec9-a338-94d02a5f738d.63911.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/17/17f48804-6f0e-4ec9-a338-94d02a5f738d.63911.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 1300395
+    },
+    "/v2/assets/dy_mjlltwo_en/native/4a/4a312fe2-21e8-4dba-9c26-35423f89822a.5a131.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/4a/4a312fe2-21e8-4dba-9c26-35423f89822a.5a131.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 2068323
+    },
+    "/v2/assets/dy_mjlltwo_en/native/3a/3a1809f3-de4a-4077-87e3-da8530ad2257.8485e.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/3a/3a1809f3-de4a-4077-87e3-da8530ad2257.8485e.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 140218
+    },
+    "/v2/assets/dy_mjlltwo_en/native/16/16e6aa92b.87786.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/16/16e6aa92b.87786.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 240752
+    },
+    "/v2/assets/dy_mjlltwo_en/native/ac/ac998a41-ed66-4986-b5ad-101e4fd041ff.1330a.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/ac/ac998a41-ed66-4986-b5ad-101e4fd041ff.1330a.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 552287
+    },
+    "/v2/assets/dy_mjlltwo_en/import/37/374f09f3-f17e-4185-866e-13efb8687398.4bbbf.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/37/374f09f3-f17e-4185-866e-13efb8687398.4bbbf.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2011
+    },
+    "/v2/assets/dy_mjlltwo_en/native/f3/f346c371-650c-454d-a73b-7266fbe6d815.bdef8.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/f3/f346c371-650c-454d-a73b-7266fbe6d815.bdef8.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 428161
+    },
+    "/v2/assets/dy_mjlltwo_en/import/b2/b2a2c491-37f6-4464-9668-5b782309bbde.f3409.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/b2/b2a2c491-37f6-4464-9668-5b782309bbde.f3409.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 65963
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0e/0ec9fde40.862b0.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0e/0ec9fde40.862b0.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 11257
+    },
+    "/v2/assets/dy_mjlltwo_en/native/66/669aee5b-ee39-4ee8-a905-538dd1bd021b.d827d.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/66/669aee5b-ee39-4ee8-a905-538dd1bd021b.d827d.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 4663410
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0f/0f2f70ea1.cd3ee.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0f/0f2f70ea1.cd3ee.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2460
+    },
+    "/v2/assets/dy_mjlltwo_en/native/30/30978fef-9bc1-4fbc-b4aa-89a40df845a1.41838.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/30/30978fef-9bc1-4fbc-b4aa-89a40df845a1.41838.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 236715
+    },
+    "/v2/assets/dy_mjlltwo_en/native/1c/1ccbdcfcd.391a9.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/1c/1ccbdcfcd.391a9.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 156770
+    },
+    "/v2/assets/dy_mjlltwo_en/native/49/4948b189-8c1d-48c5-ab8b-5a366ff36a9d.ad5ac.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/49/4948b189-8c1d-48c5-ab8b-5a366ff36a9d.ad5ac.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 336337
+    },
+    "/v2/assets/dy_mjlltwo_en/import/cf/cfbe4381-068e-49d8-8cda-248e4dab76e6.4163d.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/cf/cfbe4381-068e-49d8-8cda-248e4dab76e6.4163d.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 5144
+    },
+    "/v2/assets/dy_mjlltwo_en/native/cf/cfbe4381-068e-49d8-8cda-248e4dab76e6.a4798.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/cf/cfbe4381-068e-49d8-8cda-248e4dab76e6.a4798.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 3279
+    },
+    "/v2/assets/dy_mjlltwo_en/import/23/231e226c-47e9-4de9-b084-a296b7109f68.1921b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/23/231e226c-47e9-4de9-b084-a296b7109f68.1921b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 801
+    },
+    "/v2/assets/dy_mjlltwo_en/import/4b/4b32b329-9285-495b-9c86-e0dde37ea95e.45162.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/4b/4b32b329-9285-495b-9c86-e0dde37ea95e.45162.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 15501
+    },
+    "/v2/assets/dy_mjlltwo_en/native/6b/6b52ca4f-1674-4cee-afd5-c7cd89ba53f6.e5ad5.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/6b/6b52ca4f-1674-4cee-afd5-c7cd89ba53f6.e5ad5.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 2378183
+    },
+    "/v2/assets/dy_mjlltwo_en/native/5b/5b823032-3565-42ee-b55e-339c1923b0ff.2e675.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/5b/5b823032-3565-42ee-b55e-339c1923b0ff.2e675.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 518561
+    },
+    "/v2/assets/dy_mjlltwo_en/native/3d/3dcd3382-995f-4719-a481-d50bdb03084d.4b764.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/3d/3dcd3382-995f-4719-a481-d50bdb03084d.4b764.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 103592
+    },
+    "/v2/assets/dy_mjlltwo_en/import/4a/4af7c6b1-ecdc-43fb-b937-0bae01e81725.c8b2c.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/4a/4af7c6b1-ecdc-43fb-b937-0bae01e81725.c8b2c.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 822
+    },
+    "/v2/assets/dy_mjlltwo_en/import/69/69f86b93-b585-44de-a552-60fd23167e32.9ed9e.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/69/69f86b93-b585-44de-a552-60fd23167e32.9ed9e.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 810
+    },
+    "/v2/assets/dy_mjlltwo_en/import/54/54ad0df6-6a53-4f17-84cf-10c2a8adaac2.44a3f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/54/54ad0df6-6a53-4f17-84cf-10c2a8adaac2.44a3f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 16008
+    },
+    "/v2/assets/dy_mjlltwo_en/import/f9/f93d9cf7-dc61-47b1-b370-3bcba5827790.b7c95.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/f9/f93d9cf7-dc61-47b1-b370-3bcba5827790.b7c95.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 834
+    },
+    "/v2/assets/dy_mjlltwo_en/native/5a/5acbe957-82c1-441e-a6f2-637bdd29d515.a8c49.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/5a/5acbe957-82c1-441e-a6f2-637bdd29d515.a8c49.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 722169
+    },
+    "/v2/assets/dy_mjlltwo_en/import/32/32ed44d0-defa-41dd-8e95-16477a767ef7.a9f0e.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/32/32ed44d0-defa-41dd-8e95-16477a767ef7.a9f0e.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 5085
+    },
+    "/v2/assets/dy_mjlltwo_en/native/e3/e31c32c1-9c56-429a-aba0-11fb01121a9f.3c2b5.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/e3/e31c32c1-9c56-429a-aba0-11fb01121a9f.3c2b5.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 444329
+    },
+    "/v2/assets/dy_mjlltwo_en/import/65/65958c4e-c772-47a3-9ab8-f9a6848b2cf0.f6218.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/65/65958c4e-c772-47a3-9ab8-f9a6848b2cf0.f6218.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1011
+    },
+    "/v2/assets/dy_mjlltwo_en/import/96/965177df-e2b1-414e-b565-e3524bcbd524.5ce4e.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/96/965177df-e2b1-414e-b565-e3524bcbd524.5ce4e.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 3837
+    },
+    "/v2/assets/dy_mjlltwo_en/import/5d/5dd27312-c263-4f08-8114-781f018e445f.0efb8.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/5d/5dd27312-c263-4f08-8114-781f018e445f.0efb8.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2213
+    },
+    "/v2/assets/dy_mjlltwo_en/native/5d/5dd27312-c263-4f08-8114-781f018e445f.e4ac7.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/5d/5dd27312-c263-4f08-8114-781f018e445f.e4ac7.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 1143
+    },
+    "/v2/assets/dy_mjlltwo_en/native/96/965177df-e2b1-414e-b565-e3524bcbd524.4b7d4.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/96/965177df-e2b1-414e-b565-e3524bcbd524.4b7d4.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 2107
+    },
+    "/v2/assets/dy_mjlltwo_en/native/4c/4cc293e5-ac50-40fe-b90c-0de4e00c8712.dad73.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/4c/4cc293e5-ac50-40fe-b90c-0de4e00c8712.dad73.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 12065
+    },
+    "/v2/assets/dy_mjlltwo_en/native/c1/c12b957a-e232-4045-b2d7-f46bc9b335ca.792a5.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/c1/c12b957a-e232-4045-b2d7-f46bc9b335ca.792a5.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 657017
+    },
+    "/v2/assets/dy_mjlltwo_en/native/f7/f7e9f347-dbfd-434f-baef-a8ee1ecc8330.b40b0.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/f7/f7e9f347-dbfd-434f-baef-a8ee1ecc8330.b40b0.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 38432
+    },
+    "/v2/assets/dy_mjlltwo_en/import/2d/2d118d82-5ce5-4ad8-ad1c-3ee4c9c8e3d0.eed13.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/2d/2d118d82-5ce5-4ad8-ad1c-3ee4c9c8e3d0.eed13.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 994
+    },
+    "/v2/assets/resources/import/e1/e1e5d1ec-2e81-4c4c-bda6-834745ebc124.1d6f9.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/e1/e1e5d1ec-2e81-4c4c-bda6-834745ebc124.1d6f9.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 120
+    },
+    "/v2/assets/dy_mjlltwo_en/import/b6/b688c791-571c-407e-a3a7-0259e1becf74.805c8.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/b6/b688c791-571c-407e-a3a7-0259e1becf74.805c8.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 433
+    },
+    "/v2/assets/resources/native/e1/e1e5d1ec-2e81-4c4c-bda6-834745ebc124.754bb.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/e1/e1e5d1ec-2e81-4c4c-bda6-834745ebc124.754bb.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 5838
+    },
+    "/v2/assets/dy_mjlltwo_en/native/b6/b688c791-571c-407e-a3a7-0259e1becf74.3fb8a.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/b6/b688c791-571c-407e-a3a7-0259e1becf74.3fb8a.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 319
+    },
+    "/v2/assets/dy_mjlltwo_en/import/94/94386175-810f-4daf-ad6a-bc35e1c574cc.c26a7.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/94/94386175-810f-4daf-ad6a-bc35e1c574cc.c26a7.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 10854
+    },
+    "/v2/assets/dy_mjlltwo_en/import/cb/cbe9ea0e-da8e-4005-b7a9-e3ef3e9a4123.8d012.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/cb/cbe9ea0e-da8e-4005-b7a9-e3ef3e9a4123.8d012.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 2184
+    },
+    "/v2/assets/dy_mjlltwo_en/native/cb/cbe9ea0e-da8e-4005-b7a9-e3ef3e9a4123.84d93.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/cb/cbe9ea0e-da8e-4005-b7a9-e3ef3e9a4123.84d93.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 1846
+    },
+    "/v2/assets/dy_mjlltwo_en/native/94/94386175-810f-4daf-ad6a-bc35e1c574cc.41bc3.bin": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/94/94386175-810f-4daf-ad6a-bc35e1c574cc.41bc3.bin",
+      "status": 200,
+      "contentType": "application/octet-stream",
+      "encoding": "base64",
+      "bytes": 11786
+    },
+    "/v2/assets/dy_mjlltwo_en/native/0b/0bd79c64-75a8-4bfe-9f9c-1512b4eeb8e8.5786a.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/0b/0bd79c64-75a8-4bfe-9f9c-1512b4eeb8e8.5786a.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 139778
+    },
+    "/v2/assets/dy_mjlltwo_en/native/48/48869d69-0b10-44aa-8042-34abf95c086e.d637a.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/48/48869d69-0b10-44aa-8042-34abf95c086e.d637a.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 303065
+    },
+    "/v2/assets/dy_mjlltwo_en/native/06/06371d42-c25c-433b-9934-d62766b0215c.db259.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/06/06371d42-c25c-433b-9934-d62766b0215c.db259.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 170625
+    },
+    "/v2/assets/dy_mjlltwo_en/native/11/114ad5c9-3cae-4aea-8809-6b91c5f13f09.159b0.jpg": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/11/114ad5c9-3cae-4aea-8809-6b91c5f13f09.159b0.jpg",
+      "status": 200,
+      "contentType": "image/jpeg",
+      "encoding": "base64",
+      "bytes": 2259
+    },
+    "/v2/assets/resources/import/9a/9a59955a-5f91-41a8-8ea4-560e6fcedda3.dde73.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/9a/9a59955a-5f91-41a8-8ea4-560e6fcedda3.dde73.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 179
+    },
+    "/v2/assets/dy_mjlltwo_en/import/4d/4d18ae5a-60d4-41a0-bb54-bba5af9fa96c.11d44.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/4d/4d18ae5a-60d4-41a0-bb54-bba5af9fa96c.11d44.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 122
+    },
+    "/v2/assets/dy_mjlltwo_en/import/2c/2c1784f0-205f-4164-817b-b0affa8400b2.674dd.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/2c/2c1784f0-205f-4164-817b-b0affa8400b2.674dd.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 118
+    },
+    "/v2/assets/dy_mjlltwo_en/native/4d/4d18ae5a-60d4-41a0-bb54-bba5af9fa96c.77521.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/4d/4d18ae5a-60d4-41a0-bb54-bba5af9fa96c.77521.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 24576
+    },
+    "/v2/assets/dy_mjlltwo_en/native/2c/2c1784f0-205f-4164-817b-b0affa8400b2.48573.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/2c/2c1784f0-205f-4164-817b-b0affa8400b2.48573.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 9600
+    },
+    "/v2/assets/dy_mjlltwo_en/import/08/08be0dbb-e139-4c9a-92d4-9e78210201e1.f57b4.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/08/08be0dbb-e139-4c9a-92d4-9e78210201e1.f57b4.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 123
+    },
+    "/v2/assets/dy_mjlltwo_en/native/08/08be0dbb-e139-4c9a-92d4-9e78210201e1.9c5d9.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/08/08be0dbb-e139-4c9a-92d4-9e78210201e1.9c5d9.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 1920
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0e/0e1b9697-b2c2-41ef-b879-68de27d6811d.c6edd.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0e/0e1b9697-b2c2-41ef-b879-68de27d6811d.c6edd.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 125
+    },
+    "/v2/assets/dy_mjlltwo_en/native/0e/0e1b9697-b2c2-41ef-b879-68de27d6811d.babe8.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/0e/0e1b9697-b2c2-41ef-b879-68de27d6811d.babe8.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 6599
+    },
+    "/v2/assets/main/native/1d/1d74ccb61.7a5e5.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/main/native/1d/1d74ccb61.7a5e5.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 30842
+    },
+    "/v2/assets/main/native/1c/1c97f3422.b53bd.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/main/native/1c/1c97f3422.b53bd.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 2004
+    },
+    "/v2/assets/resources/import/f7/f7f53bb1-4015-44be-a64d-b5afb0ffb24a.69833.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/f7/f7f53bb1-4015-44be-a64d-b5afb0ffb24a.69833.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1305
+    },
+    "/v2/assets/dy_mjlltwo_en/import/81/81dee4c9-d6cf-4a23-9ab3-efc6d17e802e.17533.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/81/81dee4c9-d6cf-4a23-9ab3-efc6d17e802e.17533.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 124
+    },
+    "/v2/assets/dy_mjlltwo_en/import/3a/3a7e3528-7d4d-4301-81c7-bda4e3fee8b9.61f91.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/3a/3a7e3528-7d4d-4301-81c7-bda4e3fee8b9.61f91.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 120
+    },
+    "/v2/assets/dy_mjlltwo_en/native/81/81dee4c9-d6cf-4a23-9ab3-efc6d17e802e.57ba5.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/81/81dee4c9-d6cf-4a23-9ab3-efc6d17e802e.57ba5.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 19968
+    },
+    "/v2/assets/dy_mjlltwo_en/native/3a/3a7e3528-7d4d-4301-81c7-bda4e3fee8b9.ab7f3.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/3a/3a7e3528-7d4d-4301-81c7-bda4e3fee8b9.ab7f3.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 95616
+    },
+    "/v2/assets/dy_mjlltwo_en/import/d3/d3ccd3d1-6b2f-4f5d-8824-453b55504120.30136.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/d3/d3ccd3d1-6b2f-4f5d-8824-453b55504120.30136.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 121
+    },
+    "/v2/assets/dy_mjlltwo_en/native/d3/d3ccd3d1-6b2f-4f5d-8824-453b55504120.178e3.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/d3/d3ccd3d1-6b2f-4f5d-8824-453b55504120.178e3.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 39168
+    },
+    "/v2/assets/dy_mjlltwo_en/import/d3/d3a5f372-1c2b-49ff-882f-862ee81815f2.158ed.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/d3/d3a5f372-1c2b-49ff-882f-862ee81815f2.158ed.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 119
+    },
+    "/v2/assets/dy_mjlltwo_en/native/d3/d3a5f372-1c2b-49ff-882f-862ee81815f2.15610.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/d3/d3a5f372-1c2b-49ff-882f-862ee81815f2.15610.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 277394
+    },
+    "/v2/assets/dy_mjlltwo_en/import/af/af4de36c-3935-43a3-8e51-90fc31911153.eac40.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/af/af4de36c-3935-43a3-8e51-90fc31911153.eac40.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 117
+    },
+    "/v2/assets/dy_mjlltwo_en/native/af/af4de36c-3935-43a3-8e51-90fc31911153.19c80.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/af/af4de36c-3935-43a3-8e51-90fc31911153.19c80.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 48000
+    },
+    "/v2/assets/dy_mjlltwo_en/import/3e/3ecd5473-e9f9-4684-91e4-ed2385bff557.4a6f7.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/3e/3ecd5473-e9f9-4684-91e4-ed2385bff557.4a6f7.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 121
+    },
+    "/v2/assets/dy_mjlltwo_en/import/ab/ab71f477-b54f-40fc-ae3b-8cb7d017cbc8.a6f10.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/ab/ab71f477-b54f-40fc-ae3b-8cb7d017cbc8.a6f10.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 122
+    },
+    "/v2/assets/dy_mjlltwo_en/native/ab/ab71f477-b54f-40fc-ae3b-8cb7d017cbc8.c628e.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/ab/ab71f477-b54f-40fc-ae3b-8cb7d017cbc8.c628e.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 29184
+    },
+    "/v2/assets/dy_mjlltwo_en/native/3e/3ecd5473-e9f9-4684-91e4-ed2385bff557.08ed1.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/3e/3ecd5473-e9f9-4684-91e4-ed2385bff557.08ed1.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 10368
+    },
+    "/v2/assets/dy_mjlltwo_en/import/c6/c6bbbc2e-a531-4b9e-a991-d70fa060aa94.8b741.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/c6/c6bbbc2e-a531-4b9e-a991-d70fa060aa94.8b741.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 120
+    },
+    "/v2/assets/dy_mjlltwo_en/native/c6/c6bbbc2e-a531-4b9e-a991-d70fa060aa94.575f5.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/c6/c6bbbc2e-a531-4b9e-a991-d70fa060aa94.575f5.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 18432
+    },
+    "/v2/assets/dy_mjlltwo_en/import/a1/a196fdd5-ead0-492c-8a37-6a98055cda38.71c55.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/a1/a196fdd5-ead0-492c-8a37-6a98055cda38.71c55.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 122
+    },
+    "/v2/assets/dy_mjlltwo_en/native/a1/a196fdd5-ead0-492c-8a37-6a98055cda38.98113.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/a1/a196fdd5-ead0-492c-8a37-6a98055cda38.98113.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 23040
+    },
+    "/v2/assets/dy_mjlltwo_en/import/2b/2b08f36b-9968-4b03-b445-c7fd024d83aa.f70d7.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/2b/2b08f36b-9968-4b03-b445-c7fd024d83aa.f70d7.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 115
+    },
+    "/v2/assets/dy_mjlltwo_en/native/2b/2b08f36b-9968-4b03-b445-c7fd024d83aa.6ce71.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/2b/2b08f36b-9968-4b03-b445-c7fd024d83aa.6ce71.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 11904
+    },
+    "/v2/assets/dy_mjlltwo_en/import/a5/a5f28d95-a7c8-4243-9454-d36c9af1261d.e58cd.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/a5/a5f28d95-a7c8-4243-9454-d36c9af1261d.e58cd.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 122
+    },
+    "/v2/assets/dy_mjlltwo_en/native/a5/a5f28d95-a7c8-4243-9454-d36c9af1261d.d2b1e.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/a5/a5f28d95-a7c8-4243-9454-d36c9af1261d.d2b1e.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 17664
+    },
+    "/v2/assets/dy_mjlltwo_en/import/2d/2d7a9770-61be-4b48-8323-b6abc8bf93ac.7b597.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/2d/2d7a9770-61be-4b48-8323-b6abc8bf93ac.7b597.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 115
+    },
+    "/v2/assets/dy_mjlltwo_en/native/2d/2d7a9770-61be-4b48-8323-b6abc8bf93ac.516ef.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/2d/2d7a9770-61be-4b48-8323-b6abc8bf93ac.516ef.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 11904
+    },
+    "/v2/assets/dy_mjlltwo_en/import/e9/e9ac1886-5c93-444a-8494-a7977b4172a4.fc3bc.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/e9/e9ac1886-5c93-444a-8494-a7977b4172a4.fc3bc.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 122
+    },
+    "/v2/assets/dy_mjlltwo_en/native/e9/e9ac1886-5c93-444a-8494-a7977b4172a4.57ad9.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/e9/e9ac1886-5c93-444a-8494-a7977b4172a4.57ad9.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 17280
+    },
+    "/v2/assets/dy_mjlltwo_en/import/0b/0b873325-acc3-48c6-8e42-13630ce08c29.8da32.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/0b/0b873325-acc3-48c6-8e42-13630ce08c29.8da32.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 116
+    },
+    "/v2/assets/dy_mjlltwo_en/native/0b/0b873325-acc3-48c6-8e42-13630ce08c29.fdecd.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/0b/0b873325-acc3-48c6-8e42-13630ce08c29.fdecd.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 11904
+    },
+    "/v2/assets/dy_mjlltwo_en/import/a8/a878464d-fce2-47d5-9af8-fdba26abfe64.fd56b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/a8/a878464d-fce2-47d5-9af8-fdba26abfe64.fd56b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 125
+    },
+    "/v2/assets/dy_mjlltwo_en/native/a8/a878464d-fce2-47d5-9af8-fdba26abfe64.d18f4.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/a8/a878464d-fce2-47d5-9af8-fdba26abfe64.d18f4.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 37248
+    },
+    "/v2/assets/dy_mjlltwo_en/import/ea/ea1f8ba6-a346-4943-a270-440e2a4b8955.a34a8.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/ea/ea1f8ba6-a346-4943-a270-440e2a4b8955.a34a8.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 122
+    },
+    "/v2/assets/dy_mjlltwo_en/native/ea/ea1f8ba6-a346-4943-a270-440e2a4b8955.a8569.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/ea/ea1f8ba6-a346-4943-a270-440e2a4b8955.a8569.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 382080
+    },
+    "/v2/assets/dy_mjlltwo_en/import/bc/bc5cbbbd-b074-4ccd-81d4-a9a447d1c54c.81180.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/bc/bc5cbbbd-b074-4ccd-81d4-a9a447d1c54c.81180.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 122
+    },
+    "/v2/assets/dy_mjlltwo_en/native/bc/bc5cbbbd-b074-4ccd-81d4-a9a447d1c54c.658e4.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/bc/bc5cbbbd-b074-4ccd-81d4-a9a447d1c54c.658e4.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 123264
+    },
+    "/v2/assets/resources/native/1e/1e65b1b99.56634.webp": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/1e/1e65b1b99.56634.webp",
+      "status": 200,
+      "contentType": "image/webp",
+      "encoding": "base64",
+      "bytes": 129500
+    },
+    "/v2/assets/dy_mjlltwo_en/import/07/071f5423-0036-4563-8dbd-0c57ed545fb9.a024a.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/07/071f5423-0036-4563-8dbd-0c57ed545fb9.a024a.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 121
+    },
+    "/v2/assets/dy_mjlltwo_en/native/07/071f5423-0036-4563-8dbd-0c57ed545fb9.c0d35.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/07/071f5423-0036-4563-8dbd-0c57ed545fb9.c0d35.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 14592
+    },
+    "/v2/assets/dy_mjlltwo_en/import/86/86b70405-1408-438a-9012-bbcc805ac8a4.65b67.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/86/86b70405-1408-438a-9012-bbcc805ac8a4.65b67.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 119
+    },
+    "/v2/assets/dy_mjlltwo_en/native/86/86b70405-1408-438a-9012-bbcc805ac8a4.a25b1.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/86/86b70405-1408-438a-9012-bbcc805ac8a4.a25b1.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 9600
+    },
+    "/v2/assets/dy_mjlltwo_en/import/70/700e2fc9-d7c4-4047-a2b4-190a84f6231f.07fa0.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/70/700e2fc9-d7c4-4047-a2b4-190a84f6231f.07fa0.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 121
+    },
+    "/v2/assets/dy_mjlltwo_en/native/70/700e2fc9-d7c4-4047-a2b4-190a84f6231f.75a97.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/70/700e2fc9-d7c4-4047-a2b4-190a84f6231f.75a97.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 10752
+    },
+    "/v2/assets/dy_mjlltwo_en/import/66/66f4e296-9203-4758-b70e-901649167ba9.dda41.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/66/66f4e296-9203-4758-b70e-901649167ba9.dda41.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 121
+    },
+    "/v2/assets/dy_mjlltwo_en/native/66/66f4e296-9203-4758-b70e-901649167ba9.a75f4.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/66/66f4e296-9203-4758-b70e-901649167ba9.a75f4.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 8832
+    },
+    "/v2/assets/dy_mjlltwo_en/import/3c/3c7494f0-a7a2-47bc-be75-61fc8a2ea2ea.4f78f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/3c/3c7494f0-a7a2-47bc-be75-61fc8a2ea2ea.4f78f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 120
+    },
+    "/v2/assets/dy_mjlltwo_en/native/3c/3c7494f0-a7a2-47bc-be75-61fc8a2ea2ea.eeab9.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/3c/3c7494f0-a7a2-47bc-be75-61fc8a2ea2ea.eeab9.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 23040
+    },
+    "/v2/assets/dy_mjlltwo_en/import/a1/a1b282c8-e4b4-4b1b-8e69-2b9fdf7d2b7c.f19db.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/a1/a1b282c8-e4b4-4b1b-8e69-2b9fdf7d2b7c.f19db.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 119
+    },
+    "/v2/assets/dy_mjlltwo_en/native/a1/a1b282c8-e4b4-4b1b-8e69-2b9fdf7d2b7c.ef3f5.mp3": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/native/a1/a1b282c8-e4b4-4b1b-8e69-2b9fdf7d2b7c.ef3f5.mp3",
+      "status": 200,
+      "contentType": "audio/mpeg",
+      "encoding": "base64",
+      "bytes": 144000
+    },
+    "/v2/assets/resources/import/0f/0fb5760ce.6cff2.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/0f/0fb5760ce.6cff2.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 12787
+    },
+    "/v2/assets/resources/import/f0/f0dced78-9127-4d36-adc1-4421fd9837af.15f66.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/f0/f0dced78-9127-4d36-adc1-4421fd9837af.15f66.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 184
+    },
+    "/v2/assets/resources/import/63/6312089a-000b-446b-8a38-04608cb4b6e6.33ee5.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/63/6312089a-000b-446b-8a38-04608cb4b6e6.33ee5.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 181
+    },
+    "/v2/assets/resources/import/0a/0a4d12ebd.462f9.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/0a/0a4d12ebd.462f9.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 460
+    },
+    "/v2/assets/resources/import/b7/b7d9c233-8fd4-4af2-97a9-d8ae92f327f6.c1d5d.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/b7/b7d9c233-8fd4-4af2-97a9-d8ae92f327f6.c1d5d.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 186
+    },
+    "/v2/assets/resources/import/81/81b6e034-1669-4af1-b531-ca19340b2b38.809e8.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/81/81b6e034-1669-4af1-b531-ca19340b2b38.809e8.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 183
+    },
+    "/v2/assets/resources/import/01/01a31d7fd.04744.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/01/01a31d7fd.04744.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 36729
+    },
+    "/v2/assets/resources/import/e2/e2791815-cff1-400e-908a-91a472b3c4eb.f91de.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/e2/e2791815-cff1-400e-908a-91a472b3c4eb.f91de.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 203
+    },
+    "/v2/assets/resources/import/35/35be03b4-cdf9-4863-8492-33cfa52fb0e2.b3853.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/35/35be03b4-cdf9-4863-8492-33cfa52fb0e2.b3853.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 218
+    },
+    "/v2/assets/resources/import/02/027c85577.c370b.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/02/027c85577.c370b.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 382
+    },
+    "/v2/assets/resources/import/91/91d6234a-1bac-4ad7-bfc1-cd099933d5bb.06aef.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/91/91d6234a-1bac-4ad7-bfc1-cd099933d5bb.06aef.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 184
+    },
+    "/v2/assets/resources/import/39/398c4f62-0bb7-45a9-8843-d3006494e39a.7c0db.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/39/398c4f62-0bb7-45a9-8843-d3006494e39a.7c0db.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1791
+    },
+    "/v2/assets/resources/import/04/041e241de.5918f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/04/041e241de.5918f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 3623
+    },
+    "/v2/assets/resources/import/c8/c82fa77c-5fcf-4e64-9796-f28fd2569267.c40e4.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/c8/c82fa77c-5fcf-4e64-9796-f28fd2569267.c40e4.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 196
+    },
+    "/v2/assets/resources/native/61/617323dd-11f4-4dd3-8eec-0caf6b3b45b9.6d707.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/61/617323dd-11f4-4dd3-8eec-0caf6b3b45b9.6d707.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 1187
+    },
+    "/v2/assets/resources/native/d6/d6d3ca85-4681-47c1-b5dd-d036a9d39ea2.d55c2.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/d6/d6d3ca85-4681-47c1-b5dd-d036a9d39ea2.d55c2.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 1047
+    },
+    "/v2/assets/resources/import/09/09cb9d202.0987d.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/09/09cb9d202.0987d.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 3987
+    },
+    "/v2/assets/resources/import/46/4695c139-017b-4935-8807-d96659a2cbbb.9a7b0.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/46/4695c139-017b-4935-8807-d96659a2cbbb.9a7b0.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 207
+    },
+    "/v2/assets/resources/native/0c/0c09894f-3b9e-4ffb-b40f-c61009e53912.1d05d.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/0c/0c09894f-3b9e-4ffb-b40f-c61009e53912.1d05d.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 2958
+    },
+    "/v2/assets/resources/import/c9/c9a952c3-f46f-461a-b705-bc198139be18.eaf0f.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/c9/c9a952c3-f46f-461a-b705-bc198139be18.eaf0f.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 193
+    },
+    "/v2/assets/resources/import/0b/0b9de01ce.f0af9.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/0b/0b9de01ce.f0af9.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 15657
+    },
+    "/v2/assets/resources/import/4a/4a833840-1879-4b3c-875b-78f8a883a38c.70e8c.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/4a/4a833840-1879-4b3c-875b-78f8a883a38c.70e8c.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 186
+    },
+    "/v2/assets/resources/import/e5/e514b8bb-2637-4764-a5b8-1a38f71eb3ea.8aaeb.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/e5/e514b8bb-2637-4764-a5b8-1a38f71eb3ea.8aaeb.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 194
+    },
+    "/v2/assets/resources/import/cc/cc7a2b75-c261-4242-9ce1-cabfe845a5cc.4ec81.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/cc/cc7a2b75-c261-4242-9ce1-cabfe845a5cc.4ec81.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 1152
+    },
+    "/v2/assets/dy_mjlltwo_en/import/08/083f2ceab.0edb8.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/dy_mjlltwo_en/import/08/083f2ceab.0edb8.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 19199
+    },
+    "/v2/assets/resources/import/9b/9bbda31e-ad49-43c9-aaf2-f7d9896bac69.95264.json": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/9b/9bbda31e-ad49-43c9-aaf2-f7d9896bac69.95264.json",
+      "status": 200,
+      "contentType": "application/json",
+      "encoding": "plain",
+      "bytes": 194
+    },
+    "/v2/assets/resources/native/d8/d81ec8ad-247c-4e62-aa3c-d35c4193c7af.cdbc9.png": {
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/native/d8/d81ec8ad-247c-4e62-aa3c-d35c4193c7af.cdbc9.png",
+      "status": 200,
+      "contentType": "image/png",
+      "encoding": "base64",
+      "bytes": 158
+    }
+  }
+}

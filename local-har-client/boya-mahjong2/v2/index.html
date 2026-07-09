@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title> </title>
+    <meta name="viewport"content="width=device-width,initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no,viewport-fit=cover" />
+    <meta name="allowfullscreen" content="true" /><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="format-detection" content="telephone=no"><meta name="renderer" content="webkit" /><meta name="force-rendering" content="webkit" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" /><meta name="msapplication-tap-highlight" content="no">
+    <meta name="full-screen" content="yes" /><meta name="x5-fullscreen" content="true" />
+    <meta name="360-fullscreen" content="true" /><meta name="screen-orientation" content="" /><meta name="x5-orientation" content=""><meta name="x5-page-mode" content="app">
+    <meta name="apple-touch-fullscreen" content="yes" /><link rel="icon" href="data:;base64,=">
+    <style>
+        * { margin: 0;padding: 0; } html {overflow: hidden; } body {-ms-touch-action: none;-webkit-user-select: none;background: #FFFFFF;width: 100%;height: 100%;}
+    </style>
+    <style>
+        html {-ms-touch-action: none;}body, canvas, div {display: block;outline: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);user-select: none;-moz-user-select: none;-webkit-user-select: none;-ms-user-select: none;-khtml-user-select: none;-webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {-webkit-appearance: none;margin: 0;}
+        body {position: absolute;top: 0;left: 0;width: 100%;height: 100%;padding: 0;border: 0;margin: 0;
+        cursor: default;color: #888;background-color: #333;text-align: center;font-family: Helvetica, Verdana, Arial, sans-serif;display: flex;flex-direction: column;overflow: hidden;
+        }
+        #Cocos2dGameContainer {
+        position: absolute;margin: 0;left: 0px;top: 0px;display: -webkit-box;-webkit-box-orient: horizontal;-webkit-box-align: center;-webkit-box-pack: center;}
+        canvas {background-color: rgba(0, 0, 0, 0);}
+        a:link, a:visited {color: #666;}
+        a:active, a:hover {color: #666;}
+        p.header {font-size: small;}
+        p.footer {font-size: x-small;}
+        #splash {position: absolute;top: 0;
+        left: 0;width: 100%;height: 100%;background-color:  #FFFFFF;background: '';background-repeat: no-repeat; background-size: cover; background-position: center; display: flex;align-items: center; flex-direction: column;}
+        .progress-bar {position: absolute;left: 27.5%;top: 80%;height: 3px;padding: 2px;width: 45%;
+            border-radius: 7px;box-shadow: 0 1px 5px #000 inset, 0 1px 0 #444;     visibility:hidden}
+        .progress-bar span {display: block;height: 100%;border-radius: 3px;transition: width .4s ease-in-out;background-color: #3dc5de;}
+    </style>
+    <style>
+        .loading-container {
+            position: absolute;
+            top: 70%;
+        }
+        #g-progress {
+            width: 440px;
+            height: 25px;
+            overflow: hidden;
+            position: relative;
+            border-radius: 25px;
+            /* background: linear-gradient(90deg, #0f0, #0ff 70%, transparent 0); */
+            border: 1px solid #eee;
+        }
+        #g-progress_item {
+            width: 0%;
+            height: 25px;
+            position: relative;
+            top: 0;
+            left: 0;
+            background-color: #3dc5de;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="GameCanvas" oncontextmenu="event.preventDefault()" tabindex="0"></canvas>
+    <div id="splash">
+        <div class="loading-container">
+           <!--  <p><font id="loadingtext" size="+6" color="#FFFFFF">0%</font></p>  -->
+           <!-- <div id="g-progress"><p id="g-progress_item"></p></div>-->
+        </div> 
+    </div>
+
+    <script src="src/settings.058af.js" charset="utf-8"></script>
+    <script src="src/assets/gateConfig.6e55b.js" charset="utf-8"></script>
+    <script type="text/javascript" charset="utf-8">
+                // document.querySelector('body').style.width = window.innerWidth + 'px';
+                // document.querySelector('body').style.height = window.innerHeight + 'px';
+                
+                // 在动态拉伸时 body 的宽高属性并没有跟随 canvas 的宽高变化，导致canvas内容超出被隐藏
+                // 当第一次加载进入是 如果 body 的宽高为 405*831，经过拉伸后 分辨率为 605*831时，body依旧为405*831
+                // 而 canvas 的宽高属性为605*831，所以需要动态修改body的宽高属性，才能让body的宽高和canvas的宽高保持一致
+                // 而 canvas 的宽高属性是根据视口宽高而定的
+                window.addEventListener('resize', ()=>{
+                    // 获取当前屏幕视口宽高
+                    const width = window.innerWidth;
+                    const height = window.innerHeight;
+
+                    // 设置 body 宽高
+                    document.body.style.width = `${width}px`;
+                    document.body.style.height = `${height}px`
+
+                    // console.log('body的 宽：', document.body.style.width,'高：',document.body.style.height);
+                });
+                    let changeGameEngine = function () {
+                //这里由引擎调用
+                window.extInitFrameSize = function (w, h, view) {
+                    var locFrameSize = view._frameSize;
+                    var isLandscape = w >= h;
+                    let iBool = CC_EDITOR || !cc.sys.isMobile ||
+                        (isLandscape && view._orientation & cc.macro.ORIENTATION_LANDSCAPE) ||
+                        (!isLandscape && view._orientation & cc.macro.ORIENTATION_PORTRAIT);
+                    if (window.isbygame)
+                        iBool = (w / h) >= 1;
+                    if (window.isCasinoGame)
+                        iBool = true;
+                    if (iBool) {
+                        locFrameSize.width = w;locFrameSize.height = h;cc.game.container.style['-webkit-transform'] = 'rotate(0deg)';cc.game.container.style.transform = 'rotate(0deg)';
+                        view._isRotated = false;
+                        cc.sys.isBrowser && cc.sys.isMobile && cc.sys.os == cc.sys.OS_IOS && window.scrollTo(0.1, 0.1);
+                    } else {
+                        locFrameSize.width = h;locFrameSize.height = w;cc.game.container.style['-webkit-transform'] = 'rotate(90deg)';cc.game.container.style.transform = 'rotate(90deg)';cc.game.container.style['-webkit-transform-origin'] = '0px 0px 0px';
+                        cc.game.container.style.transformOrigin = '0px 0px 0px';
+                        view._isRotated = true;
+                        cc.sys.isBrowser && cc.sys.os == cc.sys.OS_IOS && cc.sys.isMobile && window.scrollTo(0.1, 0.1);
+                    }
+                    if (view._orientationChanging) {
+                        setTimeout(function () {
+                            cc.view._orientationChanging = false;
+                        }, 1000);}}
+                //fix 第一次横屏进去 safari 还是会底部留空
+                setTimeout(() => {
+                    window.scrollTo(0.1, 0.1);
+                }, 2000);
+                // iOS SAFARI 横屏 导致上面区域不能点
+                let iponeXFit = function () {
+                    let osVer = cc.sys.osVersion;
+                    osVer = Number(osVer.substr(0, 2))
+                    if (isNaN(osVer) || osVer <= 12) {
+                        return;}
+                    let radion = window.devicePixelRatio || 1
+                    let screen = {
+                        width: window.screen.width * radion,
+                        height: window.screen.height * radion}
+                    if (cc.sys.os == cc.sys.OS_IOS) {
+                        // if ((window.orientation == 90 || window.orientation == -90) && (cc.sys.browserType == cc.sys.BROWSER_TYPE_SAFARI || cc.sys.browserType == cc.sys.BROWSER_TYPE_FIREFOX)) {
+                        //     if (screen.height % 896 == 0) //如果横屏之后的宽度除以896 能除尽， 那么就需要设置width 896 +1 主要是 一款XR 和 XS Max
+                        //         document.querySelector('meta[name=viewport]').content = 'width=897,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,viewport-fit=cover'
+                        //     else if (screen.height % 812 == 0) //如果横屏之后的宽度除以812 能除尽， 那么就需要设置width 812 +1 主要是 x 和 XS 以及 一款 XR？
+                        //         document.querySelector('meta[name=viewport]').content = 'width=813,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,viewport-fit=cover'
+                        //     else if (screen.height % 736 == 0) // 7 plus 8 plus
+                        //         document.querySelector('meta[name=viewport]').content = 'width=737,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,viewport-fit=cover'
+                        //     else if (screen.height % 667 == 0) // 7 和 8 6s
+                        //         document.querySelector('meta[name=viewport]').content = 'width=668,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,viewport-fit=cover'
+                        //     else //低于6s
+                        //         document.querySelector('meta[name=viewport]').content = 'width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,viewport-fit=cover'
+                        // } else
+                        //     document.querySelector('meta[name=viewport]').content = 'width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,viewport-fit=cover'
+                    }
+                }
+                let _view = cc.view
+                _view._resizeEvent = function (forceOrEvent) {
+                    var view;
+                    if (this.setDesignResolutionSize) {view = this;} else {view = cc.view;}
+                    let sys = cc.sys;
+                    if (!forceOrEvent && sys.browserType === sys.BROWSER_TYPE_UC && sys.os === sys.OS_IOS) {
+                        setTimeout(function () {view._resizeEvent(true);}, 0)
+                        return;}
+                    // Check frame size changed or not
+                    var prevFrameW = view._frameSize.width,
+                        prevFrameH = view._frameSize.height,
+                        prevRotated = view._isRotated;
+                    if (cc.sys.isMobile) {
+                        var containerStyle = cc.game.container.style,
+                            margin = containerStyle.margin;
+                        containerStyle.margin = '0';
+                        containerStyle.display = 'none';
+                        view._initFrameSize();
+                        containerStyle.margin = margin;
+                        containerStyle.display = 'block';
+                    } else { view._initFrameSize();}
+                    if (forceOrEvent !== true && view._isRotated === prevRotated && view._frameSize.width === prevFrameW && view._frameSize.height === prevFrameH)
+                        return;
+                    var width = view._originalDesignResolutionSize.width;
+                    var height = view._originalDesignResolutionSize.height;
+                    view._resizing = true;
+                    if (width > 0)
+                        view.setDesignResolutionSize(width, height, view._resolutionPolicy);
+                    view._resizing = false;
+                    view.emit('canvas-resize');
+                    if (view._resizeCallback) { view._resizeCallback.call();}
+                };
+                _view._orientationChange = function () {
+                    _view._orientationChanging = true;
+                    _view._resizeEvent();
+                    if (cc.sys.browserType === cc.sys.BROWSER_TYPE_SAFARI && cc.sys.isMobile) {
+                        setTimeout(() => {window.scrollTo(0.1, 0.1);}, 1600); }
+                    iponeXFit();
+                }
+                iponeXFit();
+                let _widgetManager = cc._widgetManager
+                let widgetInitFunc = _widgetManager.init
+                _widgetManager.init = function (director) {
+                    widgetInitFunc.call(this, director)
+                    var thisOnResized = this.onResized.bind(this);
+                    cc.view.on("canvas-resize", thisOnResized);
+                    //这里在手机横竖的时候  widget 不会  重新resize
+                    window.addEventListener("orientationchange", thisOnResized);
+                }
+                var __BrowserGetter = {
+                    init: function init() {this.html = document.getElementsByTagName("html")[0];},
+                    availWidth: function availWidth(frame) {return frame && frame !== this.html ? frame.clientWidth : window.innerWidth;},
+                    availHeight: function availHeight(frame) {return frame && frame !== this.html ? frame.clientHeight : window.innerHeight;},
+                    meta: {width: "device-width"},
+                    adaptationType: cc.sys.browserType
+                };
+                cc.sys.os === cc.sys.OS_IOS && (__BrowserGetter.adaptationType = cc.sys.BROWSER_TYPE_SAFARI);
+                switch (__BrowserGetter.adaptationType) {
+                    case cc.sys.BROWSER_TYPE_SAFARI:
+                    case cc.sys.BROWSER_TYPE_SOUGOU:
+                    case cc.sys.BROWSER_TYPE_UC:
+                        __BrowserGetter.meta["minimal-ui"] = "true";
+                        __BrowserGetter.availWidth = function (frame) {
+                            var _width = frame.clientWidth;
+                            __BrowserGetter.adaptationType == cc.sys.BROWSER_TYPE_SAFARI && (_width = window.innerWidth);
+                            return _width;};
+                        __BrowserGetter.availHeight = function (frame) {
+                            var _height = frame.clientHeight;
+                            __BrowserGetter.adaptationType == cc.sys.BROWSER_TYPE_SAFARI && (_height = window.innerHeight);
+                            return _height;};}
+                __BrowserGetter.init(_view);
+                _view._initFrameSize = function () {
+                    let view = this;
+                    var locFrameSize = this._frameSize;
+                    var w = __BrowserGetter.availWidth(cc.game.frame);
+                    var h = __BrowserGetter.availHeight(cc.game.frame);
+                    var isLandscape = w >= h;
+                    let iBool = CC_EDITOR || !cc.sys.isMobile ||
+                        (isLandscape && view._orientation & cc.macro.ORIENTATION_LANDSCAPE) ||
+                        (!isLandscape && view._orientation & cc.macro.ORIENTATION_PORTRAIT);
+                    if (window.isbygame)
+                        iBool = (w / h) >= 1;
+                    if (window.isCasinoGame)
+                        iBool = true;
+                    if (iBool) {
+                        locFrameSize.width = w;
+                        locFrameSize.height = h;
+                        cc.game.container.style['-webkit-transform'] = 'rotate(0deg)';
+                        cc.game.container.style.transform = 'rotate(0deg)';
+                        view._isRotated = false;
+                        cc.sys.isBrowser && cc.sys.isMobile && cc.sys.os == cc.sys.OS_IOS && window.scrollTo(0.1, 0.1);
+                    } else {
+                        locFrameSize.width = h;
+                        locFrameSize.height = w;
+                        cc.game.container.style['-webkit-transform'] = 'rotate(90deg)';
+                        cc.game.container.style.transform = 'rotate(90deg)';
+                        cc.game.container.style['-webkit-transform-origin'] = '0px 0px 0px';
+                        cc.game.container.style.transformOrigin = '0px 0px 0px';
+                        view._isRotated = true;
+                        cc.sys.isBrowser && cc.sys.os == cc.sys.OS_IOS && cc.sys.isMobile && window.scrollTo(0.1, 0.1);
+                    }
+                    if (view._orientationChanging) {setTimeout(function () {cc.view._orientationChanging = false;}, 1000);}
+                }
+                //add by Toyo
+                cc.assetManager.pipeline.insert((task, done) => {
+                    //判读一下有没有配置了下载地址
+                    let configUrl
+                    if (window.Global && window.Global.jumpPath)
+                        configUrl = window.Global.jumpPath
+                    if (configUrl && configUrl != '') {
+                        let cur_proto = window.location.protocol
+                        let input = task.input;
+                        input.forEach(value => {
+                            let _url = value.url;
+                            if (_url.indexOf(cur_proto + '//') == -1) { //没有配置地址
+                                if (value.url.indexOf("src/assets") != -1) {value.url = configUrl + '/' + value.url} else { value.url = configUrl + '/assets/' + value.url}
+                            }});}
+                    task.output = task.input
+                    done();
+                }, 1)
+            }
+            window.boot = function () {
+                var settings = window._CCSettings;
+                var debug = settings.debug;
+                
+                function loadScript (moduleName) {
+                    var domScript = document.createElement('script');
+                    domScript.async = true;
+                    domScript.src = moduleName;
+                    document.body.appendChild(domScript);
+                }                
+                if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
+                    loadScript(debug ? 'physics.a8f30.js' : 'physics-min.9bae2.js');
+                }
+
+                changeGameEngine();
+                
+                var onProgress = null;
+                var RESOURCES = cc.AssetManager.BuiltinBundleName.RESOURCES;
+                var INTERNAL = cc.AssetManager.BuiltinBundleName.INTERNAL;
+                var MAIN = cc.AssetManager.BuiltinBundleName.MAIN;
+                var canvas = document.getElementById('GameCanvas');
+                canvas.style.opacity = 0;
+                function getUrlParams(name) {
+                    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+                    var r = window.location.search.substr(1).match(reg);
+                    if (r != null) return unescape(r[2]);
+                    return "";}
+                function setLoadingDisplay() {
+                    let splash = document.getElementById('splash');
+                    if (getUrlParams("pcode") == "eWFibw==" && getUrlParams("callback") == "eWJxcA==" && cc.sys.platform === cc.sys.MOBILE_BROWSER) {
+                        if (cc.sys.os === cc.sys.OS_ANDROID) {
+                            try { window.JavaScriptInterface.nativeCallBack('{"type":"ybqp","event":"showSplash","data": {}}');} catch (err) {}
+                        } else if (cc.sys.os === cc.sys.OS_IOS) {
+                            try { window.webkit.messageHandlers.nativeCallBack.postMessage('{"type":"ybqp","event":"showSplash","data": {}}');} catch (err) {}}}
+                    let useLang = "ZH";
+                    if (getUrlParams("t") == "MjAw") { 
+                        if (getUrlParams("lang") == "CN") { useLang = "ZH";
+                        } else if (getUrlParams("lang") == "EN") {useLang = "EN";
+                        } else if (getUrlParams("lang") == "IN") {useLang = "IN";
+                        } else if (getUrlParams("lang") == "VN") {useLang = "VN";} else if (getUrlParams("lang") == "THAI") {useLang = "TH";} else {}
+                        let localLang = cc.sys.localStorage.getItem("lang"); //如果本地有值 就是用本地的
+                        if (localLang && localLang !== "") {useLang = localLang;}
+                        window['Global'].USELANG = useLang;
+                    } else { //老虎机
+                        var lang = getUrlParams("lang") || "ZH"; 
+                        if (getUrlParams("lang") == "CN") {lang = "ZH";}
+                        if ("MjM=" == getUrlParams("t")) {
+                            useLang = "EN"; //鱼跃龙门英文版
+                            window['Global'].USELANG = useLang;
+                        } else {
+                            useLang = lang;
+                            window['Global'].USELANG = lang;
+                        }}
+                    onProgress = function (completedCount, totalCount, item) {
+                    };
+                    cc.director.once(cc.Director.EVENT_AFTER_SCENE_LAUNCH, function () {
+                        if (getUrlParams("t") == "MjAw" || !getUrlParams("t")) {
+                            splash.style.display = 'none';
+                        }
+                    });}
+                var onStart = function () {
+                    try {
+                        if (!cc.sys.capabilities.webp) {cc.macro.SUPPORT_TEXTURE_FORMATS = [".webp", ".png", ".jpg",]}
+                        cc.loader.downloader._subpackages = settings.subpackages;
+                        cc.view.enableRetina(true);
+                        cc.view.resizeWithBrowserSize(true);
+                        if (!false && !false) {
+                            if (cc.sys.isBrowser) {setLoadingDisplay();}
+                            if (cc.sys.isMobile) {
+                                if (settings.orientation === 'landscape') {cc.view.setOrientation(cc.macro.ORIENTATION_LANDSCAPE);
+                                } else if (settings.orientation === 'portrait') { cc.view.setOrientation(cc.macro.ORIENTATION_PORTRAIT);}
+                                try {
+                                    if (cc.sys.browserType == cc.sys.BROWSER_TYPE_MOBILE_QQ &&
+                                        Number(cc.sys.browserVersion) <= 9.6) {
+                                        cc.view.enableAutoFullScreen(true)
+                                    } else {cc.view.enableAutoFullScreen(false)}
+                                } catch (e) {}}
+                        }
+                        // cc.assetManager.downloader.maxConcurrency = 64;
+                        // cc.assetManager.downloader.maxRequestsPerFrame = 64;
+                        // cc.assetManager.presets.preload.maxConcurrency = 64;
+                        // cc.assetManager.presets.preload.maxRequestsPerFrame = 64;
+                        // cc.assetManager.presets.scene.maxConcurrency = 64;
+                        // cc.assetManager.presets.scene.maxRequestsPerFrame = 64;
+                        // cc.assetManager.presets.bundle.maxConcurrency = 64;
+                        // cc.assetManager.presets.bundle.maxRequestsPerFrame = 64;
+                        var launchScene = settings.launchScene;
+                        //add by edison 老虎机用单独的初始场景
+                        if (getUrlParams("t") !== "MjAw") {launchScene = "db://assets/Mainscene/slot_main.fire";
+                        } else {launchScene = "db://assets/Mainscene/Start.fire";}
+                        var bundle = cc.assetManager.bundles.find(function (b) {
+                            return b.getSceneInfo(launchScene);
+                        });
+                        //这里改一下loadScene的时机？
+                        bundle.loadScene(launchScene, null, onProgress,
+                            function (err, scene) {
+                                if (!err) {
+                                    cc.director.runSceneImmediate(scene);
+                                    if (cc.sys.isBrowser) {
+                                        var timeId
+                                        timeId = setInterval(() => {clearInterval(timeId)}, 100);
+                                        canvas.style.opacity = 1;canvas.style.visibility = '';
+                                        var div = document.getElementById('GameDiv');
+                                        if (div) {div.style.backgroundImage = '';}
+                                        onProgress = null;
+                                        cc.log('Success to load scene: ' + launchScene);}
+                                }}); } catch (err) {cc.warn(err);}
+                };
+                function getUrlParams(name) {var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");var r = window.location.search.substr(1).match(reg);if (r != null) return unescape(r[2]);return null;}
+                var option = {
+                    id: 'GameCanvas',debugMode: settings.debug ? cc.debug.DebugMode.INFO : cc.debug.DebugMode.ERROR,showFPS: settings.debug,frameRate: 60,groupList: settings.groupList,collisionMatrix: settings.collisionMatrix,};
+                cc.assetManager.init({bundleVers: settings.bundleVers,remoteBundles: settings.remoteBundles,server: settings.server});
+                var bundleRoot = [INTERNAL];
+                settings.hasResourcesBundle && bundleRoot.push(RESOURCES);
+                var count = 0;
+                function cb(err) {
+                    if (err) {//这里兼容一下，某个游戏的翻译config加载失败不影响进游戏
+                        console.error(err.message, err.stack);
+                        if (err.message && err.message.search("src/assets/games") == -1) return;}
+                    count++;
+                    if (count == 1) {
+                        for (var i = 0; i < bundleRoot.length; i++) {cc.assetManager.loadBundle(bundleRoot[i], cb);}return; }
+                    if (count === bundleRoot.length + 1) {cc.assetManager.loadBundle(MAIN, function (err) {if (!err) cc.game.run(option, onStart);});}}
+                //过滤非本游戏的游戏config插件
+                let list = settings.jsList;
+                if (window.bundleName && window.bundleName != "") {
+                    for (let index = list.length - 1; index >= 0; index--) {
+                        const element = list[index];
+                        if (element.search("assets/games") !== -1 && element.search("assets/games/" + window.bundleName) == -1) {list.splice(index, 1);} }}
+                //改了一下优先加载配置
+                cc.assetManager.loadScript(settings.jsList.map(function (x) { return 'src/' + x; }), cb);
+            };
+            if (window.jsb) {
+                var isRuntime = (typeof loadRuntime === 'function');
+                if (isRuntime) {require('src/settings.058af.js');require('src/cocos2d-runtime.js');require('jsb-adapter/engine/index.js');
+                } else {require('src/settings.058af.js');require('src/cocos2d-jsb.js');require('jsb-adapter/jsb-engine.js');}
+                cc.macro.CLEANUP_IMAGE_CACHE = true;window.boot();}
+    </script>
+    <script src="help/detection.js" charset="utf-8"></script>
+	<script type="text/javascript">
+
+        document.body.addEventListener('touchmove', function (e) {
+            e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
+        }, { passive: false }); 
+        //iPhone适配
+        // const isIphone = () => {
+        //     if (typeof window !== 'undefined' && window) {
+        //         return /iphone/gi.test(window.navigator.userAgent) && window.screen.height >= 667;}
+        //     return false;};
+        // if (isIphone()) {
+        //     let h = window.screen.height + 1;
+        //     document.querySelector('meta[name=viewport]').content ='width=' + h + ',user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1,viewport-fit=cover'
+        // }
+        function normal() {
+            if (typeof VConsole !== 'undefined') {window.vConsole = new VConsole();}
+            var winWidth = window.innerWidth || document.documentElement.clientWidth;
+            var winheight = window.innerHeight || document.documentElement.clientHeight;
+            var cocos2d = document.createElement('script');
+            cocos2d.async = true;
+            cocos2d.src = window._CCSettings.debug ? 'cocos2d-js.js' : 'cocos2d-js-min.88923.js';
+            var engineLoaded = function () {document.body.removeChild(cocos2d);cocos2d.removeEventListener('load', engineLoaded, false); window.boot();}
+            cocos2d.addEventListener('load', engineLoaded, false);
+            document.body.appendChild(cocos2d); }
+        var splash = document.getElementById('splash');
+        //2025/2/2 新增 Loading 转圈
+        var loadImg = document.createElement('img');
+        loadImg.style.left = 0;
+        loadImg.style.top = 0;
+        loadImg.style.right = 0;
+        loadImg.style.bottom = 0;
+        loadImg.style.position = 'absolute';
+        loadImg.style.margin = 'auto';
+        loadImg.style.pointerEvents = 'none';
+
+        splash.appendChild(loadImg);
+
+        function sendPoint(gameid){
+            const xhr = new XMLHttpRequest();
+            let linkadd = document.location.href.split('v2')
+            if(gameid==74 || gameid<73){
+                linkadd = document.location.href.split('?')
+            }
+            linkadd[0] = linkadd[0]+"dy_buryPoint/pluck"
+            xhr.open('POST',linkadd[0], true);
+
+            xhr.onreadystatechange = ()=> {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+
+                }
+            };
+            let data = {
+                clientId: getUrlParams("token") || "",
+                gameId: getUrlParams("t"),
+                action:1,
+                startTime:new Date().getTime(),
+                endTime:0,
+                isCache:0,
+
+            };
+            xhr.setRequestHeader("Content-Type", "application/json");
+            let jsonData = JSON.stringify(data);
+            xhr.send(jsonData);
+        }
+        
+        
+
+        function setLogoBG(gameid) {
+            sendPoint(gameid)
+            if(gameid==105){loadImg.src = 'icon/msfc.gif'
+            }else if(gameid==73){loadImg.src = 'icon/ael.gif'
+            }else if(gameid==88){loadImg.src = 'icon/gdns.gif'  
+            }else if(gameid==79){loadImg.src = 'icon/yw.gif' 
+            }else if(gameid==81){loadImg.src = 'icon/dmbj2_loading.gif' 
+            }else if(gameid==78){loadImg.src = 'icon/glgs_loading.gif' 
+            }else if(gameid==83){loadImg.src = 'icon/smtx_loading.gif' 
+            }else if(gameid==104){loadImg.src = 'icon/cjace_loading.gif'
+            }else if(gameid==90){loadImg.src = 'icon/hbt_loading.gif'
+            }else if(gameid==84){loadImg.src = 'icon/lscs_loading.gif'
+            }else if(gameid==80){loadImg.src = 'icon/mhjnh_loading.gif'
+            }else if(gameid==94){loadImg.src = 'icon/nz2_loading.gif'
+            }else if(gameid==86){loadImg.src = 'icon/zsyh_loading.gif'
+            }else if(gameid==203){loadImg.src = 'icon/by3_loading.gif'
+            }else if(gameid==89){loadImg.src = 'icon/jdqs_loading.gif'
+            }else if(gameid==92){loadImg.src = 'icon/bqlm_loading.gif'
+            }else if(gameid==96){loadImg.src = 'icon/xbjz_loading.gif'
+            }else if(gameid==102){loadImg.src = 'icon/byhzg_loading.gif'
+            }else if(gameid==101){loadImg.src = 'icon/wjshj_loading.gif'
+            }else if(gameid==108){loadImg.src = 'icon/k8_loading.gif'
+            }else if(gameid==107){loadImg.src = 'icon/sj_loading.gif'
+            }else if(gameid==109){loadImg.src = 'icon/jbds_loading.gif'
+            }else if(gameid==75){loadImg.src = 'icon/flsloading.gif'
+            }else if(gameid==110){loadImg.src = 'icon/hjlc_loading.gif'
+            }else if(gameid==99){loadImg.src = 'icon/zcjc_loading.gif'
+            }else if(gameid==98){loadImg.src = 'icon/shtb_loading.gif'
+            }else if(gameid==93){loadImg.src = 'icon/tdxxl_loading.gif'
+            }else if(gameid==72 || gameid==85 || gameid== 100 || gameid==103){loadImg.src = 'icon/mjll_loading.gif'
+            }else{
+                loadImg.src = 'icon/loading_enter.gif'
+                setTimeout(function(){
+                    loadImg.src = 'icon/loading_idle.gif'
+                },800)
+            }
+            let splash = document.getElementById('splash');
+            //splash.style.backgroundImage = 'url(bg/bg.jpg)';
+            if (gameid == 200) {return;}
+            // var tmpLang = getUrlParams("lang")
+            // if (tmpLang == "EN") {document.title = enStr;}else if (tmpLang == "IN") {document.title = inStr;} else if (tmpLang == "VN") {document.title = vnStr;} else if (tmpLang == "THAI") { document.title = thaiStr;} else if (tmpLang == "CN" || tmpLang == "ZH") { document.title = zhStr;} else if (tmpLang == "KR"||tmpLang == "KO") { document.title = krStr;}  else if (tmpLang == "ID") { document.title = idStr;} else {document.title = enStr}
+            // if (null == document.title || undefined == document.title)
+            //     document.title = "";
+        }
+        function getUrlParams(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;}
+        let gameid = getUrlParams("t");
+        if (gameid == "MjAw") {
+            window.isbygame = true;document.querySelector('meta[name=screen-orientation]').content = 'portrait';
+            document.querySelector('meta[name=x5-orientation]').content = 'portrait';
+            document.body.style.cursor = "url(jiantou.88394.ico),auto";setLogoBG(200);
+            window.bundleName = "fish"; } 
+        else {
+            if (gameid == "MQ==") { window.bundleName = "dy_cbzz";setLogoBG(1);
+            } else if (gameid == "Mg==") { window.bundleName = "dy_dntg";setLogoBG(2);
+            } else if (gameid == "Mw==") { window.bundleName = "dy_csd";setLogoBG(3);
+            } else if (gameid == "NA==") { window.bundleName = "dy_sdcs";setLogoBG(4);
+            } else if (gameid == "NQ==") { window.bundleName = "hml";setLogoBG(5);
+            } else if (gameid == "Ng==") { window.bundleName = "dy_cjmla";setLogoBG(6);
+            } else if (gameid == "Nw==") { window.bundleName = "dy_xlgs";setLogoBG(7);
+            } else if (gameid == "OA==") { window.bundleName = "dy_gfxm";setLogoBG(8);
+            } else if (gameid == "OQ==") { window.bundleName = "dy_slwh";setLogoBG(9);
+            } else if (gameid == "MTA=") { window.bundleName = "dy_ytdb";setLogoBG(10);
+            } else if (gameid == "MTE=") { window.bundleName = "dy_syst";setLogoBG(11);
+            } else if (gameid == "MTI=") { window.bundleName = "dy_yqs";setLogoBG(12);
+            } else if (gameid == "MTM=") { window.bundleName = "dy_zqbz";setLogoBG(13);
+            } else if (gameid == "MTQ=") { window.bundleName = "dy_fkdwc";setLogoBG(14);
+            } else if (gameid == "MTU=") { window.bundleName = "dy_tlymm";setLogoBG(15);
+            } else if (gameid == "MTY=") { window.bundleName = "dy_fndxn";setLogoBG(16);
+            } else if (gameid == "MTc=") { window.bundleName = "dy_bxqy";setLogoBG(17);
+            } else if (gameid == "MTg=") { window.bundleName = "dy_jymt";setLogoBG(18);
+            } else if (gameid == "MTk=") { window.bundleName = "dy_bcsd";setLogoBG(19);
+            } else if (gameid == "MjA=") { window.bundleName = "dy_sdg";setLogoBG(20);
+            } else if (gameid == "MjE=") { window.bundleName = "dy_yylm";setLogoBG(21);
+            } else if (gameid == "MjI=") { window.bundleName = "dy_nqct";setLogoBG(22);
+            } else if (gameid == "MjM=") { window.bundleName = "dy_yylm_en";setLogoBG(23);
+            } else if (gameid == "MjU=") { window.bundleName = "dy_dzzh";setLogoBG(25);
+            } else if (gameid == "MjY=") { window.bundleName = "dy_dhxy";setLogoBG(26);
+            } else if (gameid == "Mjc=") { window.bundleName = "dy_wskhy";setLogoBG(27);
+            } else if (gameid == "Mjg=") { window.bundleName = "dy_lfcx";setLogoBG(28);
+            } else if (gameid == "Mjk=") { window.bundleName = "dy_yjtx";setLogoBG(29);
+            } else if (gameid == "MzA=") { window.bundleName = "dy_cbpyx";setLogoBG(30);
+            } else if (gameid == "MzE=") { window.bundleName = "dy_slrj";setLogoBG(31);
+            } else if (gameid == "MzI=") { window.bundleName = "dy_zwdzjs";setLogoBG(32);
+            } else if (gameid == "MzM=") { window.bundleName = "dy_hjkg";setLogoBG(33);
+            } else if (gameid == "MzQ=") { window.bundleName = "dy_mfsn";setLogoBG(34);
+            } else if (gameid == "MzU=") { window.bundleName = "dy_tgsy";setLogoBG(35);
+            } else if (gameid == "MzY=") { window.bundleName = "dy_xyl";setLogoBG(36);
+            } else if (gameid == "Mzc=") { window.bundleName = "dy_hlbt";setLogoBG(37);
+            } else if (gameid == "Mzg=") { window.bundleName = "dy_sszz";setLogoBG(38);
+            } else if (gameid == "Mzk=") { window.bundleName = "dy_gwjy";setLogoBG(39);
+            } else if (gameid == "NDA=") { window.bundleName = "dy_dyjb";setLogoBG(40);
+            } else if (gameid == "NDE=") { window.bundleName = "dy_dxsgj";setLogoBG(41);
+            } else if (gameid == "NDI=") { window.bundleName = "dy_qlz";setLogoBG(42);
+            } else if (gameid == "NDM=") { window.bundleName = "dy_mtjs";setLogoBG(43);
+            } else if (gameid == "NDQ=") { window.bundleName = "dy_dcdf";setLogoBG(44);window.isCasinoGame = true;
+            } else if (gameid == "NDU=") { window.bundleName = "dy_hszz";setLogoBG(45);
+            } else if (gameid == "NDY=") { window.bundleName = "dy_jjbx";setLogoBG(46);window.isCasinoGame = true;
+            } else if (gameid == "NDc=") { window.bundleName = "dy_jgyf";setLogoBG(47);window.isCasinoGame = true;
+            } else if (gameid == "NDg=") { window.bundleName = "dy_whbz";setLogoBG(48);window.isCasinoGame = true;
+            } else if (gameid == "NDk=") { window.bundleName = "dy_cfll";setLogoBG(49);window.isCasinoGame = true;
+            } else if (gameid == "NTA=") { window.bundleName = "dy_zzlb";setLogoBG(50); window.isCasinoGame = true;
+            } else if (gameid == "NTE=") { window.bundleName = "dy_csdbz";setLogoBG(51);window.isCasinoGame = true;
+            } else if (gameid == "NTI=") { window.bundleName = "dy_jzsjb";setLogoBG(52);window["isLandscapeGame"] = true;
+            } else if (gameid == "NTM=") { window.bundleName = "dy_bbhl";setLogoBG(53);window.isCasinoGame = true;
+            } else if (gameid == "NTQ=") { window.bundleName = "dy_jxlw";setLogoBG(54);window["isLandscapeGame"] = true;
+            } else if (gameid == "NTU=") { window.bundleName = "dy_mlbx";setLogoBG(55);window.isCasinoGame = true;
+            } else if (gameid == "NTY=") { window.bundleName = "dy_zsyh";setLogoBG(56);window.isCasinoGame = true;
+            } else if (gameid == "NTc=") { window.bundleName = "dy_jsdh";setLogoBG(57);window.isCasinoGame = true;
+            } else if (gameid == "NTg=") { window.bundleName = "dy_dfdg";setLogoBG(58);window.isCasinoGame = true;
+            } else if (gameid == "NTk=") { window.bundleName = "dy_wjbz";setLogoBG(59);window.isCasinoGame = true;
+            } else if (gameid == "NjA=") { window.bundleName = "dy_jsdl";setLogoBG(60);window.isCasinoGame = true;
+            } else if (gameid == "NjE=") { window.bundleName = "dy_sgcs";setLogoBG(61);window["isLandscapeGame"] = true;
+            } else if (gameid == "NjI=") { window.bundleName = "dy_sgfff";setLogoBG(62);window["isLandscapeGame"] = true;
+            } else if (gameid == "NjM=") { window.bundleName = "dy_bwjl";setLogoBG(63);window.isCasinoGame = true;
+            } else if (gameid == "NjQ=") { window.bundleName = "dy_dfdcjjb";setLogoBG(64);window.isCasinoGame = true;
+            } else if (gameid == "NjU=") { window.bundleName = "dy_hkfg";setLogoBG(65);window.isCasinoGame = true;
+            } else if (gameid == "NjY=") { window.bundleName = "dy_xymlq";setLogoBG(66);window.isCasinoGame = true;
+            } else if (gameid == "Njc=") { window.bundleName = "dy_fkxml";setLogoBG(67);window["isLandscapeGame"] = true;
+            } else if (gameid == "Njg=") { window.bundleName = "dy_dmbj";setLogoBG(68);window["isLandscapeGame"] = true;
+            } else if (gameid == "Njk=") { window.bundleName = "dy_lzcf";setLogoBG(69);window.isCasinoGame = true;
+            } else if (gameid == "NzA=") { window.bundleName = "dy_jdlb";setLogoBG(70);
+            } else if (gameid == "NzI=") { window.bundleName = "dy_mjll";setLogoBG(72);window.isCasinoGame = true;
+            } else if (gameid == "NzQ=") { window.bundleName = "dy_shz";setLogoBG(74);window["isLandscapeGame"] = true;
+            } else if (gameid == "NzM=") { window.bundleName = "dy_aeljl";setLogoBG(73);window.isCasinoGame = true;
+            } else if (gameid == "NzU=") { window.bundleName = "dy_fls";setLogoBG(75);window.isCasinoGame = true; 
+            } else if (gameid == "Nzg=") { window.bundleName = "dy_glgs";setLogoBG(78);window.isCasinoGame = true; 
+            } else if (gameid == "Nzk=") { window.bundleName = "dy_ycyw";setLogoBG(79);window.isCasinoGame = true; 
+            } else if (gameid == "ODE=") { window.bundleName = "dy_dmbjtwo";setLogoBG(81);window.isCasinoGame = true; 
+            } else if (gameid == "ODM=") { window.bundleName = "dy_smtx";setLogoBG(83);window.isCasinoGame = true; 
+            } else if (gameid == "ODQ=") { window.bundleName = "dy_lscs";setLogoBG(84);window.isCasinoGame = true; 
+            } else if (gameid == "ODU=") { window.bundleName = "dy_mjllfour";setLogoBG(85);window.isCasinoGame = true; 
+            } else if (gameid == "ODY=") { window.bundleName = "dy_zsyhjqb";setLogoBG(86);window.isCasinoGame = true; 
+            } else if (gameid == "ODA=") { window.bundleName = "dy_mhjnh";setLogoBG(80);window.isCasinoGame = true; 
+            } else if (gameid == "ODg=") { window.bundleName = "dy_gdns";setLogoBG(88);window.isCasinoGame = true;
+            } else if (gameid == "OTA=") { window.bundleName = "dy_hbt";setLogoBG(90);window.isCasinoGame = true;
+            } else if (gameid == "ODk=") { window.bundleName = "dy_jdqs";setLogoBG(89);window.isCasinoGame = true;
+            } else if (gameid == "OTQ=") { window.bundleName = "dy_nzhp";setLogoBG(94);window.isCasinoGame = true;
+            } else if (gameid == "OTM=") { window.bundleName = "dy_tdxxl";setLogoBG(93);window.isCasinoGame = true;
+            } else if (gameid == "OTY=") { window.bundleName = "dy_xbjz";setLogoBG(96);window.isCasinoGame = true;
+            } else if (gameid == "OTI=") { window.bundleName = "dy_bqtpjqb";setLogoBG(92);window.isCasinoGame = true;
+            } else if (gameid == "OTg=") { window.bundleName = "dy_shtx";setLogoBG(98);window.isCasinoGame = true;
+            } else if (gameid == "MTAw") { window.bundleName = "dy_mjllwin";setLogoBG(100);window.isCasinoGame = true;
+            } else if (gameid == "OTk=") { window.bundleName = "dy_zcjc";setLogoBG(99);window.isCasinoGame = true;
+            } else if (gameid == "MTAy") { window.bundleName = "dy_byhzg";setLogoBG(102);window.isCasinoGame = true;
+            } else if (gameid == "MTAx") { window.bundleName = "dy_wjshj";setLogoBG(101);window.isCasinoGame = true;
+            } else if (gameid == "MTAz") { window.bundleName = "dy_mjlltwo";setLogoBG(103);window.isCasinoGame = true;
+            } else if (gameid == "MTA0") { window.bundleName = "dy_cjace";setLogoBG(104);window.isCasinoGame = true;
+            } else if (gameid == "MTA1") { window.bundleName = "dy_msfc";setLogoBG(105);window.isCasinoGame = true;
+            } else if (gameid == "MTA4") { window.bundleName = "dy_aeljlhp";setLogoBG(108);window.isCasinoGame = true;
+            } else if (gameid == "MTA5") { window.bundleName = "dy_jbds";setLogoBG(109);window.isCasinoGame = true;
+            } else if (gameid == "MTA3") { window.bundleName = "dy_sjyx";setLogoBG(107);window.isCasinoGame = true;
+            } else if (gameid == "MTEw") { window.bundleName = "dy_hjlc";setLogoBG(110);window.isCasinoGame = true;
+            } else if (gameid == "MjAz") { window.bundleName = "dy_fishshu";setLogoBG(203);window.isCasinoGame = true;
+            } else if (gameid == "MTcw") { window.bundleName = "dy_mjllss";setLogoBG(170);window.isCasinoGame = true;      
+            } else if (gameid == "MTcx") { window.bundleName = "dy_jjbxss";setLogoBG(171);window.isCasinoGame = true;
+            } else if (gameid == "MTcy") { window.bundleName = "dy_bbhlss";setLogoBG(172);window.isCasinoGame = true;
+            } else if (gameid == "MTcz") { window.bundleName = "dy_jdlbss";setLogoBG(173);
+            } else if (gameid == "MTc0") { window.bundleName = "dy_dmbjss";setLogoBG(174);window["isLandscapeGame"] = true;
+            } else if (gameid == "MTc1") { window.bundleName = "dy_csdbzss";setLogoBG(175);window.isCasinoGame = true;
+            } else if (gameid == "MTc2") { window.bundleName = "dy_dfdgss";setLogoBG(176);window.isCasinoGame = true;
+            } else if (gameid == "MTc3=") { window.bundleName = "dy_wjbzss";setLogoBG(177);window.isCasinoGame = true;
+            } else if (gameid == "MTc4=") { window.bundleName = "dy_bwjlss";setLogoBG(178);window.isCasinoGame = true;
+            } else if (gameid == "MTc5") { window.bundleName = "dy_jxlwss";setLogoBG(179);window["isLandscapeGame"] = true;
+            } else if (gameid == "MTgw") { window.bundleName = "dy_zsyhss";setLogoBG(180);window.isCasinoGame = true;
+            } else if (gameid == "MTgx") { window.bundleName = "dy_zzlbss";setLogoBG(181); window.isCasinoGame = true;
+            } else if (gameid == "MTgy") { window.bundleName = "dy_fkxmlss";setLogoBG(182);window["isLandscapeGame"] = true;
+            } else if (gameid == "MTgz") { window.bundleName = "dy_sgfffss";setLogoBG(183);window["isLandscapeGame"] = true;
+            } else if (gameid == "MTg0") { window.bundleName = "dy_sgcsss";setLogoBG(184);window["isLandscapeGame"] = true;
+            } else if (gameid == "MTg1") { window.bundleName = "dy_jzsjbss";setLogoBG(185);window["isLandscapeGame"] = true;
+            } else if (gameid == "MTg2") { window.bundleName = "dy_lfcxss";setLogoBG(186);
+            } else if (gameid == "MTg3") { window.bundleName = "dy_cfllss";setLogoBG(187);window.isCasinoGame = true;
+            } else if (gameid == "MTg4") { window.bundleName = "dy_lzcfss";setLogoBG(188);window.isCasinoGame = true;
+            } else if (gameid == "MTg5") { window.bundleName = "dy_dfdcjjbss";setLogoBG(189);window.isCasinoGame = true;
+            } 
+        }
+        normal()
+    </script>
+</body>
+</html>					
+

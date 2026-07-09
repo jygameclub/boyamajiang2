@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-09T05:25:39.000Z",
+  "reason": "HAR missed one Cocos import JSON that the local runtime requests after entering the game.",
+  "files": [
+    {
+      "localPath": "/v2/assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json",
+      "sourceUrl": "https://game.666789.site/v2/assets/resources/import/d9/d9b088e5-f033-4038-b65a-16d30391f9b1.a372e.json",
+      "status": 200,
+      "contentType": "application/json",
+      "bytes": 181,
+      "lastModified": "Fri, 03 Jul 2026 12:21:13 GMT",
+      "etag": "\"6a47a939-b5\""
+    }
+  ]
+}

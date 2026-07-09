@@ -1,0 +1,13 @@
+game: boya-mahjong2
+engine: cocos
+bundle: dy_mjlltwo_en
+protocol: websocket-protobuf-raw-replay
+scenarios:
+  - id: boya-mj2-enter
+    fileIndex: 0
+    cmd: 40001
+    expectedType: enter
+  - id: boya-mj2-normal-bet-001
+    fileIndex: 1
+    cmd: 40003
+    expectedType: normal-bet

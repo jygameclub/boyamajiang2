@@ -1,0 +1,736 @@
+import { mkdir, readFile, rm, stat, writeFile } from "node:fs/promises";
+import path from "node:path";
+
+export const DEFAULT_HAR_TOKEN = "uzuN0IxNjgzMDhGN0Y3Qjk4nPpYNzI2MTU3M0MwQzEyNEQ2NDA0RjIzQTg3NDkzN0MyMkQ4QUY4NTdEMjEwMUY4QThGMzBDNDBBRjAyMTdGREFFQzAyOUYxQkEyNEFBREI5NjFDMjVCNzJFMzMxODU0Mzk4QTBCNDE2RUU1OUE5Q0ZCMTU1RkFCQzM0Rjc0NTBENkM2QjE3RERGNTc5MDdFQTdFREFBRkMzRTgzNjk4NkRFQzNGMEUwQzg1NUM3MDlDRDc0vpEgl";
+export const WIN_LADDER_AMOUNTS = [400, 1200, 2400, 6000, 12000, 20000];
+const HEARTBEAT_REQUEST_CMD = 5000;
+const HEARTBEAT_RESPONSE_CMD = 5001;
+
+export function parseFrameBase64(input) {
+  const buffer = Buffer.isBuffer(input) ? input : Buffer.from(String(input), "base64");
+  if (buffer.length < 12) {
+    throw new Error(`Frame is too short: ${buffer.length} bytes`);
+  }
+
+  const declaredLength = buffer.readUInt32BE(0);
+  const rawCmd = buffer.readUInt32BE(4);
+  const cmd = rawCmd & 0x7fffffff;
+  const flags = buffer.readUInt32BE(8);
+  const payload = buffer.subarray(12);
+
+  return {
+    length: buffer.length,
+    declaredLength,
+    rawCmd,
+    cmd,
+    flags,
+    compressed: rawCmd !== cmd,
+    payload
+  };
+}
+
+export function buildLocalGameUrl({ host, port, mode = "replay", token = DEFAULT_HAR_TOKEN }) {
+  const normalizedMode = normalizeReplayMode(mode);
+  const wsUrl = `ws://${host}:${port}/gate/ws?mode=${encodeURIComponent(normalizedMode)}`;
+  const g = Buffer.from(wsUrl).toString("base64");
+  return `http://${host}:${port}/v2/?token=${token}&deviceType=0&pcode=ZHlnd3N3&t=MTAz&ma=bWFpbmxhbmQ=&lang=CN&g=${encodeURIComponent(g)}&sound=0&music=0&localMode=${encodeURIComponent(normalizedMode)}`;
+}
+
+export function normalizeReplayMode(mode) {
+  const value = String(mode || "").toLowerCase();
+  if (value.startsWith("dataset")) {
+    return "dataset";
+  }
+  if (value.startsWith("winladder")) {
+    return "winladder";
+  }
+  return "replay";
+}
+
+export async function readHarFile(harPath) {
+  return JSON.parse(await readFile(harPath, "utf8"));
+}
+
+export function localPathForV2Url(url) {
+  const parsed = new URL(url);
+  let pathname = decodeURIComponent(parsed.pathname);
+  if (pathname === "/v2" || pathname === "/v2/") {
+    pathname = "/v2/index.html";
+  }
+  if (!pathname.startsWith("/v2/")) {
+    return null;
+  }
+  return pathname;
+}
+
+export async function extractAssetsFromHarObject(har, outDir) {
+  const files = {};
+  let written = 0;
+  const entries = har?.log?.entries || [];
+
+  await mkdir(outDir, { recursive: true });
+
+  for (const entry of entries) {
+    const url = entry?.request?.url;
+    if (typeof url !== "string" || !url.startsWith("https://game.666789.site/v2")) {
+      continue;
+    }
+
+    const localPath = localPathForV2Url(url);
+    if (!localPath) {
+      continue;
+    }
+
+    const content = entry?.response?.content || {};
+    const text = content.text ?? "";
+    const bytes = content.encoding === "base64"
+      ? Buffer.from(text, "base64")
+      : Buffer.from(text, "utf8");
+    const absolutePath = path.join(outDir, localPath);
+
+    await mkdir(path.dirname(absolutePath), { recursive: true });
+    await writeFile(absolutePath, bytes);
+    written += 1;
+
+    files[localPath] = {
+      sourceUrl: url,
+      status: entry?.response?.status || 0,
+      contentType: content.mimeType || inferContentType(localPath),
+      encoding: content.encoding || "plain",
+      bytes: bytes.length
+    };
+  }
+
+  const manifest = {
+    schemaVersion: 1,
+    generatedAt: new Date().toISOString(),
+    sourceHost: "game.666789.site",
+    files
+  };
+
+  const summary = {
+    schemaVersion: 1,
+    generatedAt: manifest.generatedAt,
+    written,
+    contentTypes: countBy(Object.values(files), (file) => file.contentType),
+    encodings: countBy(Object.values(files), (file) => file.encoding)
+  };
+
+  await writeJson(path.join(outDir, "manifest.json"), manifest);
+  await writeJson(path.join(outDir, "har-summary.json"), summary);
+
+  return { written, manifest, summary };
+}
+
+export async function extractAssetsFromHarFile(harPath, outDir) {
+  return extractAssetsFromHarObject(await readHarFile(harPath), outDir);
+}
+
+export async function importFramesFromHarObject(har, outDir) {
+  const entries = har?.log?.entries || [];
+  const connections = [];
+  const frames = [];
+  const summary = {
+    totalMessages: 0,
+    connections: 0,
+    commands: {}
+  };
+
+  for (const entry of entries) {
+    const url = entry?.request?.url;
+    const messages = entry?._webSocketMessages;
+    if (typeof url !== "string" || !url.startsWith("wss://") || !Array.isArray(messages)) {
+      continue;
+    }
+
+    const connectionIndex = connections.length;
+    const connection = {
+      connectionIndex,
+      url,
+      messages: []
+    };
+
+    for (let messageIndex = 0; messageIndex < messages.length; messageIndex += 1) {
+      const message = messages[messageIndex];
+      const parsed = parseFrameBase64(message.data);
+      const record = {
+        connectionIndex,
+        messageIndex,
+        time: message.time ?? null,
+        type: message.type,
+        opcode: message.opcode ?? null,
+        rawFrameBase64: message.data,
+        length: parsed.length,
+        declaredLength: parsed.declaredLength,
+        rawCmd: parsed.rawCmd,
+        cmd: parsed.cmd,
+        flags: parsed.flags,
+        compressed: parsed.compressed,
+        payloadLength: parsed.payload.length
+      };
+
+      connection.messages.push(record);
+      frames.push(record);
+      summary.totalMessages += 1;
+      const key = String(record.cmd);
+      summary.commands[key] ||= { send: 0, receive: 0, total: 0 };
+      if (record.type === "send") {
+        summary.commands[key].send += 1;
+      } else if (record.type === "receive") {
+        summary.commands[key].receive += 1;
+      }
+      summary.commands[key].total += 1;
+    }
+
+    connections.push(connection);
+  }
+
+  summary.connections = connections.length;
+
+  const rawFrames = {
+    schemaVersion: 1,
+    generatedAt: new Date().toISOString(),
+    frames,
+    connections,
+    summary
+  };
+
+  await mkdir(outDir, { recursive: true });
+  await writeJson(path.join(outDir, "raw-frames.json"), rawFrames);
+
+  const enter = frames.find((frame) => frame.type === "receive" && frame.cmd === 40001);
+  const normalBet = frames.find((frame) => frame.type === "receive" && frame.cmd === 40003);
+  if (!enter) {
+    throw new Error("No 40001 enter response found in HAR WebSocket frames");
+  }
+  if (!normalBet) {
+    throw new Error("No 40003 normal bet response found in HAR WebSocket frames");
+  }
+
+  await writeJson(path.join(outDir, "000.json"), debugPayload("enter", enter));
+  await writeJson(path.join(outDir, "001.json"), debugPayload("normal-bet", normalBet));
+  await writeFile(path.join(outDir, "coverage-config.yaml"), buildCoverageConfig(), "utf8");
+
+  return rawFrames;
+}
+
+export async function importFramesFromHarFile(harPath, outDir) {
+  return importFramesFromHarObject(await readHarFile(harPath), outDir);
+}
+
+export function createConnectionReplay(rawFrames, connectionIndex) {
+  const connection = rawFrames?.connections?.[connectionIndex];
+  if (!connection) {
+    throw new Error(`No WebSocket connection at index ${connectionIndex}`);
+  }
+
+  let cursor = 0;
+  const messages = connection.messages || [];
+
+  function findSendIndex(cmd) {
+    for (let index = cursor; index < messages.length; index += 1) {
+      const message = messages[index];
+      if (message.type === "send" && message.cmd === cmd) {
+        return index;
+      }
+    }
+    return -1;
+  }
+
+  function nextResponsesForClientFrame(input) {
+    const frame = parseFrameBase64(input);
+    const sendIndex = findSendIndex(frame.cmd);
+    if (sendIndex < 0) {
+      throw new Error(`No replay response for cmd ${frame.cmd} on connection ${connectionIndex}`);
+    }
+
+    cursor = sendIndex + 1;
+    const responses = [];
+    while (cursor < messages.length && messages[cursor].type === "receive") {
+      responses.push(Buffer.from(messages[cursor].rawFrameBase64, "base64"));
+      cursor += 1;
+    }
+    return responses;
+  }
+
+  return {
+    get cursor() {
+      return cursor;
+    },
+    nextResponsesForClientFrame,
+    nextResponseForClientFrame(input) {
+      const responses = nextResponsesForClientFrame(input);
+      if (!responses.length) {
+        throw new Error(`No replay response for cmd ${parseFrameBase64(input).cmd} on connection ${connectionIndex}`);
+      }
+      return responses[0];
+    }
+  };
+}
+
+export function createReplayResponder(rawFrames, connectionIndex, mode = "replay") {
+  const normalizedMode = normalizeReplayMode(mode);
+  if (normalizedMode === "dataset") {
+    return createDatasetResponder(rawFrames, connectionIndex);
+  }
+  if (normalizedMode === "winladder") {
+    return createWinLadderResponder(rawFrames, connectionIndex);
+  }
+
+  const replay = createConnectionReplay(rawFrames, connectionIndex);
+  return {
+    mode: "replay",
+    get cursor() {
+      return replay.cursor;
+    },
+    nextResponsesForClientFrame(input) {
+      const request = parseFrameBase64(input);
+      if (request.cmd === HEARTBEAT_REQUEST_CMD) {
+        return [createHeartbeatResponse(rawFrames, connectionIndex)];
+      }
+      return replay.nextResponsesForClientFrame(input).map((buffer) => ({
+        buffer,
+        source: "har"
+      }));
+    }
+  };
+}
+
+export function createGeneratedWinFrame({ winAmount, sequence = 1, coin = 455700000 } = {}) {
+  const normalizedWin = Number.isFinite(Number(winAmount)) ? Number(winAmount) : 400;
+  const rotate = encodeMsgRotate({
+    originalStatus: 0,
+    status: 0,
+    seq: `local-winladder-${sequence}-${Date.now()}`,
+    coin,
+    betMulti: 20,
+    betCoin: 400,
+    purchase: false,
+    drawResult: [
+      101, 11, 19, 19, 15,
+      17, 19, 17, 13, 4,
+      7, 11, 20, 9, 5,
+      7, 13, 17, 17, 19,
+      101, 9, 13, 13, 19
+    ],
+    topResult: [15, 17, 9, 19, 5],
+    buttomResult: [9, 7, 17, 5, 7],
+    lines: [{
+      iconId: 19,
+      axleId: 4,
+      lineNum: 2,
+      score: normalizedWin,
+      multi: 1,
+      odds: Math.max(1, Math.round(normalizedWin / 200))
+    }],
+    gameNumList: [1, 2, 3, 5],
+    gameNum: sequence,
+    goldToWildPos: [12],
+    roundScore: Math.max(0, normalizedWin - 400),
+    totalWin: normalizedWin,
+    roundWin: normalizedWin,
+    bFree: false,
+    freeAppend: 0,
+    freeTotalWin: 0,
+    freeRemainCount: 0,
+    freeMaxCount: 0,
+    triggerWin: 0
+  });
+  return encodeGameFrame(40003, encodeLengthDelimited(1, rotate));
+}
+
+function createHeartbeatResponse(rawFrames, connectionIndex) {
+  const connection = rawFrames?.connections?.[connectionIndex];
+  const selected = connection?.messages?.find((message) => message.type === "receive" && message.cmd === HEARTBEAT_RESPONSE_CMD)
+    || rawFrames?.frames?.find((message) => message.type === "receive" && message.cmd === HEARTBEAT_RESPONSE_CMD);
+
+  return {
+    buffer: selected
+      ? Buffer.from(selected.rawFrameBase64, "base64")
+      : createGeneratedHeartbeatFrame(),
+    source: "heartbeat",
+    sourceConnectionIndex: selected?.connectionIndex,
+    sourceMessageIndex: selected?.messageIndex
+  };
+}
+
+function createGeneratedHeartbeatFrame() {
+  return encodeGameFrame(HEARTBEAT_RESPONSE_CMD, encodeVarintField(1, Math.floor(Date.now() / 1000)));
+}
+
+export function decodeBoyaRotateFromPayload(payload) {
+  const outer = readFields(Buffer.from(payload));
+  const rotateField = outer.find((field) => field.field === 1 && field.wire === 2);
+  if (!rotateField) {
+    return {};
+  }
+  const fields = readFields(rotateField.value);
+  const rotate = {
+    lines: [],
+    drawResult: [],
+    topResult: [],
+    buttomResult: [],
+    gameNumList: [],
+    goldToWildPos: [],
+    triggerDraw: [],
+    triggerTopResult: [],
+    triggerButtomResult: []
+  };
+
+  for (const field of fields) {
+    if (field.field === 1) rotate.originalStatus = Number(field.value);
+    else if (field.field === 2) rotate.status = Number(field.value);
+    else if (field.field === 3) rotate.seq = field.value.toString("utf8");
+    else if (field.field === 4) rotate.coin = Number(field.value);
+    else if (field.field === 5) rotate.betMulti = Number(field.value);
+    else if (field.field === 6) rotate.betCoin = Number(field.value);
+    else if (field.field === 7) rotate.purchase = Boolean(Number(field.value));
+    else if (field.field === 8) rotate.drawResult = decodePackedInts(field);
+    else if (field.field === 9) rotate.topResult = decodePackedInts(field);
+    else if (field.field === 10) rotate.buttomResult = decodePackedInts(field);
+    else if (field.field === 11) rotate.lines.push(decodeLineReward(field.value));
+    else if (field.field === 12) rotate.gameNumList = decodePackedInts(field);
+    else if (field.field === 13) rotate.gameNum = Number(field.value);
+    else if (field.field === 14) rotate.goldToWildPos = decodePackedInts(field);
+    else if (field.field === 15) rotate.roundScore = Number(field.value);
+    else if (field.field === 16) rotate.totalWin = Number(field.value);
+    else if (field.field === 17) rotate.roundWin = Number(field.value);
+    else if (field.field === 18) rotate.bFree = Boolean(Number(field.value));
+    else if (field.field === 19) rotate.freeAppend = Number(field.value);
+    else if (field.field === 20) rotate.freeTotalWin = Number(field.value);
+    else if (field.field === 21) rotate.freeRemainCount = Number(field.value);
+    else if (field.field === 22) rotate.freeMaxCount = Number(field.value);
+    else if (field.field === 23) rotate.triggerDraw = decodePackedInts(field);
+    else if (field.field === 24) rotate.triggerWin = Number(field.value);
+    else if (field.field === 25) rotate.triggerTopResult = decodePackedInts(field);
+    else if (field.field === 26) rotate.triggerButtomResult = decodePackedInts(field);
+  }
+
+  rotate.totalWin ||= 0;
+  rotate.roundWin ||= 0;
+  return rotate;
+}
+
+function createDatasetResponder(rawFrames, connectionIndex) {
+  const connection = rawFrames?.connections?.[connectionIndex];
+  if (!connection) {
+    throw new Error(`No WebSocket connection at index ${connectionIndex}`);
+  }
+
+  const replay = createConnectionReplay(rawFrames, connectionIndex);
+  const betResponses = (connection.messages || [])
+    .filter((message) => message.type === "receive" && message.cmd === 40003);
+  let betCursor = 0;
+
+  return {
+    mode: "dataset",
+    get cursor() {
+      return replay.cursor;
+    },
+    nextResponsesForClientFrame(input) {
+      const request = parseFrameBase64(input);
+      if (request.cmd === HEARTBEAT_REQUEST_CMD) {
+        return [createHeartbeatResponse(rawFrames, connectionIndex)];
+      }
+      if (request.cmd === 40002 && betResponses.length > 0) {
+        try {
+          replay.nextResponsesForClientFrame(input);
+        } catch {
+          // Dataset mode may continue spinning after the captured HAR sequence ends.
+        }
+
+        const datasetIndex = betCursor % betResponses.length;
+        const selected = betResponses[datasetIndex];
+        betCursor += 1;
+        return [{
+          buffer: Buffer.from(selected.rawFrameBase64, "base64"),
+          source: "dataset",
+          datasetIndex,
+          datasetCount: betResponses.length,
+          sourceConnectionIndex: selected.connectionIndex,
+          sourceMessageIndex: selected.messageIndex
+        }];
+      }
+
+      return replay.nextResponsesForClientFrame(input).map((buffer) => ({
+        buffer,
+        source: "har"
+      }));
+    }
+  };
+}
+
+function createWinLadderResponder(rawFrames, connectionIndex) {
+  const replay = createConnectionReplay(rawFrames, connectionIndex);
+  let spinIndex = 0;
+
+  return {
+    mode: "winladder",
+    get cursor() {
+      return replay.cursor;
+    },
+    nextResponsesForClientFrame(input) {
+      const request = parseFrameBase64(input);
+      if (request.cmd === HEARTBEAT_REQUEST_CMD) {
+        return [createHeartbeatResponse(rawFrames, connectionIndex)];
+      }
+      if (request.cmd === 40002) {
+        try {
+          replay.nextResponsesForClientFrame(input);
+        } catch {
+          // Generated mode may continue after captured HAR frames are exhausted.
+        }
+        const winIndex = spinIndex % WIN_LADDER_AMOUNTS.length;
+        const winAmount = WIN_LADDER_AMOUNTS[winIndex];
+        spinIndex += 1;
+        return [{
+          buffer: createGeneratedWinFrame({
+            winAmount,
+            sequence: spinIndex,
+            coin: 455700000 + spinIndex * 1000 + winAmount
+          }),
+          source: "winladder",
+          datasetIndex: winIndex,
+          datasetCount: WIN_LADDER_AMOUNTS.length,
+          winAmount
+        }];
+      }
+
+      return replay.nextResponsesForClientFrame(input).map((buffer) => ({
+        buffer,
+        source: "har"
+      }));
+    }
+  };
+}
+
+function encodeGameFrame(cmd, payload) {
+  const frame = Buffer.alloc(12 + payload.length);
+  frame.writeUInt32BE(frame.length - 4, 0);
+  frame.writeUInt32BE(cmd >>> 0, 4);
+  frame.writeUInt32BE(0, 8);
+  payload.copy(frame, 12);
+  return frame;
+}
+
+function encodeMsgRotate(rotate) {
+  return Buffer.concat([
+    encodeVarintField(1, rotate.originalStatus),
+    encodeVarintField(2, rotate.status),
+    encodeStringField(3, rotate.seq),
+    encodeVarintField(4, rotate.coin),
+    encodeVarintField(5, rotate.betMulti),
+    encodeVarintField(6, rotate.betCoin),
+    encodePackedInt32Field(8, rotate.drawResult),
+    encodePackedInt32Field(9, rotate.topResult),
+    encodePackedInt32Field(10, rotate.buttomResult),
+    ...rotate.lines.map((line) => encodeLengthDelimited(11, encodeLineReward(line))),
+    encodePackedInt32Field(12, rotate.gameNumList),
+    encodeVarintField(13, rotate.gameNum),
+    encodePackedInt32Field(14, rotate.goldToWildPos),
+    encodeVarintField(15, rotate.roundScore),
+    encodeVarintField(16, rotate.totalWin),
+    encodeVarintField(17, rotate.roundWin),
+    encodeVarintField(19, rotate.freeAppend),
+    encodeVarintField(20, rotate.freeTotalWin),
+    encodeVarintField(21, rotate.freeRemainCount),
+    encodeVarintField(22, rotate.freeMaxCount),
+    encodePackedInt32Field(23, rotate.triggerDraw || []),
+    encodeVarintField(24, rotate.triggerWin || 0),
+    encodePackedInt32Field(25, rotate.triggerTopResult || []),
+    encodePackedInt32Field(26, rotate.triggerButtomResult || [])
+  ].filter((buffer) => buffer.length));
+}
+
+function encodeLineReward(line) {
+  return Buffer.concat([
+    encodeVarintField(1, line.iconId),
+    encodeVarintField(2, line.axleId),
+    encodeVarintField(3, line.lineNum),
+    encodeVarintField(4, line.score),
+    encodeVarintField(5, line.multi),
+    encodeVarintField(6, line.odds)
+  ]);
+}
+
+function decodeLineReward(payload) {
+  const line = {};
+  for (const field of readFields(payload)) {
+    if (field.field === 1) line.iconId = Number(field.value);
+    else if (field.field === 2) line.axleId = Number(field.value);
+    else if (field.field === 3) line.lineNum = Number(field.value);
+    else if (field.field === 4) line.score = Number(field.value);
+    else if (field.field === 5) line.multi = Number(field.value);
+    else if (field.field === 6) line.odds = Number(field.value);
+  }
+  return line;
+}
+
+function encodeVarintField(field, value) {
+  if (value === undefined || value === null) {
+    return Buffer.alloc(0);
+  }
+  return Buffer.concat([encodeVarint(BigInt(field << 3)), encodeVarint(BigInt(value))]);
+}
+
+function encodeStringField(field, value) {
+  return encodeLengthDelimited(field, Buffer.from(String(value || ""), "utf8"));
+}
+
+function encodePackedInt32Field(field, values = []) {
+  if (!values.length) {
+    return Buffer.alloc(0);
+  }
+  return encodeLengthDelimited(field, Buffer.concat(values.map((value) => encodeVarint(BigInt(value)))));
+}
+
+function encodeLengthDelimited(field, value) {
+  const bytes = Buffer.from(value);
+  return Buffer.concat([encodeVarint(BigInt((field << 3) | 2)), encodeVarint(BigInt(bytes.length)), bytes]);
+}
+
+function encodeVarint(input) {
+  let value = BigInt(input);
+  const bytes = [];
+  while (value >= 0x80n) {
+    bytes.push(Number((value & 0x7fn) | 0x80n));
+    value >>= 7n;
+  }
+  bytes.push(Number(value));
+  return Buffer.from(bytes);
+}
+
+function readFields(input) {
+  const buffer = Buffer.from(input);
+  const fields = [];
+  let offset = 0;
+  while (offset < buffer.length) {
+    const tag = readVarint(buffer, offset);
+    offset = tag.next;
+    const field = Number(tag.value >> 3n);
+    const wire = Number(tag.value & 7n);
+    if (wire === 0) {
+      const value = readVarint(buffer, offset);
+      offset = value.next;
+      fields.push({ field, wire, value: value.value });
+    } else if (wire === 2) {
+      const length = readVarint(buffer, offset);
+      offset = length.next;
+      const end = offset + Number(length.value);
+      fields.push({ field, wire, value: buffer.subarray(offset, end) });
+      offset = end;
+    } else {
+      throw new Error(`Unsupported protobuf wire type ${wire} at field ${field}`);
+    }
+  }
+  return fields;
+}
+
+function readVarint(buffer, offset) {
+  let value = 0n;
+  let shift = 0n;
+  let cursor = offset;
+  while (cursor < buffer.length) {
+    const byte = buffer[cursor];
+    cursor += 1;
+    value |= BigInt(byte & 0x7f) << shift;
+    if ((byte & 0x80) === 0) {
+      return { value, next: cursor };
+    }
+    shift += 7n;
+  }
+  throw new Error("Invalid protobuf varint");
+}
+
+function decodePackedInts(field) {
+  if (field.wire === 0) {
+    return [Number(field.value)];
+  }
+  const values = [];
+  const buffer = field.value;
+  let offset = 0;
+  while (offset < buffer.length) {
+    const value = readVarint(buffer, offset);
+    values.push(Number(value.value));
+    offset = value.next;
+  }
+  return values;
+}
+
+export async function pathExists(targetPath) {
+  try {
+    await stat(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function resetDir(targetPath) {
+  await rm(targetPath, { recursive: true, force: true });
+  await mkdir(targetPath, { recursive: true });
+}
+
+export async function writeJson(targetPath, value) {
+  await mkdir(path.dirname(targetPath), { recursive: true });
+  await writeFile(targetPath, `${JSON.stringify(value, null, 2)}\n`, "utf8");
+}
+
+export function inferContentType(localPath) {
+  const ext = path.extname(localPath).toLowerCase();
+  const types = {
+    ".html": "text/html",
+    ".js": "application/javascript",
+    ".json": "application/json",
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".webp": "image/webp",
+    ".gif": "image/gif",
+    ".mp3": "audio/mpeg",
+    ".ttf": "application/octet-stream",
+    ".bin": "application/octet-stream"
+  };
+  return types[ext] || "application/octet-stream";
+}
+
+function debugPayload(type, frame) {
+  return {
+    type,
+    cmd: frame.cmd,
+    rawCmd: frame.rawCmd,
+    connectionIndex: frame.connectionIndex,
+    messageIndex: frame.messageIndex,
+    sourceTime: frame.time,
+    rawFrameBase64: frame.rawFrameBase64,
+    decodedJson: null
+  };
+}
+
+function countBy(items, keyFn) {
+  const result = {};
+  for (const item of items) {
+    const key = keyFn(item) || "unknown";
+    result[key] = (result[key] || 0) + 1;
+  }
+  return result;
+}
+
+function buildCoverageConfig() {
+  return [
+    "game: boya-mahjong2",
+    "engine: cocos",
+    "bundle: dy_mjlltwo_en",
+    "protocol: websocket-protobuf-raw-replay",
+    "scenarios:",
+    "  - id: boya-mj2-enter",
+    "    fileIndex: 0",
+    "    cmd: 40001",
+    "    expectedType: enter",
+    "  - id: boya-mj2-normal-bet-001",
+    "    fileIndex: 1",
+    "    cmd: 40003",
+    "    expectedType: normal-bet",
+    ""
+  ].join("\n");
+}
