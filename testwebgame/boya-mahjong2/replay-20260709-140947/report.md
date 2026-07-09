@@ -16,4 +16,3 @@
 
 - screenshot-enter.png
 - screenshot-after-bet.png
-

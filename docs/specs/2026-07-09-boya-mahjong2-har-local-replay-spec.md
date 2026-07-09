@@ -1,9 +1,9 @@
 # Boya 麻将2 HAR 本地还原与 Bet 验证 Spec
 
-**日期:** 2026-07-09  
-**工作目录:** `/Users/yang/work/git/sun/boyamajiang2`  
-**输入 HAR:** `/Users/yang/work/git/sun/boyamajiang2/麻将2 boya.har`  
-**参考项目:** `/Users/yang/work/git/slot-platform`  
+**日期:** 2026-07-09
+**工作目录:** `/Users/yang/work/git/sun/boyamajiang2`
+**输入 HAR:** `/Users/yang/work/git/sun/boyamajiang2/麻将2 boya.har`
+**参考项目:** `/Users/yang/work/git/slot-platform`
 **状态:** 已实现本地 HAR 客户端、WebSocket replay 服务、dataset 测试入口、小到大中奖控制入口、历史记录页、图片预览导出和 Playwright bet 验证。
 
 ## 1. 结论

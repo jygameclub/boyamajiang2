@@ -63,7 +63,7 @@
         <div class="loading-container">
            <!--  <p><font id="loadingtext" size="+6" color="#FFFFFF">0%</font></p>  -->
            <!-- <div id="g-progress"><p id="g-progress_item"></p></div>-->
-        </div> 
+        </div>
     </div>
 
     <script src="src/settings.058af.js" charset="utf-8"></script>
@@ -71,7 +71,7 @@
     <script type="text/javascript" charset="utf-8">
                 // document.querySelector('body').style.width = window.innerWidth + 'px';
                 // document.querySelector('body').style.height = window.innerHeight + 'px';
-                
+
                 // 在动态拉伸时 body 的宽高属性并没有跟随 canvas 的宽高变化，导致canvas内容超出被隐藏
                 // 当第一次加载进入是 如果 body 的宽高为 405*831，经过拉伸后 分辨率为 605*831时，body依旧为405*831
                 // 而 canvas 的宽高属性为605*831，所以需要动态修改body的宽高属性，才能让body的宽高和canvas的宽高保持一致
@@ -267,19 +267,19 @@
             window.boot = function () {
                 var settings = window._CCSettings;
                 var debug = settings.debug;
-                
+
                 function loadScript (moduleName) {
                     var domScript = document.createElement('script');
                     domScript.async = true;
                     domScript.src = moduleName;
                     document.body.appendChild(domScript);
-                }                
+                }
                 if (CC_PHYSICS_BUILTIN || CC_PHYSICS_CANNON) {
                     loadScript(debug ? 'physics.a8f30.js' : 'physics-min.9bae2.js');
                 }
 
                 changeGameEngine();
-                
+
                 var onProgress = null;
                 var RESOURCES = cc.AssetManager.BuiltinBundleName.RESOURCES;
                 var INTERNAL = cc.AssetManager.BuiltinBundleName.INTERNAL;
@@ -299,7 +299,7 @@
                         } else if (cc.sys.os === cc.sys.OS_IOS) {
                             try { window.webkit.messageHandlers.nativeCallBack.postMessage('{"type":"ybqp","event":"showSplash","data": {}}');} catch (err) {}}}
                     let useLang = "ZH";
-                    if (getUrlParams("t") == "MjAw") { 
+                    if (getUrlParams("t") == "MjAw") {
                         if (getUrlParams("lang") == "CN") { useLang = "ZH";
                         } else if (getUrlParams("lang") == "EN") {useLang = "EN";
                         } else if (getUrlParams("lang") == "IN") {useLang = "IN";
@@ -308,7 +308,7 @@
                         if (localLang && localLang !== "") {useLang = localLang;}
                         window['Global'].USELANG = useLang;
                     } else { //老虎机
-                        var lang = getUrlParams("lang") || "ZH"; 
+                        var lang = getUrlParams("lang") || "ZH";
                         if (getUrlParams("lang") == "CN") {lang = "ZH";}
                         if ("MjM=" == getUrlParams("t")) {
                             useLang = "EN"; //鱼跃龙门英文版
@@ -407,7 +407,7 @@
 
         document.body.addEventListener('touchmove', function (e) {
             e.preventDefault(); //阻止默认的处理方式(阻止下拉滑动的效果)
-        }, { passive: false }); 
+        }, { passive: false });
         //iPhone适配
         // const isIphone = () => {
         //     if (typeof window !== 'undefined' && window) {
@@ -467,18 +467,18 @@
             let jsonData = JSON.stringify(data);
             xhr.send(jsonData);
         }
-        
-        
+
+
 
         function setLogoBG(gameid) {
             sendPoint(gameid)
             if(gameid==105){loadImg.src = 'icon/msfc.gif'
             }else if(gameid==73){loadImg.src = 'icon/ael.gif'
-            }else if(gameid==88){loadImg.src = 'icon/gdns.gif'  
-            }else if(gameid==79){loadImg.src = 'icon/yw.gif' 
-            }else if(gameid==81){loadImg.src = 'icon/dmbj2_loading.gif' 
-            }else if(gameid==78){loadImg.src = 'icon/glgs_loading.gif' 
-            }else if(gameid==83){loadImg.src = 'icon/smtx_loading.gif' 
+            }else if(gameid==88){loadImg.src = 'icon/gdns.gif'
+            }else if(gameid==79){loadImg.src = 'icon/yw.gif'
+            }else if(gameid==81){loadImg.src = 'icon/dmbj2_loading.gif'
+            }else if(gameid==78){loadImg.src = 'icon/glgs_loading.gif'
+            }else if(gameid==83){loadImg.src = 'icon/smtx_loading.gif'
             }else if(gameid==104){loadImg.src = 'icon/cjace_loading.gif'
             }else if(gameid==90){loadImg.src = 'icon/hbt_loading.gif'
             }else if(gameid==84){loadImg.src = 'icon/lscs_loading.gif'
@@ -524,7 +524,7 @@
             window.isbygame = true;document.querySelector('meta[name=screen-orientation]').content = 'portrait';
             document.querySelector('meta[name=x5-orientation]').content = 'portrait';
             document.body.style.cursor = "url(jiantou.88394.ico),auto";setLogoBG(200);
-            window.bundleName = "fish"; } 
+            window.bundleName = "fish"; }
         else {
             if (gameid == "MQ==") { window.bundleName = "dy_cbzz";setLogoBG(1);
             } else if (gameid == "Mg==") { window.bundleName = "dy_dntg";setLogoBG(2);
@@ -598,15 +598,15 @@
             } else if (gameid == "NzI=") { window.bundleName = "dy_mjll";setLogoBG(72);window.isCasinoGame = true;
             } else if (gameid == "NzQ=") { window.bundleName = "dy_shz";setLogoBG(74);window["isLandscapeGame"] = true;
             } else if (gameid == "NzM=") { window.bundleName = "dy_aeljl";setLogoBG(73);window.isCasinoGame = true;
-            } else if (gameid == "NzU=") { window.bundleName = "dy_fls";setLogoBG(75);window.isCasinoGame = true; 
-            } else if (gameid == "Nzg=") { window.bundleName = "dy_glgs";setLogoBG(78);window.isCasinoGame = true; 
-            } else if (gameid == "Nzk=") { window.bundleName = "dy_ycyw";setLogoBG(79);window.isCasinoGame = true; 
-            } else if (gameid == "ODE=") { window.bundleName = "dy_dmbjtwo";setLogoBG(81);window.isCasinoGame = true; 
-            } else if (gameid == "ODM=") { window.bundleName = "dy_smtx";setLogoBG(83);window.isCasinoGame = true; 
-            } else if (gameid == "ODQ=") { window.bundleName = "dy_lscs";setLogoBG(84);window.isCasinoGame = true; 
-            } else if (gameid == "ODU=") { window.bundleName = "dy_mjllfour";setLogoBG(85);window.isCasinoGame = true; 
-            } else if (gameid == "ODY=") { window.bundleName = "dy_zsyhjqb";setLogoBG(86);window.isCasinoGame = true; 
-            } else if (gameid == "ODA=") { window.bundleName = "dy_mhjnh";setLogoBG(80);window.isCasinoGame = true; 
+            } else if (gameid == "NzU=") { window.bundleName = "dy_fls";setLogoBG(75);window.isCasinoGame = true;
+            } else if (gameid == "Nzg=") { window.bundleName = "dy_glgs";setLogoBG(78);window.isCasinoGame = true;
+            } else if (gameid == "Nzk=") { window.bundleName = "dy_ycyw";setLogoBG(79);window.isCasinoGame = true;
+            } else if (gameid == "ODE=") { window.bundleName = "dy_dmbjtwo";setLogoBG(81);window.isCasinoGame = true;
+            } else if (gameid == "ODM=") { window.bundleName = "dy_smtx";setLogoBG(83);window.isCasinoGame = true;
+            } else if (gameid == "ODQ=") { window.bundleName = "dy_lscs";setLogoBG(84);window.isCasinoGame = true;
+            } else if (gameid == "ODU=") { window.bundleName = "dy_mjllfour";setLogoBG(85);window.isCasinoGame = true;
+            } else if (gameid == "ODY=") { window.bundleName = "dy_zsyhjqb";setLogoBG(86);window.isCasinoGame = true;
+            } else if (gameid == "ODA=") { window.bundleName = "dy_mhjnh";setLogoBG(80);window.isCasinoGame = true;
             } else if (gameid == "ODg=") { window.bundleName = "dy_gdns";setLogoBG(88);window.isCasinoGame = true;
             } else if (gameid == "OTA=") { window.bundleName = "dy_hbt";setLogoBG(90);window.isCasinoGame = true;
             } else if (gameid == "ODk=") { window.bundleName = "dy_jdqs";setLogoBG(89);window.isCasinoGame = true;
@@ -627,7 +627,7 @@
             } else if (gameid == "MTA3") { window.bundleName = "dy_sjyx";setLogoBG(107);window.isCasinoGame = true;
             } else if (gameid == "MTEw") { window.bundleName = "dy_hjlc";setLogoBG(110);window.isCasinoGame = true;
             } else if (gameid == "MjAz") { window.bundleName = "dy_fishshu";setLogoBG(203);window.isCasinoGame = true;
-            } else if (gameid == "MTcw") { window.bundleName = "dy_mjllss";setLogoBG(170);window.isCasinoGame = true;      
+            } else if (gameid == "MTcw") { window.bundleName = "dy_mjllss";setLogoBG(170);window.isCasinoGame = true;
             } else if (gameid == "MTcx") { window.bundleName = "dy_jjbxss";setLogoBG(171);window.isCasinoGame = true;
             } else if (gameid == "MTcy") { window.bundleName = "dy_bbhlss";setLogoBG(172);window.isCasinoGame = true;
             } else if (gameid == "MTcz") { window.bundleName = "dy_jdlbss";setLogoBG(173);
@@ -647,10 +647,9 @@
             } else if (gameid == "MTg3") { window.bundleName = "dy_cfllss";setLogoBG(187);window.isCasinoGame = true;
             } else if (gameid == "MTg4") { window.bundleName = "dy_lzcfss";setLogoBG(188);window.isCasinoGame = true;
             } else if (gameid == "MTg5") { window.bundleName = "dy_dfdcjjbss";setLogoBG(189);window.isCasinoGame = true;
-            } 
+            }
         }
         normal()
     </script>
 </body>
-</html>					
-
+</html>
