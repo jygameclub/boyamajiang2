@@ -19,9 +19,11 @@ import {
 import { createControlledResponder } from "./server/controlled-responder.mjs";
 import { handleControlApi } from "./server/control-api.mjs";
 import { openLocalStore } from "./server/database.mjs";
+import { renderLocalGameEntry } from "./server/game-entry.mjs";
 import { createHallHistoryResponder } from "./server/hall-history-responder.mjs";
 import {
   DEFAULT_LOCAL_USER_TOKEN,
+  normalizeGatewayUserToken,
   normalizeLocalUserToken
 } from "./server/local-user.mjs";
 
@@ -135,8 +137,8 @@ async function serveStatic(req, res, root, manifest, state) {
       links: {
         replay: buildLocalGameUrl({ host, port, mode: "replay" }),
         dataset: buildLocalGameUrl({ host, port, mode: "dataset" }),
-        test: buildLocalGameUrl({ host, port, mode: "test" }),
-        live: buildLocalGameUrl({ host, port, mode: "live", userToken: DEFAULT_LOCAL_USER_TOKEN }),
+        test: `http://${host}:${port}/__game/test`,
+        live: `http://${host}:${port}/__game/live?token=${DEFAULT_LOCAL_USER_TOKEN}`,
         normalwin: buildLocalGameUrl({ host, port, mode: "normalwin" }),
         normalwinScenarios: NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host, port, mode: `normalwin-${index + 1}` })),
         winladder: buildLocalGameUrl({ host, port, mode: "winladder" }),
@@ -159,7 +161,12 @@ async function serveStatic(req, res, root, manifest, state) {
     const userToken = mode === "live"
       ? normalizeLocalUserToken(url.searchParams.get("token"))
       : undefined;
-    sendJson(res, { url: buildLocalGameUrl({ host, port, mode, userToken }) });
+    const clientUrl = mode === "live"
+      ? `http://${host}:${port}/__game/live?token=${encodeURIComponent(userToken)}`
+      : mode === "test"
+        ? `http://${host}:${port}/__game/test`
+      : buildLocalGameUrl({ host, port, mode, userToken });
+    sendJson(res, { url: clientUrl });
     return;
   }
 
@@ -184,7 +191,12 @@ async function serveStatic(req, res, root, manifest, state) {
     const userToken = mode === "live"
       ? normalizeLocalUserToken(url.searchParams.get("token"))
       : undefined;
-    sendRedirect(res, buildLocalGameUrl({ host, port, mode, userToken }));
+    const clientUrl = buildLocalGameUrl({ host, port, mode, userToken });
+    if (mode === "live" || mode === "test") {
+      sendHtml(res, renderLocalGameEntry({ clientUrl, userToken: userToken || mode }));
+    } else {
+      sendRedirect(res, clientUrl);
+    }
     return;
   }
 
@@ -445,7 +457,7 @@ function handleUpgrade(req, socket, head, state) {
   let user;
   try {
     if (mode === "live") {
-      userToken = normalizeLocalUserToken(url.searchParams.get("userToken"));
+      userToken = normalizeGatewayUserToken(url.searchParams.get("userToken"));
       user = state.store.getOrCreateUser(userToken);
     }
   } catch (error) {
@@ -763,13 +775,8 @@ try {
   server.listen(args.port, args.host, async () => {
     const replayUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "replay" });
     const datasetUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "dataset" });
-    const testUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "test" });
-    const liveUrl = buildLocalGameUrl({
-      host: args.host,
-      port: args.port,
-      mode: "live",
-      userToken: DEFAULT_LOCAL_USER_TOKEN
-    });
+    const testUrl = `http://${args.host}:${args.port}/__game/test`;
+    const liveUrl = `http://${args.host}:${args.port}/__game/live?token=${DEFAULT_LOCAL_USER_TOKEN}`;
     const normalWinUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "normalwin" });
     const normalWinScenarioUrls = NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host: args.host, port: args.port, mode: `normalwin-${index + 1}` }));
     const winladderUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "winladder" });

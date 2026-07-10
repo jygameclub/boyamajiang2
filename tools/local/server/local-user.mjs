@@ -14,3 +14,6 @@ export function normalizeLocalUserToken(value, { useDefault = true } = {}) {
   return token;
 }
 
+export function normalizeGatewayUserToken(value) {
+  return normalizeLocalUserToken(String(value ?? "").split("?")[0]);
+}

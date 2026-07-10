@@ -1,5 +1,5 @@
 import assert from "node:assert/strict";
-import { stat } from "node:fs/promises";
+import { readFile, stat } from "node:fs/promises";
 import test from "node:test";
 
 const assetRoot = new URL("../../local-har-client/boya-mahjong2/v2/assets/dy_mjlltwo_en/", import.meta.url);
@@ -27,4 +27,14 @@ test("locally restored auto-spin dialog includes its lazy-loaded prefab package"
   ].map((relativePath) => stat(new URL(relativePath, sharedAssetRoot))));
 
   assert.ok(files.every((file) => file.size > 100));
+});
+
+test("restored client gateway fallback is local and contains no production host", async () => {
+  const source = await readFile(new URL(
+    "../../local-har-client/boya-mahjong2/v2/src/assets/gateConfig.6e55b.js",
+    import.meta.url
+  ), "utf8");
+
+  assert.match(source, /window\.location\.host/);
+  assert.doesNotMatch(source, /gateway(?:2020)?\.666789\.site/);
 });
