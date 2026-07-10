@@ -16,6 +16,9 @@ import {
   parseFrameBase64,
   WIN_LADDER_AMOUNTS
 } from "../lib/boya-har.mjs";
+import { createControlledResponder } from "./server/controlled-responder.mjs";
+import { handleControlApi } from "./server/control-api.mjs";
+import { openLocalStore } from "./server/database.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -23,6 +26,7 @@ function parseArgs(argv) {
   const args = {
     root: path.join(repoRoot, "local-har-client/boya-mahjong2"),
     frames: path.join(repoRoot, "debugserver-data/boya-mahjong2/raw-frames.json"),
+    db: path.join(repoRoot, "local-data/boya-mahjong2.sqlite3"),
     host: "127.0.0.1",
     port: 18082
   };
@@ -33,6 +37,8 @@ function parseArgs(argv) {
       args.root = argv[++index];
     } else if (arg === "--frames") {
       args.frames = argv[++index];
+    } else if (arg === "--db") {
+      args.db = argv[++index];
     } else if (arg === "--host") {
       args.host = argv[++index];
     } else if (arg === "--port") {
@@ -50,7 +56,7 @@ function parseArgs(argv) {
 
 function usage() {
   console.log(`Usage:
-  node tools/local/boya-local-server.mjs --root local-har-client/boya-mahjong2 --frames debugserver-data/boya-mahjong2/raw-frames.json --host 127.0.0.1 --port 18082`);
+  node tools/local/boya-local-server.mjs --root local-har-client/boya-mahjong2 --frames debugserver-data/boya-mahjong2/raw-frames.json --db local-data/boya-mahjong2.sqlite3 --host 127.0.0.1 --port 18082`);
 }
 
 async function loadManifest(root) {
@@ -61,11 +67,12 @@ async function loadManifest(root) {
   }
 }
 
-function createState(rawFrames) {
+function createState(rawFrames, store) {
   return {
     startedAt: new Date().toISOString(),
     nextConnectionIndex: 0,
     rawFrames,
+    store,
     nextHistoryId: 1,
     history: [],
     events: [],
@@ -110,6 +117,10 @@ async function serveStatic(req, res, root, manifest, state) {
   const url = new URL(req.url, "http://127.0.0.1");
   const { host, port } = hostPortFromRequest(req);
 
+  if (await handleControlApi(req, res, { store: state.store, state, sendJson })) {
+    return;
+  }
+
   if (url.pathname === "/__replay/status") {
     sendJson(res, {
       ok: true,
@@ -118,6 +129,8 @@ async function serveStatic(req, res, root, manifest, state) {
       links: {
         replay: buildLocalGameUrl({ host, port, mode: "replay" }),
         dataset: buildLocalGameUrl({ host, port, mode: "dataset" }),
+        test: buildLocalGameUrl({ host, port, mode: "test" }),
+        live: buildLocalGameUrl({ host, port, mode: "live" }),
         normalwin: buildLocalGameUrl({ host, port, mode: "normalwin" }),
         normalwinScenarios: NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host, port, mode: `normalwin-${index + 1}` })),
         winladder: buildLocalGameUrl({ host, port, mode: "winladder" }),
@@ -142,9 +155,18 @@ async function serveStatic(req, res, root, manifest, state) {
   }
 
   const normalWinMatch = /^\/__game\/normalwin(?:-(\d+))?$/.exec(url.pathname);
-  if (url.pathname === "/__game/replay" || url.pathname === "/__game/dataset" || normalWinMatch || url.pathname === "/__game/winladder") {
+  if (url.pathname === "/__game/replay"
+      || url.pathname === "/__game/dataset"
+      || url.pathname === "/__game/test"
+      || url.pathname === "/__game/live"
+      || normalWinMatch
+      || url.pathname === "/__game/winladder") {
     const mode = url.pathname.endsWith("/dataset")
       ? "dataset"
+      : url.pathname.endsWith("/test")
+        ? "test"
+        : url.pathname.endsWith("/live")
+          ? "live"
       : normalWinMatch
         ? `normalwin${normalWinMatch[1] ? `-${normalWinMatch[1]}` : ""}`
       : url.pathname.endsWith("/winladder")
@@ -159,13 +181,74 @@ async function serveStatic(req, res, root, manifest, state) {
       ok: true,
       startedAt: state.startedAt,
       counts: state.counts,
-      history: state.history
+      history: state.history,
+      rounds: state.store.listRounds({ limit: 200 })
     });
     return;
   }
 
+  if (url.pathname === "/api/health") {
+    sendJson(res, {
+      ok: true,
+      data: {
+        startedAt: state.startedAt,
+        database: state.store.path,
+        activeConfig: state.store.getActiveConfig(),
+        testState: state.store.getTestState(),
+        stats: state.store.runtimeStats(),
+        counts: state.counts
+      }
+    });
+    return;
+  }
+
+  if (url.pathname === "/api/history/rounds" && req.method === "GET") {
+    sendJson(res, {
+      ok: true,
+      data: state.store.listRounds({
+        limit: url.searchParams.get("limit") || 100,
+        mode: url.searchParams.get("mode") || undefined,
+        outcome: url.searchParams.get("outcome") || undefined
+      })
+    });
+    return;
+  }
+
+  const roundMatch = /^\/api\/history\/rounds\/(\d+)$/.exec(url.pathname);
+  if (roundMatch && req.method === "GET") {
+    const round = state.store.getRound(Number(roundMatch[1]));
+    sendJson(res, round ? { ok: true, data: round } : { ok: false, error: "ROUND_NOT_FOUND" }, round ? 200 : 404);
+    return;
+  }
+
   if (url.pathname === "/__history") {
-    sendHtml(res, renderHistoryPage(state, host, port));
+    sendRedirect(res, `http://${host}:${port}/__admin#history`);
+    return;
+  }
+
+  if (url.pathname === "/__admin" || url.pathname.startsWith("/__admin/")) {
+    const asset = url.pathname === "/__admin" || url.pathname === "/__admin/"
+      ? "index.html"
+      : path.basename(url.pathname);
+    const allowed = new Set(["index.html", "admin.css", "admin.mjs"]);
+    if (!allowed.has(asset)) {
+      res.writeHead(404);
+      res.end("Not found");
+      return;
+    }
+    const adminPath = path.join(repoRoot, "local-admin/boya-mahjong2", asset);
+    try {
+      const fileStat = await stat(adminPath);
+      res.writeHead(200, {
+        "content-type": inferContentType(adminPath),
+        "content-length": fileStat.size,
+        "cache-control": "no-store"
+      });
+      createReadStream(adminPath).pipe(res);
+    } catch {
+      res.writeHead(404);
+      res.end("Missing admin asset");
+    }
     return;
   }
 
@@ -210,9 +293,9 @@ async function serveStatic(req, res, root, manifest, state) {
   }
 }
 
-function sendJson(res, value) {
+function sendJson(res, value, statusCode = 200) {
   const body = `${JSON.stringify(value, null, 2)}\n`;
-  res.writeHead(200, {
+  res.writeHead(statusCode, {
     "content-type": "application/json; charset=utf-8",
     "content-length": Buffer.byteLength(body),
     "cache-control": "no-store"
@@ -368,9 +451,17 @@ function handleUpgrade(req, socket, head, state) {
   state.nextConnectionIndex += 1;
   state.counts.wsConnected += 1;
   increment(state.counts.modes, mode);
-  const replay = createReplayResponder(state.rawFrames, connectionIndex, mode);
+  const replay = (mode === "test" || mode === "live") && connectionIndex === 1
+    ? createControlledResponder({
+      rawFrames: state.rawFrames,
+      connectionIndex,
+      mode,
+      store: state.store,
+      seed: `${mode}-${Date.now()}-${state.nextConnectionIndex}`
+    })
+    : createReplayResponder(state.rawFrames, connectionIndex, mode);
   let pending = head?.length ? Buffer.from(head) : Buffer.alloc(0);
-  const heartbeatTimer = mode.startsWith("normalwin") && connectionIndex === 1
+  const heartbeatTimer = (mode.startsWith("normalwin") || mode === "test" || mode === "live") && connectionIndex === 1
     ? setInterval(() => {
       if (socket.destroyed || socket.writableEnded) {
         return;
@@ -426,6 +517,7 @@ function handleUpgrade(req, socket, head, state) {
       clearInterval(heartbeatTimer);
     }
     state.counts.wsClosed += 1;
+    replay.close?.("socket-close");
     logEvent(state, { kind: "ws-close", mode, connectionIndex });
   });
 
@@ -448,6 +540,15 @@ function handleClientWsFrame(socket, state, replay, mode, connectionIndex, frame
   }
 
   const parsed = parseFrameBase64(frame.payload);
+  if (replay.sessionId) {
+    state.store.recordProtocolEvent({
+      sessionId: replay.sessionId,
+      direction: "request",
+      cmd: parsed.cmd,
+      frameSha256: crypto.createHash("sha256").update(frame.payload).digest("hex"),
+      decoded: { bytes: frame.payload.length }
+    });
+  }
   increment(state.counts.requests, parsed.cmd);
   recordHistory(state, {
     mode,
@@ -470,6 +571,21 @@ function handleClientWsFrame(socket, state, replay, mode, connectionIndex, frame
   for (const responseInfo of responses) {
     const response = responseInfo.buffer || responseInfo;
     const responseFrame = parseFrameBase64(response);
+    if (replay.sessionId) {
+      state.store.recordProtocolEvent({
+        sessionId: replay.sessionId,
+        roundId: responseInfo.roundId,
+        direction: "response",
+        cmd: responseFrame.cmd,
+        frameSha256: crypto.createHash("sha256").update(response).digest("hex"),
+        decoded: {
+          source: responseInfo.source,
+          roundNo: responseInfo.roundNo,
+          stepIndex: responseInfo.stepIndex,
+          winAmount: responseInfo.winAmount
+        }
+      });
+    }
     increment(state.counts.responses, responseFrame.cmd);
     socket.write(encodeWebSocketFrame(response, 0x2));
     recordHistory(state, {
@@ -591,7 +707,8 @@ try {
   const args = parseArgs(process.argv.slice(2));
   const manifest = await loadManifest(args.root);
   const rawFrames = JSON.parse(await readFile(args.frames, "utf8"));
-  const state = createState(rawFrames);
+  const store = openLocalStore(args.db);
+  const state = createState(rawFrames, store);
   const server = http.createServer((req, res) => {
     serveStatic(req, res, args.root, manifest, state).catch((error) => {
       console.error(error?.stack || String(error));
@@ -604,6 +721,8 @@ try {
   server.listen(args.port, args.host, async () => {
     const replayUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "replay" });
     const datasetUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "dataset" });
+    const testUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "test" });
+    const liveUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "live" });
     const normalWinUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "normalwin" });
     const normalWinScenarioUrls = NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host: args.host, port: args.port, mode: `normalwin-${index + 1}` }));
     const winladderUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "winladder" });
@@ -611,9 +730,12 @@ try {
       ok: true,
       root: args.root,
       frames: args.frames,
+      database: args.db,
       listen: `http://${args.host}:${args.port}`,
       replayUrl,
       datasetUrl,
+      testUrl,
+      liveUrl,
       normalWinUrl,
       normalWinScenarioUrls,
       winladderUrl,
@@ -624,6 +746,8 @@ try {
     try {
       await writeFile(path.join(repoRoot, ".boya-local-server-url"), `${replayUrl}\n`, "utf8");
       await writeFile(path.join(repoRoot, ".boya-local-dataset-url"), `${datasetUrl}\n`, "utf8");
+      await writeFile(path.join(repoRoot, ".boya-local-test-url"), `${testUrl}\n`, "utf8");
+      await writeFile(path.join(repoRoot, ".boya-local-live-url"), `${liveUrl}\n`, "utf8");
       await writeFile(path.join(repoRoot, ".boya-local-normalwin-url"), `${normalWinUrl}\n`, "utf8");
       await writeFile(path.join(repoRoot, ".boya-local-winladder-url"), `${winladderUrl}\n`, "utf8");
       await writeFile(path.join(repoRoot, ".boya-local-history-url"), `http://${args.host}:${args.port}/__history\n`, "utf8");
@@ -631,6 +755,16 @@ try {
       // URL file is best-effort only.
     }
   });
+  const shutdown = (signal) => {
+    server.close(() => {
+      store.close();
+      process.exit(0);
+    });
+    setTimeout(() => process.exit(1), 5000).unref();
+    console.log(JSON.stringify({ kind: "shutdown", signal }));
+  };
+  process.once("SIGINT", () => shutdown("SIGINT"));
+  process.once("SIGTERM", () => shutdown("SIGTERM"));
 } catch (error) {
   console.error(error?.stack || String(error));
   process.exit(1);

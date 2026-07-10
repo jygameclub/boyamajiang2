@@ -103,6 +103,9 @@ export function buildLocalGameUrl({ host, port, mode = "replay", token = DEFAULT
 export function normalizeReplayMode(mode) {
   const value = String(mode || "").toLowerCase();
   const baseValue = value.split("?")[0];
+  if (baseValue === "test" || baseValue === "live") {
+    return baseValue;
+  }
   if (value.startsWith("dataset")) {
     return "dataset";
   }
@@ -452,6 +455,11 @@ function rebuildRotateInner(
       chunks.push(encodeVarintField(key, varintOverrides[key]));
     }
   }
+  for (const key of Object.keys(rawFieldOverrides).map(Number).sort((a, b) => a - b)) {
+    if (!present.has(key) && !omitted.has(key) && rawFieldOverrides[key].length) {
+      chunks.push(rawFieldOverrides[key]);
+    }
+  }
   for (const key of Object.keys(repeatedFieldOverrides).map(Number).sort((a, b) => a - b)) {
     if (!present.has(key) && !repeatedInserted.has(key) && !omitted.has(key)) {
       chunks.push(...repeatedFieldOverrides[key]);
@@ -468,6 +476,79 @@ function rotateInnerOf(frameBuffer) {
     throw new Error("Frame has no MsgRotate submessage");
   }
   return rotateField.value;
+}
+
+// Rebuild a controlled MsgRotate from a recorded shell. The game-specific local
+// engine supplies decoded field values; unknown recorded fields stay untouched.
+export function createBoyaRotateFrameFromTemplate(
+  templateFrameBuffer,
+  { cmd, rotate = {}, omitFreeFields = false } = {}
+) {
+  const template = Buffer.from(templateFrameBuffer);
+  const parsed = parseFrameBase64(template);
+  const varintOverrides = {};
+  const rawFieldOverrides = {};
+
+  const varintFields = [
+    [1, "originalStatus"],
+    [2, "status"],
+    [4, "coin"],
+    [5, "betMulti"],
+    [6, "betCoin"],
+    [7, "purchase"],
+    [13, "gameNum"],
+    [16, "totalWin"],
+    [17, "roundWin"],
+    [18, "bFree"],
+    [19, "freeAppend"],
+    [20, "freeTotalWin"],
+    [21, "freeRemainCount"],
+    [22, "freeMaxCount"],
+    [24, "triggerWin"]
+  ];
+  for (const [field, key] of varintFields) {
+    if (rotate[key] !== undefined) {
+      const value = typeof rotate[key] === "boolean" ? (rotate[key] ? 1 : 0) : rotate[key];
+      varintOverrides[field] = value;
+    }
+  }
+  if (rotate.roundScoreSigned !== undefined || rotate.roundScore !== undefined) {
+    const signed = rotate.roundScoreSigned ?? rotate.roundScore;
+    varintOverrides[ROTATE_FIELD_ROUND_SCORE] = toUint64VarintValue(signed);
+  }
+
+  if (rotate.seq !== undefined) rawFieldOverrides[3] = encodeStringField(3, rotate.seq);
+  const packedFields = [
+    [8, "drawResult"],
+    [9, "topResult"],
+    [10, "buttomResult"],
+    [12, "gameNumList"],
+    [14, "goldToWildPos"],
+    [23, "triggerDraw"],
+    [25, "triggerTopResult"],
+    [26, "triggerButtomResult"]
+  ];
+  for (const [field, key] of packedFields) {
+    if (rotate[key] !== undefined) {
+      rawFieldOverrides[field] = encodePackedInt32Field(field, rotate[key]);
+    }
+  }
+
+  const options = {
+    varintOverrides,
+    rawFieldOverrides,
+    omitFields: omitFreeFields ? [18, ...FREE_SPIN_ONLY_FIELDS] : []
+  };
+  if (rotate.lines !== undefined) {
+    const encodedLines = rotate.lines.map((line) => encodeLengthDelimited(ROTATE_FIELD_LINE, encodeLineReward(line)));
+    options.repeatedFieldOverrides = { [ROTATE_FIELD_LINE]: encodedLines };
+    options.insertRepeatedAfterField = {
+      10: [[ROTATE_FIELD_LINE, encodedLines]]
+    };
+  }
+
+  const inner = rebuildRotateInner(rotateInnerOf(template), options);
+  return encodeGameFrame(cmd ?? parsed.cmd, encodeLengthDelimited(1, inner));
 }
 
 // Extract the board field group (raw wire bytes for fields 8/9/10) from a recorded
@@ -1567,6 +1648,8 @@ export function inferContentType(localPath) {
   const types = {
     ".html": "text/html",
     ".js": "application/javascript",
+    ".mjs": "application/javascript",
+    ".css": "text/css",
     ".json": "application/json",
     ".png": "image/png",
     ".jpg": "image/jpeg",

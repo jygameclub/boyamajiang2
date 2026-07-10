@@ -1,3 +1,6 @@
 node_modules/
 .DS_Store
 .boya-*
+local-data/*.sqlite3
+local-data/*.sqlite3-shm
+local-data/*.sqlite3-wal
