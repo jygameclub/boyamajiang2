@@ -10,6 +10,21 @@ const app = {
   testState: null
 };
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function money(value) {
+  return (Number(value || 0) / 100).toLocaleString("zh-CN", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2
+  });
+}
+
 async function api(path, options = {}) {
   const response = await fetch(path, {
     ...options,
@@ -30,6 +45,7 @@ function bindTabs() {
   document.querySelectorAll(".tab").forEach((button) => button.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach((entry) => entry.classList.toggle("active", entry === button));
     document.querySelectorAll(".panel").forEach((panel) => panel.classList.toggle("active", panel.id === `panel-${button.dataset.tab}`));
+    if (button.dataset.tab === "users") loadUsers();
     if (button.dataset.tab === "history") loadHistory();
     history.replaceState(null, "", `#${button.dataset.tab}`);
   }));
@@ -100,7 +116,7 @@ function renderOutcomeControls() {
 
 async function loadRuntime() {
   const runtime = await api("/api/admin/runtime");
-  document.getElementById("runtime-line").textContent = `运行 ${runtime.stats.sessions} 个会话 / ${runtime.stats.rounds} 局 / mismatch ${runtime.counts.mismatches}`;
+  document.getElementById("runtime-line").textContent = `用户 ${runtime.stats.users} / 会话 ${runtime.stats.sessions} / 记录 ${runtime.stats.rounds} / mismatch ${runtime.counts.mismatches}`;
   if (!app.activeConfig || app.activeConfig.id !== runtime.activeConfig.id) {
     app.activeConfig = runtime.activeConfig;
     app.editConfig = structuredClone(runtime.activeConfig.payload);
@@ -158,7 +174,7 @@ function renderScenarios() {
   document.getElementById("cycle-check").checked = app.testState.cycle;
   document.getElementById("test-cursor").value = app.testState.cursor;
   document.getElementById("scenario-rows").innerHTML = suite.scenarios.map((scenario) => `
-    <tr><td>${scenario.label || scenario.key}<small>${scenario.key}</small></td><td>${scenario.amount == null ? "-" : (scenario.amount / 100).toFixed(2)}</td><td>${scenario.iconId ?? "-"}</td><td>${scenario.axleId == null ? "-" : scenario.axleId + 1}</td><td>${scenario.lineNum ?? "-"}</td></tr>
+    <tr><td>${scenario.label || scenario.key}<small>${scenario.key}</small></td><td>${scenario.amount == null ? "-" : (scenario.amount / 100).toFixed(2)}</td><td>${scenario.iconId ?? "-"}</td><td>${scenario.axleId == null ? "-" : scenario.axleId + 1}</td><td>${scenario.lineNum ?? "-"}</td><td>${scenario.winSteps ?? "-"}</td><td>${(scenario.multipliers || []).join("/") || "-"}</td><td>${(scenario.tags || []).join(", ") || "-"}</td></tr>
   `).join("");
 }
 
@@ -201,16 +217,47 @@ async function runSimulation() {
   }
 }
 
+async function loadUsers() {
+  const users = await api("/api/admin/users");
+  document.getElementById("user-rows").innerHTML = users.map((user) => `
+    <tr>
+      <td>${escapeHtml(user.token)}</td>
+      <td>${money(user.balance)}</td>
+      <td>${user.roundCount}</td>
+      <td>${money(user.totalWager)}</td>
+      <td>${money(user.totalWin)}</td>
+      <td class="rtp-value">${(Number(user.rtp || 0) * 100).toFixed(2)}%</td>
+      <td>${escapeHtml(user.lastActiveAt)}</td>
+      <td><button type="button" class="link-button" data-user-history="${escapeHtml(user.token)}">历史</button></td>
+    </tr>
+  `).join("") || `<tr><td colspan="8">暂无本地用户</td></tr>`;
+  document.querySelectorAll("[data-user-history]").forEach((button) => button.addEventListener("click", () => {
+    document.getElementById("history-token").value = button.dataset.userHistory;
+    document.querySelector('.tab[data-tab="history"]').click();
+  }));
+}
+
+function openUserClient() {
+  const token = document.getElementById("new-user-token").value.trim();
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(token)) {
+    setMessage("user-message", "token 格式无效", true);
+    return;
+  }
+  window.open(`/__game/live?token=${encodeURIComponent(token)}`, "_blank", "noopener");
+}
+
 async function loadHistory() {
   const params = new URLSearchParams({ limit: "100" });
+  const token = document.getElementById("history-token").value.trim();
   const mode = document.getElementById("history-mode").value;
   const outcome = document.getElementById("history-outcome").value;
+  if (token) params.set("token", token);
   if (mode) params.set("mode", mode);
   if (outcome) params.set("outcome", outcome);
   const rounds = await api(`/api/history/rounds?${params}`);
   document.getElementById("history-rows").innerHTML = rounds.map((round) => `
-    <tr data-round-id="${round.id}"><td>${round.id}</td><td>${round.createdAt}</td><td>${round.mode}</td><td>${round.source}</td><td>${round.outcome}</td><td>${(round.bet / 100).toFixed(2)}</td><td>${(round.totalWin / 100).toFixed(2)}</td><td>${round.scenarioKey || ""}</td></tr>
-  `).join("") || `<tr><td colspan="8">暂无历史</td></tr>`;
+    <tr data-round-id="${round.id}"><td>${round.id}</td><td>${escapeHtml(round.createdAt)}</td><td>${escapeHtml(round.token || "-")}</td><td>${escapeHtml(round.mode)}</td><td>${escapeHtml(round.source)}</td><td>${escapeHtml(round.outcome)}</td><td>${money(round.kind === "buy" ? round.buyCost : round.bet)}</td><td>${money(round.totalWin)}</td><td>${escapeHtml(round.scenarioKey || "")}</td></tr>
+  `).join("") || `<tr><td colspan="9">暂无历史</td></tr>`;
   document.querySelectorAll("[data-round-id]").forEach((row) => row.addEventListener("click", async () => {
     document.getElementById("round-detail").textContent = JSON.stringify(await api(`/api/history/rounds/${row.dataset.roundId}`), null, 2);
   }));
@@ -221,7 +268,10 @@ document.getElementById("validate-draft").addEventListener("click", validateDraf
 document.getElementById("activate-draft").addEventListener("click", activateDraft);
 document.getElementById("save-test-state").addEventListener("click", saveTestState);
 document.getElementById("run-simulation").addEventListener("click", runSimulation);
+document.getElementById("open-user-client").addEventListener("click", openUserClient);
+document.getElementById("refresh-users").addEventListener("click", loadUsers);
 document.getElementById("refresh-history").addEventListener("click", loadHistory);
+document.getElementById("history-token").addEventListener("change", loadHistory);
 document.getElementById("history-mode").addEventListener("change", loadHistory);
 document.getElementById("history-outcome").addEventListener("change", loadHistory);
 document.getElementById("suite-select").addEventListener("change", () => {

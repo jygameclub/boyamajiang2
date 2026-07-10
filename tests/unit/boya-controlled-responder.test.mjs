@@ -2,7 +2,11 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 
-import { decodeBoyaRotateFromPayload, parseFrameBase64 } from "../../tools/lib/boya-har.mjs";
+import {
+  decodeBoyaEnterBalanceFromPayload,
+  decodeBoyaRotateFromPayload,
+  parseFrameBase64
+} from "../../tools/lib/boya-har.mjs";
 import { createControlledResponder } from "../../tools/local/server/controlled-responder.mjs";
 import { openLocalStore } from "../../tools/local/server/database.mjs";
 
@@ -19,10 +23,53 @@ const freeRequest = Buffer.from(
   rawFrames.connections[1].messages.find((entry) => entry.type === "send" && entry.cmd === 40004).rawFrameBase64,
   "base64"
 );
+const enterRequest = Buffer.from(
+  rawFrames.connections[1].messages.find((entry) => entry.type === "send" && entry.cmd === 40000).rawFrameBase64,
+  "base64"
+);
+
+function requestWithBet(cmd, betMult) {
+  const payload = Buffer.from([0x08, betMult]);
+  const frame = Buffer.alloc(12 + payload.length);
+  frame.writeUInt32BE(frame.length - 4, 0);
+  frame.writeUInt32BE(cmd, 4);
+  payload.copy(frame, 12);
+  return frame;
+}
 
 function decodeResponse(info) {
   return decodeBoyaRotateFromPayload(parseFrameBase64(info.buffer).payload);
 }
+
+test("live responder starts from and persists the selected local user balance", () => {
+  const store = openLocalStore(":memory:");
+  const payload = structuredClone(store.getActiveConfig().payload);
+  payload.modes.base.outcomeWeights = { miss: 1, small: 0, medium: 0, big: 0, mega: 0, super: 0 };
+  payload.modes.base.scatterCap = 0;
+  for (const phase of ["initial", "cascade"]) {
+    payload.modes.base[phase].goldRateByReel = [0, 0, 0, 0, 0];
+    payload.modes.base[phase].symbolWeights = [3, 5, 7, 9, 11].map((symbol) => ({ [symbol]: 1 }));
+  }
+  store.activateConfig(store.createDraft("user-miss", payload).id);
+  const user = store.getOrCreateUser("user1");
+  const responder = createControlledResponder({
+    rawFrames,
+    connectionIndex: 1,
+    mode: "live",
+    store,
+    user,
+    seed: "user-balance"
+  });
+
+  const enter = responder.nextResponsesForClientFrame(enterRequest)[0];
+  assert.equal(decodeBoyaEnterBalanceFromPayload(parseFrameBase64(enter.buffer).payload), 100_000_000);
+  const spin = decodeResponse(responder.nextResponsesForClientFrame(spinRequest)[0]);
+  assert.equal(spin.coin, 99_999_600);
+  assert.equal(store.getUser("user1").balance, 99_999_600);
+  assert.equal(store.listRounds({ token: "user1" }).length, 1);
+  responder.close("test-done");
+  store.close();
+});
 
 test("test responder cycles formula-correct small scenarios and persists the round", () => {
   const store = openLocalStore(":memory:");
@@ -46,6 +93,31 @@ test("test responder cycles formula-correct small scenarios and persists the rou
   assert.equal(nextWin.roundWin, 200);
   assert.equal(store.listRounds({ limit: 10 }).length, 2);
   assert.equal(store.getTestState().cursor, 2);
+  responder.close("test-done");
+  store.close();
+});
+
+test("controlled responder uses the bet multiplier carried by each normal-spin request", () => {
+  const store = openLocalStore(":memory:");
+  const responder = createControlledResponder({
+    rawFrames,
+    connectionIndex: 1,
+    mode: "test",
+    store,
+    seed: "dynamic-bet"
+  });
+  const selectedBetRequest = requestWithBet(40002, 100);
+  const win = decodeResponse(responder.nextResponsesForClientFrame(selectedBetRequest)[0]);
+  const settle = decodeResponse(responder.nextResponsesForClientFrame(selectedBetRequest)[0]);
+  const history = store.listRounds({ limit: 1 })[0];
+
+  assert.equal(win.betMulti, 100);
+  assert.equal(win.betCoin, 2000);
+  assert.equal(win.roundWin, 500);
+  assert.equal(win.lines.reduce((sum, line) => sum + line.score, 0), 500);
+  assert.equal(settle.betMulti, 100);
+  assert.equal(settle.betCoin, 2000);
+  assert.equal(history.bet, 2000);
   responder.close("test-done");
   store.close();
 });
@@ -244,6 +316,59 @@ test("live buy-free uses active free-mode reel and outcome weights", () => {
   assert.ok(spins.every((spin) => spin.drawResult[21] === 11));
   assert.equal(spins.at(-1).freeRemainCount, 0);
   assert.equal(store.listRounds({ limit: 1 })[0].source, "weighted-free");
+  responder.close("test-done");
+  store.close();
+});
+
+test("live purchase uses the request bet and randomizes the weighted trigger board", () => {
+  const store = openLocalStore(":memory:");
+  const payload = structuredClone(store.getActiveConfig().payload);
+  payload.modes.buy.scatterWeights = { scatter3: 1, scatter4: 0, scatter5: 0, scatter6plus: 0 };
+  store.activateConfig(store.createDraft("forced-three-scatter", payload).id);
+  const responder = createControlledResponder({
+    rawFrames,
+    connectionIndex: 1,
+    mode: "live",
+    store,
+    seed: "random-trigger-board"
+  });
+  const trigger = decodeResponse(responder.nextResponsesForClientFrame(requestWithBet(40006, 100))[0]);
+  const positions = trigger.drawResult
+    .map((symbol, index) => symbol === 1 ? index : null)
+    .filter((index) => index !== null);
+
+  assert.equal(trigger.betMulti, 100);
+  assert.equal(trigger.betCoin, 160000);
+  assert.equal(trigger.freeRemainCount, 10);
+  assert.equal(positions.length, 3);
+  assert.notDeepEqual(positions, [3, 6, 12]);
+  assert.ok(!positions.includes(0) && !positions.includes(20));
+  const firstFree = decodeResponse(responder.nextResponsesForClientFrame(freeRequest)[0]);
+  assert.equal(firstFree.betMulti, 100);
+  assert.equal(firstFree.betCoin, 2000);
+  responder.close("test-done");
+  store.close();
+});
+
+test("live purchase reads newly activated scatter weights without reconnecting", () => {
+  const store = openLocalStore(":memory:");
+  const initial = structuredClone(store.getActiveConfig().payload);
+  initial.modes.buy.scatterWeights = { scatter3: 1, scatter4: 0, scatter5: 0, scatter6plus: 0 };
+  store.activateConfig(store.createDraft("initial-three", initial).id);
+  const responder = createControlledResponder({
+    rawFrames,
+    connectionIndex: 1,
+    mode: "live",
+    store,
+    seed: "hot-config"
+  });
+  const updated = structuredClone(initial);
+  updated.modes.buy.scatterWeights = { scatter3: 0, scatter4: 1, scatter5: 0, scatter6plus: 0 };
+  store.activateConfig(store.createDraft("updated-four", updated).id);
+
+  const trigger = decodeResponse(responder.nextResponsesForClientFrame(buyRequest)[0]);
+  assert.equal(trigger.drawResult.filter((symbol) => symbol === 1).length, 4);
+  assert.equal(trigger.freeRemainCount, 12);
   responder.close("test-done");
   store.close();
 });

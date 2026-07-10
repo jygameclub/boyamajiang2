@@ -93,11 +93,19 @@ export function parseFrameBase64(input) {
   };
 }
 
-export function buildLocalGameUrl({ host, port, mode = "replay", token = DEFAULT_HAR_TOKEN }) {
+export function buildLocalGameUrl({
+  host,
+  port,
+  mode = "replay",
+  token = DEFAULT_HAR_TOKEN,
+  userToken
+}) {
   const normalizedMode = normalizeReplayMode(mode);
-  const wsUrl = `ws://${host}:${port}/gate/ws?mode=${encodeURIComponent(normalizedMode)}`;
-  const g = Buffer.from(wsUrl).toString("base64");
-  return `http://${host}:${port}/v2/?token=${token}&deviceType=0&pcode=ZHlnd3N3&t=MTAz&ma=bWFpbmxhbmQ=&lang=CN&g=${encodeURIComponent(g)}&sound=0&music=0&localMode=${encodeURIComponent(normalizedMode)}`;
+  const wsUrl = new URL(`ws://${host}:${port}/gate/ws`);
+  wsUrl.searchParams.set("mode", normalizedMode);
+  if (userToken !== undefined) wsUrl.searchParams.set("userToken", String(userToken));
+  const g = Buffer.from(wsUrl.toString()).toString("base64");
+  return `http://${host}:${port}/v2/?token=${encodeURIComponent(token)}&deviceType=0&pcode=ZHlnd3N3&t=MTAz&ma=bWFpbmxhbmQ=&lang=CN&g=${encodeURIComponent(g)}&sound=0&music=0&localMode=${encodeURIComponent(normalizedMode)}`;
 }
 
 export function normalizeReplayMode(mode) {
@@ -1101,6 +1109,65 @@ export function decodeBoyaRotateFromPayload(payload) {
   rotate.totalWin ||= 0;
   rotate.roundWin ||= 0;
   return rotate;
+}
+
+const ENTER_BALANCE_PATH = Object.freeze([1, 1, 6, 4]);
+
+function readNestedVarint(input, path) {
+  let current = Buffer.from(input);
+  for (let index = 0; index < path.length; index += 1) {
+    const field = readFields(current).find((entry) => entry.field === path[index]);
+    if (!field) throw new Error(`Missing protobuf field path ${path.slice(0, index + 1).join(".")}`);
+    if (index === path.length - 1) {
+      if (field.wire !== 0) throw new Error(`Expected varint at protobuf field path ${path.join(".")}`);
+      return field.value;
+    }
+    if (field.wire !== 2) throw new Error(`Expected message at protobuf field path ${path.slice(0, index + 1).join(".")}`);
+    current = field.value;
+  }
+  throw new Error("Empty protobuf field path");
+}
+
+function replaceNestedVarint(input, path, value) {
+  const [target, ...rest] = path;
+  let replaced = false;
+  const chunks = splitOrderedFields(Buffer.from(input)).map((entry) => {
+    if (entry.field !== target || replaced) return entry.raw;
+    if (!rest.length) {
+      if (entry.wire !== 0) throw new Error(`Expected varint at protobuf field ${target}`);
+      replaced = true;
+      return encodeVarintField(target, value);
+    }
+    if (entry.wire !== 2) throw new Error(`Expected message at protobuf field ${target}`);
+    const decoded = readFields(entry.raw)[0];
+    const nested = replaceNestedVarint(decoded.value, rest, value);
+    replaced = true;
+    return encodeLengthDelimited(target, nested);
+  });
+  if (!replaced) throw new Error(`Missing protobuf field path ${path.join(".")}`);
+  return Buffer.concat(chunks);
+}
+
+export function decodeBoyaEnterBalanceFromPayload(payload) {
+  return Number(readNestedVarint(payload, ENTER_BALANCE_PATH));
+}
+
+export function createBoyaEnterFrameFromTemplate(templateFrameBuffer, { coin } = {}) {
+  const parsed = parseFrameBase64(templateFrameBuffer);
+  if (parsed.cmd !== 40001) throw new Error(`Expected 40001 enter template, received ${parsed.cmd}`);
+  const payload = coin === undefined
+    ? parsed.payload
+    : replaceNestedVarint(parsed.payload, ENTER_BALANCE_PATH, Number(coin));
+  return encodeGameFrame(40001, payload);
+}
+
+export function decodeBoyaBetRequestFromPayload(payload) {
+  const betField = readFields(Buffer.from(payload)).find(
+    (field) => field.field === 1 && field.wire === 0
+  );
+  return {
+    betMult: betField ? Number(betField.value) : undefined
+  };
 }
 
 function createDatasetResponder(rawFrames, connectionIndex) {

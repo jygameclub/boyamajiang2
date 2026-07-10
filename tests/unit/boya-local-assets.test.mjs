@@ -3,6 +3,7 @@ import { stat } from "node:fs/promises";
 import test from "node:test";
 
 const assetRoot = new URL("../../local-har-client/boya-mahjong2/v2/assets/dy_mjlltwo_en/", import.meta.url);
+const sharedAssetRoot = new URL("../../local-har-client/boya-mahjong2/v2/assets/resources/", import.meta.url);
 
 test("locally restored normal-win symbol audio includes metadata and native MP3", async () => {
   const metadata = await stat(new URL(
@@ -16,4 +17,14 @@ test("locally restored normal-win symbol audio includes metadata and native MP3"
 
   assert.ok(metadata.size > 0);
   assert.ok(audio.size > 1000);
+});
+
+test("locally restored auto-spin dialog includes its lazy-loaded prefab package", async () => {
+  const files = await Promise.all([
+    "import/0b/0b45ea3c9.cdb02.json",
+    "import/b9/b9140739-1ed5-49b7-a6bd-d211fc3e7653.9cd52.json",
+    "import/a3/a3e01927-1762-4fb4-ad78-bcf4d129bc35.38be2.json"
+  ].map((relativePath) => stat(new URL(relativePath, sharedAssetRoot))));
+
+  assert.ok(files.every((file) => file.size > 100));
 });

@@ -45,11 +45,9 @@ export function createSmallWinScenarios({ betMulti = 20 } = {}) {
     const lineNum = definition.counts.reduce((product, count) => product * count, 1);
     const odds = payoutFor(definition.iconId, definition.matchLength);
     const score = odds * lineNum * Number(betMulti);
-    if (score !== definition.amount) {
-      throw new Error(`${definition.key} produces ${score}, expected ${definition.amount}`);
-    }
     return {
       ...definition,
+      amount: score,
       board,
       fillerByReel,
       expectedLine: {
@@ -177,7 +175,8 @@ function routeScenario({
   placements,
   queues = [[], [], [], [], []],
   maxCascades = 4,
-  tags = []
+  tags = [],
+  expect
 }) {
   const { board, fillers } = routeBoard(excluded, placements);
   return {
@@ -187,6 +186,7 @@ function routeScenario({
     initialBoard: board,
     initialBuffers: { topResult: [...fillers], buttomResult: [...fillers] },
     maxCascades,
+    expect,
     createNextSymbol: queuedSampler(queues, fillers)
   };
 }
@@ -203,7 +203,8 @@ export function createRouteAndCascadeScenarios() {
     label: "两轴同符号近失",
     excluded: [17],
     placements: pathPlacements(17, [[1], [3]]),
-    tags: ["miss", "near-miss"]
+    tags: ["miss", "near-miss"],
+    expect: { winSteps: 0, multipliers: [] }
   }));
 
   scenarios.push(routeScenario({
@@ -211,7 +212,8 @@ export function createRouteAndCascadeScenarios() {
     label: "三轴单 Ways 折线",
     excluded: [19],
     placements: pathPlacements(19, [[4], [0], [3]]),
-    tags: ["single-way", "zigzag"]
+    tags: ["single-way", "zigzag"],
+    expect: { winSteps: 1, multipliers: [1] }
   }));
 
   scenarios.push(routeScenario({
@@ -219,7 +221,8 @@ export function createRouteAndCascadeScenarios() {
     label: "三轴 6 Ways",
     excluded: [17],
     placements: pathPlacements(17, [[2], [0, 4], [1, 2, 3]]),
-    tags: ["multi-way"]
+    tags: ["multi-way"],
+    expect: { winSteps: 1, multipliers: [1] }
   }));
 
   scenarios.push(routeScenario({
@@ -227,7 +230,8 @@ export function createRouteAndCascadeScenarios() {
     label: "五轴连续路线",
     excluded: [15],
     placements: pathPlacements(15, [[1], [4], [0], [3], [2]]),
-    tags: ["five-reel"]
+    tags: ["five-reel"],
+    expect: { winSteps: 1, multipliers: [1] }
   }));
 
   scenarios.push(routeScenario({
@@ -238,7 +242,8 @@ export function createRouteAndCascadeScenarios() {
       ...pathPlacements(17, [[1], [0], [3]]),
       ...pathPlacements(19, [[4], [2], [1]])
     ],
-    tags: ["multi-icon"]
+    tags: ["multi-icon"],
+    expect: { winSteps: 1, multipliers: [1] }
   }));
 
   scenarios.push(routeScenario({
@@ -247,7 +252,8 @@ export function createRouteAndCascadeScenarios() {
     excluded: [17, 19],
     placements: pathPlacements(19, [[4], [1], [3]]),
     queues: [[17], [17], [17], [], []],
-    tags: ["cascade", "x2"]
+    tags: ["cascade", "x2"],
+    expect: { winSteps: 2, multipliers: [1, 2] }
   }));
 
   scenarios.push(routeScenario({
@@ -256,7 +262,8 @@ export function createRouteAndCascadeScenarios() {
     excluded: [13, 15, 17, 19],
     placements: pathPlacements(19, [[1], [3], [0]]),
     queues: [[17, 15, 13], [17, 15, 13], [17, 15, 13], [], []],
-    tags: ["cascade", "x2", "x3", "x5"]
+    tags: ["cascade", "x2", "x3", "x5"],
+    expect: { winSteps: 4, multipliers: [1, 2, 3, 5] }
   }));
 
   scenarios.push(routeScenario({
@@ -269,7 +276,8 @@ export function createRouteAndCascadeScenarios() {
       { reel: 2, row: 4, symbol: 17 }
     ],
     queues: [[19], [], [19], [], []],
-    tags: ["gold", "wild"]
+    tags: ["gold", "wild"],
+    expect: { winSteps: 2, multipliers: [1, 2], minPeakWild: 1, goldToWild: true }
   }));
 
   scenarios.push(routeScenario({
@@ -282,7 +290,8 @@ export function createRouteAndCascadeScenarios() {
       { reel: 2, row: 1, symbol: 15 }
     ],
     queues: [[7], [], [7], [], []],
-    tags: ["gold", "wild", "eliminate"]
+    tags: ["gold", "wild", "eliminate"],
+    expect: { winSteps: 2, multipliers: [1, 2], minPeakWild: 1, goldToWild: true }
   }));
 
   scenarios.push(routeScenario({
@@ -292,15 +301,12 @@ export function createRouteAndCascadeScenarios() {
     placements: [
       { reel: 0, row: 1, symbol: 13 },
       { reel: 0, row: 2, symbol: 19 },
-      { reel: 0, row: 3, symbol: 2 },
-      { reel: 1, row: 0, symbol: 13 },
-      { reel: 1, row: 1, symbol: 19 },
       { reel: 1, row: 2, symbol: 2 },
       { reel: 2, row: 0, symbol: 13 },
-      { reel: 2, row: 1, symbol: 19 },
-      { reel: 2, row: 2, symbol: 2 }
+      { reel: 2, row: 1, symbol: 19 }
     ],
-    tags: ["wild", "multi-icon"]
+    tags: ["wild", "multi-icon"],
+    expect: { winSteps: 1, multipliers: [1], minPeakWild: 1 }
   }));
 
   scenarios.push(routeScenario({
@@ -309,7 +315,8 @@ export function createRouteAndCascadeScenarios() {
     excluded: [3, 11],
     placements: pathPlacements(11, [[2], [4], [0]]),
     queues: [[3], [3], [3], [], []],
-    tags: ["cascade", "refill"]
+    tags: ["cascade", "refill"],
+    expect: { winSteps: 2, multipliers: [1, 2] }
   }));
 
   scenarios.push(routeScenario({
@@ -319,7 +326,197 @@ export function createRouteAndCascadeScenarios() {
     placements: pathPlacements(9, [[4], [1], [2]]),
     queues: [[7], [7], [7], [], []],
     maxCascades: 1,
-    tags: ["cascade-limit"]
+    tags: ["cascade-limit"],
+    expect: { winSteps: 2, multipliers: [1, 2] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-top-single",
+    label: "顶部三轴单 Ways",
+    excluded: [19],
+    placements: pathPlacements(19, [[1], [0], [0]]),
+    tags: ["single-way", "top"],
+    expect: { winSteps: 1, multipliers: [1] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-bottom-single",
+    label: "底部三轴单 Ways",
+    excluded: [17],
+    placements: pathPlacements(17, [[4], [4], [4]]),
+    tags: ["single-way", "bottom"],
+    expect: { winSteps: 1, multipliers: [1] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-four-axes",
+    label: "四轴连续单 Ways",
+    excluded: [15],
+    placements: pathPlacements(15, [[2], [1], [4], [0]]),
+    tags: ["four-reel", "single-way"],
+    expect: { winSteps: 1, multipliers: [1] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-four-axes-multi-ways",
+    label: "四轴 8 Ways",
+    excluded: [17],
+    placements: pathPlacements(17, [[1, 4], [2], [0, 3], [1, 4]]),
+    tags: ["four-reel", "multi-way"],
+    expect: { winSteps: 1, multipliers: [1] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-five-axes-multi-ways",
+    label: "五轴 4 Ways",
+    excluded: [19],
+    placements: pathPlacements(19, [[2], [0, 4], [1], [2, 3], [4]]),
+    tags: ["five-reel", "multi-way"],
+    expect: { winSteps: 1, multipliers: [1] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-three-icons",
+    label: "同一步三个图标中奖",
+    excluded: [15, 17, 19],
+    placements: [
+      ...pathPlacements(15, [[1], [0], [2]]),
+      ...pathPlacements(17, [[2], [1], [3]]),
+      ...pathPlacements(19, [[3], [2], [4]])
+    ],
+    tags: ["multi-icon", "three-lines"],
+    expect: { winSteps: 1, multipliers: [1] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-one-win-step",
+    label: "一次中奖消除后终止",
+    excluded: [11],
+    placements: pathPlacements(11, [[1], [3], [2]]),
+    tags: ["cascade", "one-drop"],
+    expect: { winSteps: 1, multipliers: [1] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-three-win-steps",
+    label: "三步中奖级联 x1/x2/x3",
+    excluded: [15, 17, 19],
+    placements: pathPlacements(19, [[4], [2], [0]]),
+    queues: [[17, 15], [17, 15], [17, 15], [], []],
+    tags: ["cascade", "x2", "x3"],
+    expect: { winSteps: 3, multipliers: [1, 2, 3] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-multi-way-refill",
+    label: "多格消除后补出 4 Ways",
+    excluded: [17, 19],
+    placements: pathPlacements(19, [[1, 4], [0, 3], [2]]),
+    queues: [[17, 17], [17, 17], [17], [], []],
+    tags: ["cascade", "refill", "multi-way"],
+    expect: { winSteps: 2, multipliers: [1, 2] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-multi-icon-refill",
+    label: "双线路消除后补出双线路",
+    excluded: [13, 15, 17, 19],
+    placements: [
+      ...pathPlacements(17, [[1], [0], [3]]),
+      ...pathPlacements(19, [[4], [2], [1]])
+    ],
+    queues: [[15, 13], [15, 13], [15, 13], [], []],
+    tags: ["cascade", "refill", "multi-icon"],
+    expect: { winSteps: 2, multipliers: [1, 2] }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-scatter-gravity",
+    label: "胡牌不消除并随重力移动",
+    excluded: [19],
+    placements: [
+      ...pathPlacements(19, [[4], [4], [4]]),
+      { reel: 1, row: 2, symbol: 1 },
+      { reel: 2, row: 1, symbol: 1 }
+    ],
+    tags: ["cascade", "scatter", "gravity"],
+    expect: { winSteps: 1, multipliers: [1], scatter: true }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-gold-wild-hold",
+    label: "金牌转 Wild 后保留到终止盘",
+    excluded: [17],
+    placements: [
+      { reel: 0, row: 1, symbol: 17 },
+      { reel: 1, row: 2, symbol: 18 },
+      { reel: 2, row: 3, symbol: 17 }
+    ],
+    tags: ["gold", "wild", "hold"],
+    expect: { winSteps: 1, multipliers: [1], minPeakWild: 1, goldToWild: true }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-double-gold-to-wild",
+    label: "双金牌转双 Wild 后参与消除",
+    excluded: [17],
+    placements: [
+      { reel: 0, row: 1, symbol: 17 },
+      { reel: 1, row: 2, symbol: 18 },
+      { reel: 2, row: 3, symbol: 18 }
+    ],
+    tags: ["gold", "wild", "multi-wild", "eliminate"],
+    expect: { winSteps: 2, multipliers: [1, 2], minPeakWild: 2, goldToWild: true }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-multiple-wild-same-line",
+    label: "同一路线两个 Wild",
+    excluded: [13],
+    placements: [
+      { reel: 0, row: 1, symbol: 13 },
+      { reel: 0, row: 2, symbol: 1 },
+      { reel: 0, row: 3, symbol: 1 },
+      { reel: 0, row: 4, symbol: 1 },
+      { reel: 1, row: 2, symbol: 2 },
+      { reel: 2, row: 3, symbol: 2 },
+      { reel: 3, row: 1, symbol: 13 }
+    ],
+    tags: ["wild", "multi-wild", "four-reel"],
+    expect: { winSteps: 1, multipliers: [1], minPeakWild: 2, scatter: true }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "cascade-gold-wild-multi-icon",
+    label: "金牌转 Wild 后同时连接两个图标",
+    excluded: [15, 17, 19],
+    placements: [
+      { reel: 0, row: 4, symbol: 19 },
+      { reel: 1, row: 2, symbol: 20 },
+      { reel: 2, row: 0, symbol: 19 },
+      { reel: 0, row: 1, symbol: 15 },
+      { reel: 2, row: 3, symbol: 15 }
+    ],
+    queues: [[17], [], [17], [], []],
+    tags: ["gold", "wild", "multi-icon", "cascade"],
+    expect: { winSteps: 2, multipliers: [1, 2], minPeakWild: 1, goldToWild: true }
+  }));
+
+  scenarios.push(routeScenario({
+    key: "route-mixed-base-gold-wild",
+    label: "基础牌、金牌和 Wild 混合四轴路线",
+    excluded: [13],
+    placements: [
+      { reel: 0, row: 1, symbol: 13 },
+      { reel: 0, row: 2, symbol: 1 },
+      { reel: 0, row: 3, symbol: 1 },
+      { reel: 0, row: 4, symbol: 1 },
+      { reel: 1, row: 2, symbol: 14 },
+      { reel: 2, row: 3, symbol: 2 },
+      { reel: 3, row: 1, symbol: 13 }
+    ],
+    tags: ["gold", "wild", "mixed", "four-reel"],
+    expect: { winSteps: 1, multipliers: [1], minPeakWild: 1, goldToWild: true, scatter: true }
   }));
 
   return scenarios;

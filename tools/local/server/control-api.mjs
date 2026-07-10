@@ -97,6 +97,11 @@ export function buildScenarioCatalog() {
             key: scenario.key,
             label: scenario.label,
             tags: scenario.tags,
+            winSteps: scenario.expect.winSteps,
+            multipliers: scenario.expect.multipliers,
+            minPeakWild: scenario.expect.minPeakWild || 0,
+            goldToWild: Boolean(scenario.expect.goldToWild),
+            scatter: Boolean(scenario.expect.scatter),
             amount: evaluation.roundWin,
             iconId: firstLine?.iconId ?? null,
             axleId: firstLine?.axleId ?? null,
@@ -135,6 +140,20 @@ export async function handleControlApi(req, res, { store, state, sendJson }) {
           testState: store.getTestState()
         }
       });
+      return true;
+    }
+    if (req.method === "GET" && url.pathname === "/api/admin/users") {
+      sendJson(res, { ok: true, data: store.listUsers() });
+      return true;
+    }
+    const userMatch = /^\/api\/admin\/users\/([^/]+)$/.exec(url.pathname);
+    if (req.method === "GET" && userMatch) {
+      const user = store.getUserStats(decodeURIComponent(userMatch[1]));
+      if (!user) {
+        sendJson(res, { ok: false, error: "USER_NOT_FOUND" }, 404);
+      } else {
+        sendJson(res, { ok: true, data: user });
+      }
       return true;
     }
     if (req.method === "GET" && url.pathname === "/api/admin/config/active") {

@@ -1,7 +1,9 @@
 import {
   createBoyaRotateFrameFromTemplate,
+  createBoyaEnterFrameFromTemplate,
   createConnectionReplay,
   createGeneratedHeartbeatFrame,
+  decodeBoyaBetRequestFromPayload,
   decodeBoyaRotateFromPayload,
   parseFrameBase64
 } from "../../lib/boya-har.mjs";
@@ -157,6 +159,7 @@ export function createControlledResponder({
   connectionIndex,
   mode,
   store,
+  user = null,
   seed = `${Date.now()}`
 }) {
   if (mode !== "test" && mode !== "live") throw new Error(`Unsupported controlled mode ${mode}`);
@@ -174,24 +177,39 @@ export function createControlledResponder({
   }));
   const baseRotate = decodeBoyaRotateFromPayload(parseFrameBase64(baseTemplate).payload);
   const triggerRotate = decodeBoyaRotateFromPayload(parseFrameBase64(triggerTemplate).payload);
-  const activeConfig = store.getActiveConfig();
-  const session = store.createSession({ mode, seed, configId: activeConfig.id });
-  const betCoin = Number(baseRotate.betCoin || 400);
-  const betMulti = Number(baseRotate.betMulti || 20);
-  let balance = Number(baseRotate.coin || 100000000);
+  const initialConfig = store.getActiveConfig();
+  const session = store.createSession({
+    mode,
+    seed,
+    configId: initialConfig.id,
+    userId: user?.id || null
+  });
+  const recordedBetMulti = Number(baseRotate.betMulti || 20);
+  const baseRate = Number(baseRotate.betCoin || 400) / recordedBetMulti;
+  let betMulti = recordedBetMulti;
+  let betCoin = Number(baseRotate.betCoin || 400);
+  let balance = Number(user?.balance ?? baseRotate.coin ?? 100000000);
   let roundNo = 0;
   let pending = [];
   let pendingFree = [];
   let lastFreeResponse = null;
   let closed = false;
 
+  function applyRequestedBet(request) {
+    const requested = decodeBoyaBetRequestFromPayload(request.payload).betMult;
+    if (!Number.isSafeInteger(requested) || requested <= 0) return;
+    betMulti = requested;
+    betCoin = Math.round(baseRate * requested);
+  }
+
   function prepareBaseRound() {
     roundNo += 1;
     const roundSeed = `${seed}:base:${roundNo}`;
+    const roundConfig = store.getActiveConfig();
     const generated = mode === "test"
       ? createTestPlan(store, betMulti, betCoin)
       : generateLiveRound({
-        config: activeConfig.payload,
+        config: roundConfig.payload,
         seed: roundSeed,
         betMulti,
         betCoin,
@@ -205,6 +223,9 @@ export function createControlledResponder({
       roundNo,
       kind: "base",
       bet: betCoin,
+      betMulti,
+      balanceBefore: balance,
+      balanceAfter: finalBalance,
       totalWin: plan.totalWin,
       outcome: generated.outcome || classifyOutcome(plan.totalWin, betCoin),
       source: generated.source,
@@ -212,6 +233,7 @@ export function createControlledResponder({
       seed: roundSeed,
       validationStatus: "ok",
       fallbackReason: generated.fallbackReason,
+      userBalanceAfter: user ? finalBalance : undefined,
       steps: plan.steps.map((step, stepNo) => ({
         stepNo,
         cmd: 40003,
@@ -267,7 +289,7 @@ export function createControlledResponder({
     balance = finalBalance;
   }
 
-  function selectScatterCount() {
+  function selectScatterCount(config) {
     if (mode === "test") {
       const state = store.getTestState();
       if (state.suiteKey !== "buyfree-ladder") return 3;
@@ -279,16 +301,21 @@ export function createControlledResponder({
       return counts[index];
     }
     const rng = createSeededRng(`${seed}:buy:${roundNo + 1}`);
-    const selected = weightedChoice(rng, Object.entries(activeConfig.payload.modes.buy.scatterWeights));
+    const selected = weightedChoice(rng, Object.entries(config.payload.modes.buy.scatterWeights));
     return selected === "scatter3" ? 3 : selected === "scatter4" ? 4 : selected === "scatter5" ? 5 : 6;
   }
 
-  function createTriggerBoard(scatterCount) {
+  function createTriggerBoard(scatterCount, buyRoundNo) {
     const board = [...triggerRotate.drawResult];
     for (const index of PLAYABLE_INDEXES) {
       if (board[index] === 1 || board[index] === 2) board[index] = 19;
     }
-    const positions = [3, 6, 12, 18, 24, 9, 14, 16];
+    const positions = [...PLAYABLE_INDEXES];
+    const rng = createSeededRng(`${seed}:trigger:${buyRoundNo}`);
+    for (let index = positions.length - 1; index > 0; index -= 1) {
+      const target = rng.int(index + 1);
+      [positions[index], positions[target]] = [positions[target], positions[index]];
+    }
     positions.slice(0, scatterCount).forEach((index) => { board[index] = 1; });
     board[0] = 101;
     board[20] = 101;
@@ -300,6 +327,7 @@ export function createControlledResponder({
     const finalShell = freeTemplates.at(-1);
     const finalState = decodeBoyaRotateFromPayload(parseFrameBase64(finalShell).payload);
     let cumulativeFeatureWin = 0;
+    const scoreScale = betMulti / recordedBetMulti;
     const responses = [];
     const historySteps = [];
 
@@ -310,16 +338,29 @@ export function createControlledResponder({
         const recorded = frame.rotate;
         const finalFrame = frameIndex === group.frames.length - 1;
         const featureExit = finalSpin && finalFrame;
-        const completedWin = finalFrame ? group.totalWin : 0;
+        const frameRoundWin = Math.round(Number(recorded.roundWin || 0) * scoreScale);
+        const frameTotalWin = Math.round(Number(recorded.totalWin || 0) * scoreScale);
+        const completedWin = finalFrame ? Math.round(group.totalWin * scoreScale) : 0;
         const rotate = {
           ...recorded,
           originalStatus: featureExit ? finalState.originalStatus : 1,
           status: featureExit ? finalState.status : 1,
           seq: `local-free-${session.id}-${featureRoundNo}-${spinIndex + 1}-${frameIndex + 1}`,
           coin: buyBalance + cumulativeFeatureWin + completedWin,
+          betMulti,
+          betCoin,
           purchase: true,
+          lines: recorded.lines.map((line) => ({
+            ...line,
+            score: Math.round(Number(line.score || 0) * scoreScale)
+          })),
+          roundScoreSigned: recorded.roundScoreSigned === undefined
+            ? undefined
+            : Math.round(recorded.roundScoreSigned * scoreScale),
+          totalWin: frameTotalWin,
+          roundWin: frameRoundWin,
           bFree: featureExit ? finalState.bFree : true,
-          freeTotalWin: cumulativeFeatureWin + Number(recorded.totalWin || 0),
+          freeTotalWin: cumulativeFeatureWin + frameTotalWin,
           freeRemainCount,
           freeMaxCount: freeCount
         };
@@ -330,7 +371,7 @@ export function createControlledResponder({
           source: mode === "test" ? "recorded-free-ascending" : "recorded-free-template",
           roundNo: featureRoundNo,
           stepIndex: responses.length,
-          winAmount: recorded.roundWin || 0
+          winAmount: frameRoundWin
         });
         historySteps.push({
           stepNo: historySteps.length,
@@ -340,26 +381,30 @@ export function createControlledResponder({
           buttomResult: rotate.buttomResult,
           lines: rotate.lines,
           multiplier: rotate.gameNum,
-          roundWin: rotate.roundWin || 0,
-          totalWin: rotate.totalWin || 0,
+          roundWin: frameRoundWin,
+          totalWin: frameTotalWin,
           freeRemain: freeRemainCount,
           goldToWild: rotate.goldToWildPos || []
         });
       });
-      cumulativeFeatureWin += group.totalWin;
+      cumulativeFeatureWin += Math.round(group.totalWin * scoreScale);
     });
 
     const round = store.recordRound({
       sessionId: session.id,
       roundNo: featureRoundNo,
       kind: "free-feature",
-      bet: 0,
+      bet: betCoin,
+      betMulti,
+      balanceBefore: buyBalance,
+      balanceAfter: buyBalance + cumulativeFeatureWin,
       totalWin: cumulativeFeatureWin,
       outcome: classifyOutcome(cumulativeFeatureWin, betCoin),
       source: mode === "test" ? "recorded-free-ascending" : "recorded-free-template",
       scenarioKey: `buyfree-${freeCount}`,
       seed: `${seed}:free:${featureRoundNo}`,
       validationStatus: "ok",
+      userBalanceAfter: user ? buyBalance + cumulativeFeatureWin : undefined,
       steps: historySteps
     });
     responses.forEach((response) => { response.roundId = round.id; });
@@ -368,7 +413,7 @@ export function createControlledResponder({
     lastFreeResponse = responses.at(-1);
   }
 
-  function prepareGeneratedFreeQueue({ freeCount, buyBalance, featureRoundNo }) {
+  function prepareGeneratedFreeQueue({ freeCount, buyBalance, featureRoundNo, config }) {
     const finalShell = freeShells.at(-1);
     const missShell = freeShells.find((shell) => (
       !shell.rotate.lines.length
@@ -380,7 +425,7 @@ export function createControlledResponder({
     ));
     if (!missShell || !terminalShell) throw new Error("Missing free-spin miss or terminal shell");
 
-    const freeConfig = structuredClone(activeConfig.payload);
+    const freeConfig = structuredClone(config.payload);
     freeConfig.modes.free.scatterCap = Math.min(2, Number(freeConfig.modes.free.scatterCap) || 0);
     const generatedSpins = Array.from({ length: freeCount }, (_, spinIndex) => generateLiveRound({
       config: freeConfig,
@@ -417,6 +462,7 @@ export function createControlledResponder({
           seq: `local-live-free-${session.id}-${featureRoundNo}-${spinIndex + 1}-${stepIndex + 1}`,
           coin: buyBalance + cumulativeFeatureWin + (terminal ? generated.plan.totalWin : 0),
           betMulti,
+          betCoin,
           purchase: true,
           drawResult: step.board,
           topResult: step.topResult,
@@ -467,7 +513,10 @@ export function createControlledResponder({
       sessionId: session.id,
       roundNo: featureRoundNo,
       kind: "free-feature",
-      bet: 0,
+      bet: betCoin,
+      betMulti,
+      balanceBefore: buyBalance,
+      balanceAfter: buyBalance + cumulativeFeatureWin,
       totalWin: cumulativeFeatureWin,
       outcome: classifyOutcome(cumulativeFeatureWin, betCoin),
       source: allWeighted ? "weighted-free" : "mixed-free",
@@ -475,6 +524,7 @@ export function createControlledResponder({
       seed: `${seed}:free:${featureRoundNo}`,
       validationStatus: "ok",
       fallbackReason: generatedSpins.find((generated) => generated.fallbackReason)?.fallbackReason,
+      userBalanceAfter: user ? buyBalance + cumulativeFeatureWin : undefined,
       steps: historySteps
     });
     responses.forEach((response) => { response.roundId = round.id; });
@@ -486,23 +536,28 @@ export function createControlledResponder({
   function prepareBuyFree() {
     roundNo += 1;
     const buyRoundNo = roundNo;
-    const scatterCount = selectScatterCount();
+    const featureConfig = store.getActiveConfig();
+    const scatterCount = selectScatterCount(featureConfig);
     const freeCount = freeSpinCountForScatter(scatterCount);
-    const buyCost = betCoin * Number(activeConfig.payload.buyCostMultiplier || 80);
+    const buyCost = betCoin * Number(featureConfig.payload.buyCostMultiplier || 80);
     const buyBalance = balance - buyCost;
-    const board = createTriggerBoard(scatterCount);
+    const board = createTriggerBoard(scatterCount, buyRoundNo);
     const round = store.recordRound({
       sessionId: session.id,
       roundNo: buyRoundNo,
       kind: "buy",
       bet: 0,
       buyCost,
+      betMulti,
+      balanceBefore: balance,
+      balanceAfter: buyBalance,
       totalWin: 0,
       outcome: "feature",
       source: mode === "test" ? "scenario" : "weighted",
       scenarioKey: `buyfree-scatter${scatterCount}`,
       seed: `${seed}:buy:${buyRoundNo}`,
       validationStatus: "ok",
+      userBalanceAfter: user ? buyBalance : undefined,
       steps: [{
         stepNo: 0,
         cmd: 40007,
@@ -544,7 +599,7 @@ export function createControlledResponder({
     balance = buyBalance;
     const featureRoundNo = buyRoundNo + 1;
     if (mode === "live") {
-      prepareGeneratedFreeQueue({ freeCount, buyBalance, featureRoundNo });
+      prepareGeneratedFreeQueue({ freeCount, buyBalance, featureRoundNo, config: featureConfig });
     } else {
       prepareRecordedFreeQueue({ freeCount, buyBalance, featureRoundNo });
     }
@@ -574,11 +629,24 @@ export function createControlledResponder({
       if (request.cmd === 5000) {
         return [{ buffer: createGeneratedHeartbeatFrame(), source: "heartbeat", sessionId: session.id }];
       }
+      if (request.cmd === 40000 && user) {
+        return replay.nextResponsesForClientFrame(input).map((buffer) => ({
+          buffer: parseFrameBase64(buffer).cmd === 40001
+            ? createBoyaEnterFrameFromTemplate(buffer, { coin: balance })
+            : buffer,
+          source: "local-user-enter",
+          sessionId: session.id
+        }));
+      }
       if (request.cmd === 40002) {
-        if (!pending.length) prepareBaseRound();
+        if (!pending.length) {
+          applyRequestedBet(request);
+          prepareBaseRound();
+        }
         return [pending.shift()];
       }
       if (request.cmd === 40006) {
+        applyRequestedBet(request);
         return [prepareBuyFree()];
       }
       if (request.cmd === 40004) {

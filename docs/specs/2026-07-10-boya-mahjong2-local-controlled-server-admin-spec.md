@@ -713,3 +713,41 @@ admin-mobile.png
 ### 20.5 V1 证据边界
 
 当前唯一主动限制是免费旋转内的 3+ Scatter retrigger：现有 HAR 没有 retrigger `40005` 状态链，不能确认客户端要求的追加动画字段和时序。live free 生成时暂把单盘 Scatter 上限限制为 2，避免伪造状态并再次引发认证超时。购买入口的 3/4/5/6 胡与 10/12/14/15 次已完整实现和真机验证；拿到真实 retrigger 录制后再开放该项。
+
+### 20.6 live 客户端控件与游戏内历史补齐
+
+2026-07-10 对 `/__game/live` 的客户端原生控件做了第二轮协议级验收，补齐以下闭环：
+
+1. 普通旋转 `40002` 和购买 `40006` 的请求 payload field 1 是当前 `betMult`。服务端必须逐次读取，不能只使用建连时 HAR 的默认 `20`；`betCoin = betMult * 20`，购买费用为 `betCoin * 80`。
+2. `40003`、`40007` 以及购买后的每个 `40005` 都必须回写同一档 `betMulti/betCoin`。只改购买触发帧会导致免费旋转继承 HAR 的旧下注值。
+3. live 每次收到 `40006` 时重新读取当前 active 配置，按 `buy.scatterWeights` 选择 3/4/5/6 个胡；胡位置使用保存 seed 的 Fisher-Yates 洗牌，只落在 23 个可玩位置，不能继续使用 HAR 固定位置 `[3,6,12]`。
+4. 购买后的免费盘面不是固定录制结果。live 使用当前 `free.initial/cascade` 列权重、free outcome 权重和本局 seed 生成；HAR `40005` 只作为客户端已验证的协议外壳。
+5. 客户端“历史”走大厅连接，不是 `/api/history/rounds`：列表为 `20047 -> 20048`，详情为 `20051 -> 20052`。本地 hall responder 从 SQLite 读取 live/test 记录，再编码为客户端要求的 gzip protobuf；购买局与随后 free-feature 合并为一条列表记录。
+6. 详情中的 `Detail` 是 gzip 后再 base64 的 JSON。除盘面、Lines、金额外必须包含 Unix 秒字段 `startTime`；缺少它时客户端 `CommonUtil.getTime()` 会因 Invalid Date 的 `toJSON()` 返回 null 而报 `null.substr`，详情永远停在“加载中”。
+7. 自动旋转弹窗是懒加载资源，除入口 prefab `0b45ea3c9...json` 外还依赖 `b9140739...json` 和 `a3e01927...json`。三份资源都必须本地存在并由资源单测保护，否则按钮表现为无限转圈。
+8. SQLite schema v2 保存 `bet_multi`、`balance_before`、`balance_after`，使游戏内历史详情可以还原真实下注档、扣款前后余额和购买记录，而不是继续显示 HAR 固定数据。
+
+聚焦本轮需求的可重复真机脚本：
+
+```bash
+node tests/playwright/boya-mahjong2-live-controls.mjs \
+  --base-url http://127.0.0.1:18082 \
+  --out testwebgame/boya-mahjong2/local-controlled-final-20260710-live-controls
+```
+
+报告：`testwebgame/boya-mahjong2/local-controlled-final-20260710-live-controls/report.md`（运行产物按 `.gitignore` 不提交）。本次结果：
+
+```text
+verdict = PASS
+auto = 3 requests / 3 responses
+selected bet = betMulti 100 / betCoin 2000 / UI 20.00
+feature buy = cost 160000 / UI 1600.00
+buy trigger = 4 胡 / positions 6,12,13,19 / 12 free spins
+first free = betMulti 100 / betCoin 2000
+in-game history = 20048 list + 20052 detail loaded
+HTTP >= 400 = 0
+pageErrors = 0
+clientClose = 0
+authTimeout = false
+mismatches = 0
+```

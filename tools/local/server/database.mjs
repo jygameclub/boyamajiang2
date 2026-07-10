@@ -3,8 +3,12 @@ import path from "node:path";
 import { DatabaseSync } from "node:sqlite";
 
 import { cloneDefaultControlConfig } from "../engine/default-config.mjs";
+import {
+  DEFAULT_LOCAL_USER_BALANCE,
+  normalizeLocalUserToken
+} from "./local-user.mjs";
 
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 3;
 
 function now() {
   return new Date().toISOString();
@@ -31,6 +35,42 @@ function configFromRow(row) {
     createdAt: row.created_at,
     activatedAt: row.activated_at
   };
+}
+
+function userFromRow(row) {
+  if (!row) return null;
+  return {
+    id: row.id,
+    token: row.token,
+    balance: row.balance,
+    createdAt: row.created_at,
+    updatedAt: row.updated_at
+  };
+}
+
+function userStatsFromRow(row) {
+  if (!row) return null;
+  const totalWager = Number(row.totalWager || 0);
+  const totalWin = Number(row.totalWin || 0);
+  return {
+    id: row.id,
+    token: row.token,
+    balance: Number(row.balance),
+    roundCount: Number(row.roundCount || 0),
+    totalWager,
+    totalWin,
+    rtp: totalWager > 0 ? totalWin / totalWager : 0,
+    createdAt: row.createdAt,
+    updatedAt: row.updatedAt,
+    lastActiveAt: row.lastActiveAt || row.updatedAt
+  };
+}
+
+function ensureColumn(db, table, column, definition) {
+  const columns = db.prepare(`PRAGMA table_info(${table})`).all();
+  if (!columns.some((entry) => entry.name === column)) {
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${column} ${definition}`);
+  }
 }
 
 function migrate(db) {
@@ -88,11 +128,20 @@ function migrate(db) {
       updated_at TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS local_users (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      token TEXT NOT NULL UNIQUE,
+      balance INTEGER NOT NULL,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL
+    );
+
     CREATE TABLE IF NOT EXISTS game_sessions (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       mode TEXT NOT NULL,
       seed TEXT NOT NULL,
       config_id INTEGER REFERENCES config_versions(id),
+      user_id INTEGER REFERENCES local_users(id),
       opened_at TEXT NOT NULL,
       closed_at TEXT,
       close_reason TEXT
@@ -106,6 +155,9 @@ function migrate(db) {
       bet INTEGER NOT NULL DEFAULT 0,
       buy_cost INTEGER NOT NULL DEFAULT 0,
       total_win INTEGER NOT NULL DEFAULT 0,
+      bet_multi INTEGER NOT NULL DEFAULT 0,
+      balance_before INTEGER NOT NULL DEFAULT 0,
+      balance_after INTEGER NOT NULL DEFAULT 0,
       outcome TEXT NOT NULL,
       source TEXT NOT NULL,
       scenario_key TEXT,
@@ -154,6 +206,11 @@ function migrate(db) {
     CREATE INDEX IF NOT EXISTS idx_steps_round ON round_steps(round_id, step_no);
     CREATE INDEX IF NOT EXISTS idx_events_session ON protocol_events(session_id, id);
   `);
+  ensureColumn(db, "game_rounds", "bet_multi", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "game_rounds", "balance_before", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "game_rounds", "balance_after", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "game_sessions", "user_id", "INTEGER REFERENCES local_users(id)");
+  db.exec("CREATE INDEX IF NOT EXISTS idx_sessions_user ON game_sessions(user_id, id)");
   db.prepare("INSERT OR IGNORE INTO schema_migrations(version, applied_at) VALUES (?, ?)")
     .run(SCHEMA_VERSION, now());
   db.prepare(`
@@ -237,6 +294,46 @@ export function openLocalStore(dbPath) {
 
   return {
     path: dbPath,
+    getOrCreateUser(token) {
+      const normalizedToken = normalizeLocalUserToken(token);
+      return transaction(() => {
+        const timestamp = now();
+        db.prepare(`
+          INSERT OR IGNORE INTO local_users(token, balance, created_at, updated_at)
+          VALUES (?, ?, ?, ?)
+        `).run(normalizedToken, DEFAULT_LOCAL_USER_BALANCE, timestamp, timestamp);
+        return userFromRow(db.prepare("SELECT * FROM local_users WHERE token = ?").get(normalizedToken));
+      });
+    },
+    getUser(token) {
+      const normalizedToken = normalizeLocalUserToken(token);
+      return userFromRow(db.prepare("SELECT * FROM local_users WHERE token = ?").get(normalizedToken));
+    },
+    listUsers() {
+      return db.prepare(`
+        SELECT u.id, u.token, u.balance, u.created_at AS createdAt, u.updated_at AS updatedAt,
+               COUNT(r.id) AS roundCount,
+               COALESCE(SUM(CASE
+                 WHEN r.kind = 'base' THEN r.bet
+                 WHEN r.kind = 'buy' THEN r.buy_cost
+                 ELSE 0
+               END), 0) AS totalWager,
+               COALESCE(SUM(CASE
+                 WHEN r.kind IN ('base', 'free-feature') THEN r.total_win
+                 ELSE 0
+               END), 0) AS totalWin,
+               MAX(COALESCE(r.created_at, s.opened_at, u.updated_at)) AS lastActiveAt
+        FROM local_users u
+        LEFT JOIN game_sessions s ON s.user_id = u.id
+        LEFT JOIN game_rounds r ON r.session_id = s.id
+        GROUP BY u.id
+        ORDER BY u.id DESC
+      `).all().map(userStatsFromRow);
+    },
+    getUserStats(token) {
+      const normalizedToken = normalizeLocalUserToken(token);
+      return this.listUsers().find((user) => user.token === normalizedToken) || null;
+    },
     getActiveConfig() {
       return configFromRow(db.prepare("SELECT * FROM config_versions WHERE status = 'active'").get());
     },
@@ -308,10 +405,10 @@ export function openLocalStore(dbPath) {
       db.prepare("UPDATE test_state SET cursor = ?, updated_at = ? WHERE id = 1").run(Number(nextCursor), now());
       return this.getTestState();
     },
-    createSession({ mode, seed, configId }) {
+    createSession({ mode, seed, configId, userId = null }) {
       const result = db.prepare(`
-        INSERT INTO game_sessions(mode, seed, config_id, opened_at) VALUES (?, ?, ?, ?)
-      `).run(mode, String(seed), configId, now());
+        INSERT INTO game_sessions(mode, seed, config_id, user_id, opened_at) VALUES (?, ?, ?, ?, ?)
+      `).run(mode, String(seed), configId, userId, now());
       return plain(db.prepare("SELECT * FROM game_sessions WHERE id = ?").get(Number(result.lastInsertRowid)));
     },
     closeSession(id, reason = "closed") {
@@ -321,9 +418,10 @@ export function openLocalStore(dbPath) {
       return transaction(() => {
         const result = db.prepare(`
           INSERT INTO game_rounds(
-            session_id, round_no, kind, bet, buy_cost, total_win, outcome, source,
+            session_id, round_no, kind, bet, buy_cost, total_win, bet_multi,
+            balance_before, balance_after, outcome, source,
             scenario_key, seed, validation_status, fallback_reason, created_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).run(
           round.sessionId,
           round.roundNo,
@@ -331,6 +429,9 @@ export function openLocalStore(dbPath) {
           round.bet || 0,
           round.buyCost || 0,
           round.totalWin || 0,
+          round.betMulti || 0,
+          round.balanceBefore || 0,
+          round.balanceAfter || 0,
           round.outcome,
           round.source,
           round.scenarioKey || null,
@@ -361,6 +462,13 @@ export function openLocalStore(dbPath) {
             JSON.stringify(step.goldToWild || [])
           );
         }
+        if (round.userBalanceAfter !== undefined) {
+          db.prepare(`
+            UPDATE local_users
+            SET balance = ?, updated_at = ?
+            WHERE id = (SELECT user_id FROM game_sessions WHERE id = ?)
+          `).run(Number(round.userBalanceAfter), now(), round.sessionId);
+        }
         return plain(db.prepare("SELECT * FROM game_rounds WHERE id = ?").get(roundId));
       });
     },
@@ -371,7 +479,7 @@ export function openLocalStore(dbPath) {
       `).run(sessionId, roundId, direction, cmd, frameSha256, decoded ? JSON.stringify(decoded) : null, now());
       return Number(result.lastInsertRowid);
     },
-    listRounds({ limit = 100, mode, outcome } = {}) {
+    listRounds({ limit = 100, mode, outcome, token } = {}) {
       const clauses = [];
       const params = [];
       if (mode) {
@@ -382,22 +490,43 @@ export function openLocalStore(dbPath) {
         clauses.push("r.outcome = ?");
         params.push(outcome);
       }
+      if (token) {
+        clauses.push("u.token = ?");
+        params.push(normalizeLocalUserToken(token, { useDefault: false }));
+      }
       params.push(Math.max(1, Math.min(1000, Number(limit) || 100)));
       const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
       return db.prepare(`
         SELECT r.id, r.session_id AS sessionId, s.mode, r.round_no AS roundNo,
                r.kind, r.bet, r.buy_cost AS buyCost, r.total_win AS totalWin,
-               r.outcome, r.source, r.scenario_key AS scenarioKey, r.seed,
+               r.bet_multi AS betMulti, r.balance_before AS balanceBefore,
+               r.balance_after AS balanceAfter,
+               r.outcome, r.source, r.scenario_key AS scenarioKey, r.seed, u.token,
                r.validation_status AS validationStatus, r.fallback_reason AS fallbackReason,
                r.created_at AS createdAt
-        FROM game_rounds r JOIN game_sessions s ON s.id = r.session_id
+        FROM game_rounds r
+        JOIN game_sessions s ON s.id = r.session_id
+        LEFT JOIN local_users u ON u.id = s.user_id
         ${where} ORDER BY r.id DESC LIMIT ?
       `).all(...params).map(plain);
     },
-    getRound(id) {
+    getRound(id, { token } = {}) {
+      const params = [id];
+      const tokenClause = token ? "AND u.token = ?" : "";
+      if (token) params.push(normalizeLocalUserToken(token, { useDefault: false }));
       const round = plain(db.prepare(`
-        SELECT r.*, s.mode FROM game_rounds r JOIN game_sessions s ON s.id = r.session_id WHERE r.id = ?
-      `).get(id));
+        SELECT r.id, r.session_id AS sessionId, s.mode, r.round_no AS roundNo,
+               r.kind, r.bet, r.buy_cost AS buyCost, r.total_win AS totalWin,
+               r.bet_multi AS betMulti, r.balance_before AS balanceBefore,
+               r.balance_after AS balanceAfter, r.outcome, r.source,
+               r.scenario_key AS scenarioKey, r.seed,
+               r.validation_status AS validationStatus, r.fallback_reason AS fallbackReason,
+               r.created_at AS createdAt, u.token
+        FROM game_rounds r
+        JOIN game_sessions s ON s.id = r.session_id
+        LEFT JOIN local_users u ON u.id = s.user_id
+        WHERE r.id = ? ${tokenClause}
+      `).get(...params));
       if (!round) return null;
       round.steps = db.prepare("SELECT * FROM round_steps WHERE round_id = ? ORDER BY step_no").all(id).map((step) => ({
         id: step.id,
@@ -417,6 +546,7 @@ export function openLocalStore(dbPath) {
     runtimeStats() {
       return {
         sessions: db.prepare("SELECT COUNT(*) AS count FROM game_sessions").get().count,
+        users: db.prepare("SELECT COUNT(*) AS count FROM local_users").get().count,
         rounds: db.prepare("SELECT COUNT(*) AS count FROM game_rounds").get().count,
         steps: db.prepare("SELECT COUNT(*) AS count FROM round_steps").get().count,
         protocolEvents: db.prepare("SELECT COUNT(*) AS count FROM protocol_events").get().count

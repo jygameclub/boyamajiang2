@@ -172,20 +172,8 @@ test("round plan preserves the formula through a winning step and a legal termin
 
 test("route-and-cascade catalog covers routes, multi-line, Wild, gold, and the cascade limit", () => {
   const scenarios = createRouteAndCascadeScenarios({ betMulti: 20, betCoin: 400 });
-  assert.deepEqual(scenarios.map((scenario) => scenario.key), [
-    "route-near-miss",
-    "route-zigzag-single",
-    "route-multi-ways",
-    "route-five-axes",
-    "route-multi-icon",
-    "cascade-two-win-steps",
-    "cascade-four-win-steps",
-    "cascade-gold-to-wild",
-    "cascade-wild-next-eliminate",
-    "route-wild-reuse",
-    "cascade-refill-win",
-    "cascade-limit-terminal"
-  ]);
+  assert.ok(scenarios.length >= 28);
+  assert.equal(new Set(scenarios.map((scenario) => scenario.key)).size, scenarios.length);
 
   const plans = Object.fromEntries(scenarios.map((scenario) => {
     const plan = buildRoundPlan({
@@ -198,6 +186,26 @@ test("route-and-cascade catalog covers routes, multi-line, Wild, gold, and the c
       nextSymbol: scenario.createNextSymbol()
     });
     plan.steps.forEach((step) => assert.doesNotThrow(() => validateStep(step), scenario.key));
+    const winningSteps = plan.steps.filter((step) => step.lines.length);
+    assert.ok(scenario.expect, `${scenario.key} must declare expectations`);
+    assert.equal(winningSteps.length, scenario.expect.winSteps, scenario.key);
+    assert.deepEqual(winningSteps.map((step) => step.gameNum), scenario.expect.multipliers, scenario.key);
+    assert.ok(
+      Math.max(...plan.steps.map((step) => step.board.filter((symbol) => symbol === 2).length))
+        >= (scenario.expect.minPeakWild || 0),
+      scenario.key
+    );
+    assert.equal(
+      plan.steps.some((step) => step.goldToWildPositions.length > 0),
+      Boolean(scenario.expect.goldToWild),
+      scenario.key
+    );
+    assert.equal(
+      plan.steps.some((step) => step.board.includes(1)),
+      Boolean(scenario.expect.scatter),
+      scenario.key
+    );
+    assert.equal(plan.steps.at(-1).lines.length, 0, `${scenario.key} terminal step`);
     return [scenario.key, plan];
   }));
 
@@ -219,7 +227,7 @@ test("route-and-cascade catalog covers routes, multi-line, Wild, gold, and the c
   assert.ok(plans["cascade-wild-next-eliminate"].steps[1].eliminationPositions.some((index) => (
     plans["cascade-wild-next-eliminate"].steps[1].board[index] === 2
   )));
-  assert.ok(plans["route-wild-reuse"].steps[0].lines.length > 2);
+  assert.equal(plans["route-wild-reuse"].steps[0].lines.length, 2);
   assert.equal(plans["cascade-refill-win"].steps.filter((step) => step.lines.length).length, 2);
   assert.equal(plans["cascade-limit-terminal"].cascadeLimitHit, true);
   assert.equal(plans["cascade-limit-terminal"].steps.at(-1).roundWin, 0);

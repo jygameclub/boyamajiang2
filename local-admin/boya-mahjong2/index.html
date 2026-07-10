@@ -22,6 +22,7 @@
     <button type="button" class="tab active" data-tab="weights">概率配置</button>
     <button type="button" class="tab" data-tab="outcomes">结果权重</button>
     <button type="button" class="tab" data-tab="testing">测试控制</button>
+    <button type="button" class="tab" data-tab="users">本地用户</button>
     <button type="button" class="tab" data-tab="history">运行历史</button>
   </nav>
 
@@ -80,7 +81,7 @@
         <button id="save-test-state" type="button" class="primary">应用测试控制</button>
       </div>
       <div class="scenario-table-wrap">
-        <table><thead><tr><th>场景</th><th>金额</th><th>符号</th><th>轴数</th><th>Ways</th></tr></thead><tbody id="scenario-rows"></tbody></table>
+        <table><thead><tr><th>场景</th><th>金额</th><th>符号</th><th>轴数</th><th>Ways</th><th>中奖步</th><th>倍率</th><th>标签</th></tr></thead><tbody id="scenario-rows"></tbody></table>
       </div>
       <div class="actions">
         <button id="run-simulation" type="button">模拟 100 局</button>
@@ -89,15 +90,28 @@
       <pre id="simulation-output" class="json-output" hidden></pre>
     </section>
 
+    <section id="panel-users" class="panel">
+      <div class="user-toolbar">
+        <label>用户 token<input id="new-user-token" type="text" maxlength="64" value="user1"></label>
+        <button id="open-user-client" type="button" class="primary">打开用户客户端</button>
+        <button id="refresh-users" type="button">刷新</button>
+        <span id="user-message" role="status"></span>
+      </div>
+      <div class="table-scroll">
+        <table><thead><tr><th>Token</th><th>余额</th><th>记录数</th><th>总下注</th><th>总中奖</th><th>RTP</th><th>最近活动</th><th>操作</th></tr></thead><tbody id="user-rows"></tbody></table>
+      </div>
+    </section>
+
     <section id="panel-history" class="panel">
       <div class="history-toolbar">
+        <input id="history-token" type="text" maxlength="64" placeholder="全部 token">
         <select id="history-mode"><option value="">全部模式</option><option value="test">test</option><option value="live">live</option></select>
         <select id="history-outcome"><option value="">全部结果</option><option>miss</option><option>small</option><option>medium</option><option>big</option><option>mega</option><option>super</option></select>
         <button id="refresh-history" type="button">刷新</button>
       </div>
       <div class="history-layout">
         <div class="table-scroll">
-          <table><thead><tr><th>ID</th><th>时间</th><th>模式</th><th>来源</th><th>结果</th><th>下注</th><th>中奖</th><th>场景</th></tr></thead><tbody id="history-rows"></tbody></table>
+          <table><thead><tr><th>ID</th><th>时间</th><th>Token</th><th>模式</th><th>来源</th><th>结果</th><th>下注</th><th>中奖</th><th>场景</th></tr></thead><tbody id="history-rows"></tbody></table>
         </div>
         <pre id="round-detail" class="json-output">选择一局查看盘面与级联步骤</pre>
       </div>

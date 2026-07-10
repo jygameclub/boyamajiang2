@@ -19,6 +19,11 @@ import {
 import { createControlledResponder } from "./server/controlled-responder.mjs";
 import { handleControlApi } from "./server/control-api.mjs";
 import { openLocalStore } from "./server/database.mjs";
+import { createHallHistoryResponder } from "./server/hall-history-responder.mjs";
+import {
+  DEFAULT_LOCAL_USER_TOKEN,
+  normalizeLocalUserToken
+} from "./server/local-user.mjs";
 
 const repoRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 
@@ -71,6 +76,7 @@ function createState(rawFrames, store) {
   return {
     startedAt: new Date().toISOString(),
     nextConnectionIndex: 0,
+    connectionCursors: new Map(),
     rawFrames,
     store,
     nextHistoryId: 1,
@@ -130,7 +136,7 @@ async function serveStatic(req, res, root, manifest, state) {
         replay: buildLocalGameUrl({ host, port, mode: "replay" }),
         dataset: buildLocalGameUrl({ host, port, mode: "dataset" }),
         test: buildLocalGameUrl({ host, port, mode: "test" }),
-        live: buildLocalGameUrl({ host, port, mode: "live" }),
+        live: buildLocalGameUrl({ host, port, mode: "live", userToken: DEFAULT_LOCAL_USER_TOKEN }),
         normalwin: buildLocalGameUrl({ host, port, mode: "normalwin" }),
         normalwinScenarios: NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host, port, mode: `normalwin-${index + 1}` })),
         winladder: buildLocalGameUrl({ host, port, mode: "winladder" }),
@@ -150,7 +156,10 @@ async function serveStatic(req, res, root, manifest, state) {
 
   if (url.pathname === "/__replay/client-url") {
     const mode = normalizeReplayMode(url.searchParams.get("mode"));
-    sendJson(res, { url: buildLocalGameUrl({ host, port, mode }) });
+    const userToken = mode === "live"
+      ? normalizeLocalUserToken(url.searchParams.get("token"))
+      : undefined;
+    sendJson(res, { url: buildLocalGameUrl({ host, port, mode, userToken }) });
     return;
   }
 
@@ -172,7 +181,10 @@ async function serveStatic(req, res, root, manifest, state) {
       : url.pathname.endsWith("/winladder")
         ? "winladder"
         : "replay";
-    sendRedirect(res, buildLocalGameUrl({ host, port, mode }));
+    const userToken = mode === "live"
+      ? normalizeLocalUserToken(url.searchParams.get("token"))
+      : undefined;
+    sendRedirect(res, buildLocalGameUrl({ host, port, mode, userToken }));
     return;
   }
 
@@ -208,7 +220,8 @@ async function serveStatic(req, res, root, manifest, state) {
       data: state.store.listRounds({
         limit: url.searchParams.get("limit") || 100,
         mode: url.searchParams.get("mode") || undefined,
-        outcome: url.searchParams.get("outcome") || undefined
+        outcome: url.searchParams.get("outcome") || undefined,
+        token: url.searchParams.get("token") || undefined
       })
     });
     return;
@@ -216,7 +229,9 @@ async function serveStatic(req, res, root, manifest, state) {
 
   const roundMatch = /^\/api\/history\/rounds\/(\d+)$/.exec(url.pathname);
   if (roundMatch && req.method === "GET") {
-    const round = state.store.getRound(Number(roundMatch[1]));
+    const round = state.store.getRound(Number(roundMatch[1]), {
+      token: url.searchParams.get("token") || undefined
+    });
     sendJson(res, round ? { ok: true, data: round } : { ok: false, error: "ROUND_NOT_FOUND" }, round ? 200 : 404);
     return;
   }
@@ -425,6 +440,19 @@ function handleUpgrade(req, socket, head, state) {
     return;
   }
 
+  const mode = normalizeReplayMode(url.searchParams.get("mode"));
+  let userToken;
+  let user;
+  try {
+    if (mode === "live") {
+      userToken = normalizeLocalUserToken(url.searchParams.get("userToken"));
+      user = state.store.getOrCreateUser(userToken);
+    }
+  } catch (error) {
+    socket.end(`HTTP/1.1 ${error.statusCode || 400} Bad Request\r\nConnection: close\r\n\r\n${error.message}`);
+    return;
+  }
+
   const key = req.headers["sec-websocket-key"];
   if (!key) {
     socket.destroy();
@@ -446,20 +474,34 @@ function handleUpgrade(req, socket, head, state) {
   ].join("\r\n"));
 
   const connectionCount = Math.max(1, state.rawFrames.connections.length);
-  const connectionIndex = state.nextConnectionIndex % connectionCount;
-  const mode = normalizeReplayMode(url.searchParams.get("mode"));
+  const cursorKey = `${mode}:${userToken || "shared"}`;
+  const cursor = state.connectionCursors.get(cursorKey) || 0;
+  const connectionIndex = cursor % connectionCount;
+  state.connectionCursors.set(cursorKey, cursor + 1);
   state.nextConnectionIndex += 1;
   state.counts.wsConnected += 1;
   increment(state.counts.modes, mode);
-  const replay = (mode === "test" || mode === "live") && connectionIndex === 1
-    ? createControlledResponder({
+  let replay;
+  if ((mode === "test" || mode === "live") && connectionIndex === 0) {
+    replay = createHallHistoryResponder({
       rawFrames: state.rawFrames,
       connectionIndex,
       mode,
       store: state.store,
-      seed: `${mode}-${Date.now()}-${state.nextConnectionIndex}`
-    })
-    : createReplayResponder(state.rawFrames, connectionIndex, mode);
+      token: userToken
+    });
+  } else if ((mode === "test" || mode === "live") && connectionIndex === 1) {
+    replay = createControlledResponder({
+      rawFrames: state.rawFrames,
+      connectionIndex,
+      mode,
+      store: state.store,
+      user,
+      seed: `${mode}-${userToken || "shared"}-${Date.now()}-${state.nextConnectionIndex}`
+    });
+  } else {
+    replay = createReplayResponder(state.rawFrames, connectionIndex, mode);
+  }
   let pending = head?.length ? Buffer.from(head) : Buffer.alloc(0);
   const heartbeatTimer = (mode.startsWith("normalwin") || mode === "test" || mode === "live") && connectionIndex === 1
     ? setInterval(() => {
@@ -490,7 +532,7 @@ function handleUpgrade(req, socket, head, state) {
     }, 5000)
     : null;
 
-  logEvent(state, { kind: "ws-open", mode, connectionIndex, url: req.url });
+  logEvent(state, { kind: "ws-open", mode, connectionIndex, userToken, url: req.url });
 
   socket.on("data", (chunk) => {
     pending = Buffer.concat([pending, chunk]);
@@ -712,7 +754,7 @@ try {
   const server = http.createServer((req, res) => {
     serveStatic(req, res, args.root, manifest, state).catch((error) => {
       console.error(error?.stack || String(error));
-      res.writeHead(500, { "content-type": "text/plain; charset=utf-8" });
+      res.writeHead(error?.statusCode || 500, { "content-type": "text/plain; charset=utf-8" });
       res.end(String(error?.message || error));
     });
   });
@@ -722,7 +764,12 @@ try {
     const replayUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "replay" });
     const datasetUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "dataset" });
     const testUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "test" });
-    const liveUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "live" });
+    const liveUrl = buildLocalGameUrl({
+      host: args.host,
+      port: args.port,
+      mode: "live",
+      userToken: DEFAULT_LOCAL_USER_TOKEN
+    });
     const normalWinUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "normalwin" });
     const normalWinScenarioUrls = NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host: args.host, port: args.port, mode: `normalwin-${index + 1}` }));
     const winladderUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "winladder" });

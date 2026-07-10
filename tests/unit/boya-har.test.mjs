@@ -10,6 +10,8 @@ import {
   createGeneratedWinFrame,
   createReplayResponder,
   createWinLadderFrameFromBase,
+  createBoyaEnterFrameFromTemplate,
+  decodeBoyaEnterBalanceFromPayload,
   decodeBoyaRotateFromPayload,
   extractAssetsFromHarObject,
   extractBoardFields,
@@ -201,6 +203,33 @@ test("buildLocalGameUrl encodes mode in the local WebSocket gateway URL", () => 
   assert.equal(url.pathname, "/v2/");
   assert.equal(url.searchParams.get("localMode"), "dataset");
   assert.equal(wsUrl, "ws://127.0.0.1:18082/gate/ws?mode=dataset");
+});
+
+test("buildLocalGameUrl keeps recorded HTTP auth while carrying the local user in WebSocket", () => {
+  const url = new URL(buildLocalGameUrl({
+    host: "127.0.0.1",
+    port: 18082,
+    mode: "live",
+    token: "recorded-auth-token",
+    userToken: "usergame1"
+  }));
+  const wsUrl = new URL(Buffer.from(url.searchParams.get("g"), "base64").toString("utf8"));
+
+  assert.equal(url.searchParams.get("token"), "recorded-auth-token");
+  assert.equal(wsUrl.searchParams.get("mode"), "live");
+  assert.equal(wsUrl.searchParams.get("userToken"), "usergame1");
+});
+
+test("Boya 40001 template can expose the current local user balance", async () => {
+  const raw = JSON.parse(await readFile("debugserver-data/boya-mahjong2/raw-frames.json", "utf8"));
+  const template = Buffer.from(
+    raw.connections[1].messages.find((entry) => entry.type === "receive" && entry.cmd === 40001).rawFrameBase64,
+    "base64"
+  );
+  const patched = createBoyaEnterFrameFromTemplate(template, { coin: 100_000_000 });
+
+  assert.equal(parseFrameBase64(patched).cmd, 40001);
+  assert.equal(decodeBoyaEnterBalanceFromPayload(parseFrameBase64(patched).payload), 100_000_000);
 });
 
 test("normalizeReplayMode tolerates client-appended WebSocket query suffixes", () => {

@@ -6,6 +6,100 @@ import test from "node:test";
 
 import { openLocalStore } from "../../tools/local/server/database.mjs";
 
+test("local users keep isolated balances, history, and RTP totals", () => {
+  const store = openLocalStore(":memory:");
+  const active = store.getActiveConfig();
+  const user1 = store.getOrCreateUser("user1");
+  const sameUser = store.getOrCreateUser("user1");
+  const user2 = store.getOrCreateUser("user2");
+
+  assert.equal(user1.balance, 100_000_000);
+  assert.equal(sameUser.id, user1.id);
+  assert.notEqual(user2.id, user1.id);
+
+  const session1 = store.createSession({
+    mode: "live",
+    seed: "user1-session",
+    configId: active.id,
+    userId: user1.id
+  });
+  store.recordRound({
+    sessionId: session1.id,
+    roundNo: 1,
+    kind: "base",
+    bet: 400,
+    totalWin: 800,
+    outcome: "small",
+    source: "weighted",
+    seed: "user1-base",
+    validationStatus: "ok",
+    userBalanceAfter: 100_000_400,
+    steps: []
+  });
+  store.recordRound({
+    sessionId: session1.id,
+    roundNo: 2,
+    kind: "buy",
+    buyCost: 32_000,
+    totalWin: 0,
+    outcome: "feature",
+    source: "weighted",
+    seed: "user1-buy",
+    validationStatus: "ok",
+    userBalanceAfter: 99_968_400,
+    steps: []
+  });
+  store.recordRound({
+    sessionId: session1.id,
+    roundNo: 3,
+    kind: "free-feature",
+    totalWin: 16_000,
+    outcome: "medium",
+    source: "weighted-free",
+    seed: "user1-free",
+    validationStatus: "ok",
+    userBalanceAfter: 99_984_400,
+    steps: []
+  });
+
+  const session2 = store.createSession({
+    mode: "live",
+    seed: "user2-session",
+    configId: active.id,
+    userId: user2.id
+  });
+  store.recordRound({
+    sessionId: session2.id,
+    roundNo: 1,
+    kind: "base",
+    bet: 400,
+    totalWin: 0,
+    outcome: "miss",
+    source: "weighted",
+    seed: "user2-base",
+    validationStatus: "ok",
+    userBalanceAfter: 99_999_600,
+    steps: []
+  });
+
+  assert.deepEqual(store.listRounds({ token: "user1" }).map((round) => round.kind), [
+    "free-feature",
+    "buy",
+    "base"
+  ]);
+  assert.deepEqual(store.listRounds({ token: "user2" }).map((round) => round.kind), ["base"]);
+  assert.equal(store.getUser("user1").balance, 99_984_400);
+  assert.equal(store.getUser("user2").balance, 99_999_600);
+
+  const stats = store.getUserStats("user1");
+  assert.equal(stats.roundCount, 3);
+  assert.equal(stats.totalWager, 32_400);
+  assert.equal(stats.totalWin, 16_800);
+  assert.equal(stats.rtp, 16_800 / 32_400);
+  assert.equal(store.listUsers()[0].token, "user2");
+  store.close();
+});
+
 test("SQLite store persists active config, test state, rounds, and steps", async (context) => {
   const tempDir = await mkdtemp(path.join(os.tmpdir(), "boya-db-"));
   context.after(() => rm(tempDir, { recursive: true, force: true }));
@@ -63,4 +157,3 @@ test("SQLite store persists active config, test state, rounds, and steps", async
   assert.equal(store.getRound(rounds[0].id).steps.length, 1);
   store.close();
 });
-
