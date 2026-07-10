@@ -4,3 +4,6 @@ node_modules/
 local-data/*.sqlite3
 local-data/*.sqlite3-shm
 local-data/*.sqlite3-wal
+testwebgame/boya-mahjong2/admin-probe-*.png
+testwebgame/boya-mahjong2/*-probe-*/
+testwebgame/boya-mahjong2/local-controlled-final-*/
