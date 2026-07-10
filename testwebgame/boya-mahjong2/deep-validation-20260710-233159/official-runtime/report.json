@@ -1,0 +1,78 @@
+{
+  "baseUrl": "http://127.0.0.1:18082",
+  "pages": [
+    {
+      "name": "test-client",
+      "pathname": "/__game/test",
+      "finalUrl": "http://127.0.0.1:18082/__game/test",
+      "expectedUrl": "http://127.0.0.1:18082/__game/test",
+      "canvasVisible": true,
+      "requestCount": 259,
+      "responseCount": 259,
+      "websocketCount": 2,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "live-client",
+      "pathname": "/__game/live?token=audit-user",
+      "finalUrl": "http://127.0.0.1:18082/__game/live?token=audit-user",
+      "expectedUrl": "http://127.0.0.1:18082/__game/live?token=audit-user",
+      "canvasVisible": true,
+      "requestCount": 246,
+      "responseCount": 246,
+      "websocketCount": 2,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "admin",
+      "pathname": "/__admin",
+      "finalUrl": "http://127.0.0.1:18082/__admin",
+      "expectedUrl": null,
+      "canvasVisible": false,
+      "requestCount": 6,
+      "responseCount": 6,
+      "websocketCount": 0,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "history",
+      "pathname": "/__history",
+      "finalUrl": "http://127.0.0.1:18082/__admin#history",
+      "expectedUrl": null,
+      "canvasVisible": false,
+      "requestCount": 8,
+      "responseCount": 8,
+      "websocketCount": 0,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    }
+  ],
+  "verdict": "PASS"
+}

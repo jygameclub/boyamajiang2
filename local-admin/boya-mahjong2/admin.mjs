@@ -92,6 +92,7 @@ function renderConfig() {
   });
   const cascade = document.getElementById("cascade-limit");
   cascade.value = mode.cascadeLimit;
+  cascade.disabled = app.mode === "buy";
   cascade.onchange = () => { mode.cascadeLimit = Number(cascade.value); };
   renderOutcomeControls();
 }
@@ -157,7 +158,7 @@ async function activateDraft() {
     document.getElementById("validate-draft").disabled = true;
     document.getElementById("activate-draft").disabled = true;
     document.getElementById("config-version").textContent = `Active v${active.versionNo} · ${active.name}`;
-    setMessage("config-message", "新配置已激活，新会话立即使用");
+    setMessage("config-message", "新配置已激活，下一局立即使用");
   } catch (error) {
     setMessage("config-message", error.message, true);
   }
@@ -256,8 +257,8 @@ async function loadHistory() {
   if (outcome) params.set("outcome", outcome);
   const rounds = await api(`/api/history/rounds?${params}`);
   document.getElementById("history-rows").innerHTML = rounds.map((round) => `
-    <tr data-round-id="${round.id}"><td>${round.id}</td><td>${escapeHtml(round.createdAt)}</td><td>${escapeHtml(round.token || "-")}</td><td>${escapeHtml(round.mode)}</td><td>${escapeHtml(round.source)}</td><td>${escapeHtml(round.outcome)}</td><td>${money(round.kind === "buy" ? round.buyCost : round.bet)}</td><td>${money(round.totalWin)}</td><td>${escapeHtml(round.scenarioKey || "")}</td></tr>
-  `).join("") || `<tr><td colspan="9">暂无历史</td></tr>`;
+    <tr data-round-id="${round.id}"><td>${round.id}</td><td>${escapeHtml(round.createdAt)}</td><td>${escapeHtml(round.token || "-")}</td><td>${escapeHtml(round.mode)}</td><td>v${escapeHtml(round.configId || "-")}</td><td>${escapeHtml(round.source)}</td><td>${escapeHtml(round.outcome)}</td><td>${money(round.kind === "buy" ? round.buyCost : round.bet)}</td><td>${money(round.totalWin)}</td><td>${escapeHtml(round.scenarioKey || "")}</td></tr>
+  `).join("") || `<tr><td colspan="10">暂无历史</td></tr>`;
   document.querySelectorAll("[data-round-id]").forEach((row) => row.addEventListener("click", async () => {
     document.getElementById("round-detail").textContent = JSON.stringify(await api(`/api/history/rounds/${row.dataset.roundId}`), null, 2);
   }));

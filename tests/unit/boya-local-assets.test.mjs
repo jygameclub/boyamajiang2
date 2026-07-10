@@ -107,3 +107,22 @@ test("local activity entry renders a self-contained local game hub", async () =>
   assert.match(html, /onCloseClick/);
   assert.doesNotMatch(html, /https?:\/\//);
 });
+
+test("local admin history exposes the config version used by each round", async () => {
+  const [html, source] = await Promise.all([
+    readFile(new URL("../../local-admin/boya-mahjong2/index.html", import.meta.url), "utf8"),
+    readFile(new URL("../../local-admin/boya-mahjong2/admin.mjs", import.meta.url), "utf8")
+  ]);
+
+  assert.match(html, /<th>配置<\/th>/);
+  assert.match(source, /round\.configId/);
+});
+
+test("local admin disables the unused purchase cascade-limit control", async () => {
+  const source = await readFile(new URL(
+    "../../local-admin/boya-mahjong2/admin.mjs",
+    import.meta.url
+  ), "utf8");
+
+  assert.match(source, /cascade\.disabled\s*=\s*app\.mode\s*===\s*"buy"/);
+});

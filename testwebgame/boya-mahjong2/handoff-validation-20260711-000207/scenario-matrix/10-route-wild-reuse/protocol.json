@@ -1,0 +1,213 @@
+{
+  "key": "route-wild-reuse",
+  "label": "一个 Wild 跨多个图标复用",
+  "verdict": "PASS",
+  "winSteps": 1,
+  "multipliers": [
+    1
+  ],
+  "lineCounts": [
+    2
+  ],
+  "peakWild": 1,
+  "hasGoldTransform": false,
+  "scatterCounts": [
+    0,
+    0
+  ],
+  "idleRequests": 0,
+  "steps": [
+    {
+      "stepIndex": 0,
+      "drawResult": [
+        101,
+        13,
+        19,
+        3,
+        3,
+        5,
+        5,
+        2,
+        5,
+        5,
+        13,
+        19,
+        7,
+        7,
+        7,
+        9,
+        9,
+        9,
+        9,
+        9,
+        101,
+        11,
+        11,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [
+        {
+          "iconId": 13,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 60,
+          "multi": 1,
+          "odds": 3
+        },
+        {
+          "iconId": 19,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 20,
+          "multi": 1,
+          "odds": 1
+        }
+      ],
+      "roundWin": 80,
+      "totalWin": 80,
+      "gameNum": 1,
+      "goldToWildPos": [],
+      "wildCount": 1,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [
+        {
+          "iconId": 13,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 60,
+          "multi": 1,
+          "odds": 3
+        },
+        {
+          "iconId": 19,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 20,
+          "multi": 1,
+          "odds": 1
+        }
+      ],
+      "expectedLines": [
+        {
+          "iconId": 13,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 60,
+          "multi": 1,
+          "odds": 3
+        },
+        {
+          "iconId": 19,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 20,
+          "multi": 1,
+          "odds": 1
+        }
+      ],
+      "paths": [
+        {
+          "iconId": 13,
+          "positionsByReel": [
+            [
+              1
+            ],
+            [
+              7
+            ],
+            [
+              10
+            ]
+          ]
+        },
+        {
+          "iconId": 19,
+          "positionsByReel": [
+            [
+              2
+            ],
+            [
+              7
+            ],
+            [
+              11
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "stepIndex": 1,
+      "drawResult": [
+        101,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        7,
+        7,
+        9,
+        9,
+        9,
+        9,
+        9,
+        101,
+        11,
+        11,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [],
+      "roundWin": 0,
+      "totalWin": 80,
+      "gameNum": 2,
+      "goldToWildPos": [],
+      "wildCount": 0,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [],
+      "expectedLines": [],
+      "paths": []
+    }
+  ]
+}

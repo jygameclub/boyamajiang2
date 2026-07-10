@@ -813,3 +813,60 @@ next step.drawResult = cascaded board
 - 最终运行时审计覆盖客户端、后台和历史：唯一主机为 `127.0.0.1:18082`，外部 URL、HTTP 4xx/5xx、请求失败均为 0。
 
 完整证据和路径见 `docs/specs/2026-07-10-boya-mahjong2-local-users-scenario-coverage-spec.md` 第 11 节。
+
+### 20.9 后台概率、购买盘与掉落规则深度复核
+
+2026-07-10 使用独立端口 `18083` 和独立 SQLite 做破坏性配置测试，未修改 `18082` 的用户数据。复核发现并修复两个真实缺口：
+
+1. `40007` 购买触发盘此前只按 `buy.scatterWeights` 改胡数量，非胡牌元素仍来自 HAR 固定盘面，后台 `buy.initial/cascade` 列权重实际不生效。修复后：
+   - `buy.initial` 生成触发盘 23 个可玩位置的非胡牌元素和金牌。
+   - `buy.cascade` 生成 `topResult/buttomResult` 掉落缓冲。
+   - `buy.scatterWeights` 再把精确数量的胡放到 seed 洗牌后的位置。
+   - 购买没有普通级联次数，因此后台购买模式的 `cascadeLimit` 改为只读禁用，避免展示无效设置。
+2. live 会在每局开始重新读取 active 配置，但历史此前只保存建连时的 session 配置，热更新后无法追溯实际版本。SQLite schema v4 在 `game_rounds` 增加 `config_id`，普通、购买、免费局逐局保存实际配置；旧记录自动回退 session 配置，后台历史新增配置版本列。
+
+新增专项脚本：
+
+```bash
+node tests/playwright/boya-mahjong2-probability-deep.mjs \
+  --base-url http://127.0.0.1:18083 \
+  --out testwebgame/boya-mahjong2/deep-validation-20260710-233159/probability-final
+```
+
+同一个 live WebSocket session 中依次激活 100% 结果权重并真机旋转，结果如下：
+
+```text
+medium: icon19 / 3轴 / 100 Ways / 20.00 / weighted
+big:    icon15 / 3轴 / 100 Ways / 40.00 / weighted
+mega:   icon9  / 3轴 / 100 Ways / 100.00 / weighted
+super:  icon7  / 3轴 / 100 Ways / 120.00 / weighted
+```
+
+四档均满足：盘面前三轴为后台指定符号、`lines.lineNum=100`、`sum(lines.score)=roundWin`、终止帧无 line、历史 `configId=activeConfigId`。后台页面真实填写购买列权重和胡数量后，3/4/5/6 胡分别得到 10/12/14/15 次，触发盘非胡牌元素及上下缓冲均匹配列配置。
+
+默认购买权重 `70/20/8/2` 做 1000 次服务端抽样，得到：
+
+```text
+3胡 702 (70.2%)
+4胡 198 (19.8%)
+5胡  86 (8.6%)
+6胡  14 (1.4%)
+```
+
+规则压力测试与真机矩阵：
+
+- 默认配置生成并校验 base 1000 局、free 300 局，`outcome=targetOutcome`；base 仅 1 次模板兜底，free 无兜底。
+- 额外生成 base 2000 局、free 500 局，检查 1666 次连续级联和 2784 个多格补牌列；幸存牌相对顺序、金牌转 Wild、当前帧 `topResult`、下一帧盘面和累计奖金全部一致。
+- 28 个 `route-and-cascade` 场景逐个真机运行，152 张早/中/晚高亮及终局截图；全部 PASS，HTTP 4xx/5xx、page error、client close、认证超时、server mismatch 均为 0。
+- 本地运行审计覆盖 test/live/admin/history，所有 HTTP 和 WebSocket 主机仅为 `127.0.0.1:18083`，外部 URL、失败请求和 HTTP 错误均为 0。
+
+证据目录：
+
+```text
+testwebgame/boya-mahjong2/deep-validation-20260710-233159/controlled/
+testwebgame/boya-mahjong2/deep-validation-20260710-233159/probability-final/
+testwebgame/boya-mahjong2/deep-validation-20260710-233159/scenario-matrix/
+testwebgame/boya-mahjong2/deep-validation-20260710-233159/local-runtime/
+```
+
+本地化边界不变：生产服务、生产钱包和生产登录均不参与运行；HAR 认证 token 只作为 Cocos 兼容字符串保留在内层 URL。现有 HAR 没有基础自然触发免费和免费旋转内 Scatter retrigger 的完整状态链，因此这两项仍按 §20.5 限制，不伪造未证实协议。除此之外，本轮实际运行的客户端、素材、用户、余额、概率、购买免费、历史和后台均由当前目录与本地服务提供。

@@ -456,6 +456,29 @@ test("live purchase applies buy initial reel weights to non-scatter trigger symb
   store.close();
 });
 
+test("live purchase applies buy cascade reel weights to trigger buffers", () => {
+  const store = openLocalStore(":memory:");
+  const payload = structuredClone(store.getActiveConfig().payload);
+  payload.modes.buy.scatterWeights = { scatter3: 1, scatter4: 0, scatter5: 0, scatter6plus: 0 };
+  payload.modes.buy.cascade.goldRateByReel = [0, 0, 100, 0, 0];
+  payload.modes.buy.cascade.symbolWeights = [19, 17, 15, 13, 11].map((symbol) => ({ [symbol]: 1 }));
+  store.activateConfig(store.createDraft("forced-buy-buffers", payload).id);
+  const responder = createControlledResponder({
+    rawFrames,
+    connectionIndex: 1,
+    mode: "live",
+    store,
+    seed: "buy-buffer-weights"
+  });
+
+  const trigger = decodeResponse(responder.nextResponsesForClientFrame(buyRequest)[0]);
+  assert.deepEqual(trigger.topResult, [19, 17, 16, 13, 11]);
+  assert.deepEqual(trigger.buttomResult, [19, 17, 16, 13, 11]);
+
+  responder.close("test-done");
+  store.close();
+});
+
 test("live round history records the config version activated for that round", () => {
   const store = openLocalStore(":memory:");
   const responder = createControlledResponder({

@@ -13,7 +13,7 @@ import {
   PLAYABLE_INDEXES,
   freeSpinCountForScatter
 } from "../engine/constants.mjs";
-import { generateBoard } from "../engine/board-generator.mjs";
+import { generateBoard, generateBuffers } from "../engine/board-generator.mjs";
 import { classifyOutcome, generateLiveRound } from "../engine/outcome-selector.mjs";
 import { createSeededRng, weightedChoice } from "../engine/rng.mjs";
 import { buildRoundPlan } from "../engine/round-engine.mjs";
@@ -310,12 +310,19 @@ export function createControlledResponder({
   function createTriggerBoard(scatterCount, buyRoundNo, config) {
     const rng = createSeededRng(`${seed}:trigger:${buyRoundNo}`);
     const buyInitial = config.payload.modes.buy.initial;
+    const buyCascade = config.payload.modes.buy.cascade;
     const board = generateBoard({
       rng,
       weightsByReel: buyInitial.symbolWeights,
       goldRateByReel: buyInitial.goldRateByReel,
       mode: "buy",
       scatterCap: 0
+    });
+    const buffers = generateBuffers({
+      rng,
+      weightsByReel: buyCascade.symbolWeights,
+      goldRateByReel: buyCascade.goldRateByReel,
+      mode: "buy"
     });
     const positions = [...PLAYABLE_INDEXES];
     for (let index = positions.length - 1; index > 0; index -= 1) {
@@ -325,7 +332,7 @@ export function createControlledResponder({
     positions.slice(0, scatterCount).forEach((index) => { board[index] = 1; });
     board[0] = 101;
     board[20] = 101;
-    return board;
+    return { board, buffers };
   }
 
   function prepareRecordedFreeQueue({ freeCount, buyBalance, featureRoundNo, configId }) {
@@ -549,7 +556,8 @@ export function createControlledResponder({
     const freeCount = freeSpinCountForScatter(scatterCount);
     const buyCost = betCoin * Number(featureConfig.payload.buyCostMultiplier || 80);
     const buyBalance = balance - buyCost;
-    const board = createTriggerBoard(scatterCount, buyRoundNo, featureConfig);
+    const trigger = createTriggerBoard(scatterCount, buyRoundNo, featureConfig);
+    const { board, buffers } = trigger;
     const round = store.recordRound({
       sessionId: session.id,
       configId: featureConfig.id,
@@ -571,8 +579,8 @@ export function createControlledResponder({
         stepNo: 0,
         cmd: 40007,
         board,
-        topResult: triggerRotate.topResult,
-        buttomResult: triggerRotate.buttomResult,
+        topResult: buffers.topResult,
+        buttomResult: buffers.buttomResult,
         lines: [],
         multiplier: 1,
         roundWin: 0,
@@ -591,6 +599,8 @@ export function createControlledResponder({
         betCoin: buyCost,
         purchase: true,
         drawResult: board,
+        topResult: buffers.topResult,
+        buttomResult: buffers.buttomResult,
         lines: [],
         gameNumList: BASE_MULTIPLIERS,
         gameNum: 1,
