@@ -623,7 +623,7 @@ testwebgame/boya-mahjong2/local-controlled-final-YYYYMMDD-HHMMSS/
 - `tools/local/server/controlled-responder.mjs`：test/live 的 `40002/40003`、`40006/40007`、`40004/40005` 和心跳状态机。
 - `tools/local/server/control-api.mjs`：配置草稿、结构校验、激活、测试套件控制、模拟和运行信息 API。
 - `local-admin/boya-mahjong2/`：base/free/buy、initial/cascade、5 列符号权重、金牌率、结果权重、胡数量、测试控制和历史详情后台。
-- `/__game/test`：普通小奖阶梯、12 类路线/级联/Wild 场景、3/4/5/6 胡购买免费。
+- `/__game/test`：普通小奖阶梯、28 类路线/级联/Wild 场景、3/4/5/6 胡购买免费。
 - `/__game/live`：新 session 绑定激活配置；基础局和购买后的免费局都由本地列权重与 outcome 权重控制。
 - `/__history`、`/api/history/rounds`：读取 SQLite 领域历史，重启后仍存在。
 
@@ -635,9 +635,9 @@ testwebgame/boya-mahjong2/local-controlled-final-YYYYMMDD-HHMMSS/
 
 live 免费模式不复用这套固定盘面，而是读取 `free.initial/cascade` 每列权重和 free outcome 权重，由规则引擎生成盘面后编译进真实 `40005` 外壳。
 
-### 20.2 新增确定性路线套件
+### 20.2 确定性路线套件
 
-`route-and-cascade` 已落为 12 个可在后台单独选择或循环的场景：
+`route-and-cascade` 已扩展为 28 个可在后台单独选择或循环的场景：
 
 ```text
 route-near-miss
@@ -652,17 +652,33 @@ cascade-wild-next-eliminate
 route-wild-reuse
 cascade-refill-win
 cascade-limit-terminal
+route-top-single
+route-bottom-single
+route-four-axes
+route-four-axes-multi-ways
+route-five-axes-multi-ways
+route-three-icons
+cascade-one-win-step
+cascade-three-win-steps
+cascade-multi-way-refill
+cascade-multi-icon-refill
+cascade-scatter-gravity
+cascade-gold-wild-hold
+cascade-double-gold-to-wild
+route-multiple-wild-same-line
+cascade-gold-wild-multi-icon
+route-mixed-base-gold-wild
 ```
 
 这些场景只定义初始 25 格盘面和每列后续补牌队列；`lines`、Ways、倍率和金额仍由统一规则引擎计算。`cascade-limit-terminal` 在上限处再做一次重力掉落，只有新盘面无 Ways 才作为合法终止盘发送，否则拒绝生成。
 
 ### 20.3 协议与素材排障经验
 
-1. `40001` 不是可按旋转结果解码的 MsgRotate。Playwright 观察器曾因此丢掉真实已返回的进入帧并误报超时；现在只对 `40003/40005/40007` 解码旋转数据。
+1. `40001` 不是 MsgRotate。Playwright 观察器现在对它单独解码用户余额；只对 `40003/40005/40007` 解码旋转数据，并对 `20048/20052` 单独解码本地历史。
 2. recorded base `40003` 没有 field 14。原 protobuf 重建器只替换已有 packed 字段，导致服务端计算出 `goldToWildPos` 但客户端收不到；现在会把缺失的 packed override 按字段追加。
 3. HAR 基础局全输，中奖后懒加载的 `14symbol02` 音效没有被抓取。已补齐本地 metadata JSON 和 MP3，并增加资源存在性单测。
 4. 不能用固定的短等待假设按钮已经解锁。旋转和购买测试都以观察到新的 `40002/40006` 为准，未发请求时按间隔重试点击。
-5. Cocos 收到网络帧后仍要完成滚轴停止，高亮截图不能在帧刚到时截。基础和 live 使用约 2600 ms 的高亮窗口；最终截图能同时看到发光路径和“赢取”金额。
+5. Cocos 收到网络帧后仍要完成滚轴停止，高亮截图不能在帧刚到时截。连续取帧确认约 2570--3070 ms 才是稳定高亮窗口；场景矩阵统一等待 2700 ms，最终截图能同时看到发光路径和“赢取”金额。
 6. 免费奖励排序必须按完整 free-spin group 做，不能按单个 `40005` 排序，否则会拆散同一局 x2/x4/x6/x10 级联并破坏累计金额。
 7. live free 的每一步仍使用真实 HAR 外壳：中奖步按 x2/x4/x6/x10 选择外壳，普通终止使用真实终止外壳，最后一步使用真实退出免费状态外壳；只替换 Validator 已确认字段。
 
@@ -670,17 +686,17 @@ cascade-limit-terminal
 
 最终报告：
 
-`testwebgame/boya-mahjong2/local-controlled-final-20260710-120111/report.md`
+`testwebgame/boya-mahjong2/local-controlled-final-20260710-regression/report.md`
 
 关键结果：
 
 ```text
 verdict = PASS
-unit tests = 50 pass
+unit tests = 62 pass
 base ladder = 1.00 / 2.00 / 3.00 / 5.00 / 6.00 / 8.00
 route goldToWildCount = 1
 route Wild next eliminated = true
-route Wild reuse lines = 7
+route Wild reuse lines = 2
 base cascade multipliers = 1 / 2 / 3 / 5
 buy scatter/free = 3->10, 4->12, 5->14, 6->15
 test free totals ascending = true
@@ -751,3 +767,49 @@ clientClose = 0
 authTimeout = false
 mismatches = 0
 ```
+
+### 20.7 本地用户与 28 场景扩展复盘
+
+本地用户合同和 28 个路线场景的最终实现、报告与排障记录见：
+
+```text
+docs/specs/2026-07-10-boya-mahjong2-local-users-scenario-coverage-spec.md
+```
+
+额外门禁如下：
+
+- 普通 `40003` 每一步最多 2 个胡；3+ 胡必须由购买触发 `40006/40007` 进入免费状态。
+- 场景元数据保存精确 `scatterCount`，单测和 Playwright 都按精确数量验证，不能只保存“是否包含胡”。
+- 本地用户 token 由 `/__game/live?token=...` 接收，地址栏由同源入口壳保持不变；内层 Cocos 兼容值不参与本地认证，用户只通过 `g` 内 WS `userToken` 绑定。
+- `user1`、`user2`、`usergame1` 的余额、历史、RTP 和游戏内 `20048/20052` 均按 SQLite 用户隔离；跨用户详情返回 404。
+- “两个 Wild 同一路线”最终只保留一条 `iconId=13` 四轴 4 Ways，避免 Wild 顺带把第一轴填充符号变成额外中奖线。
+
+最终证据目录：
+
+```text
+testwebgame/boya-mahjong2/local-controlled-final-20260710-scenario-matrix-final/
+testwebgame/boya-mahjong2/local-controlled-final-20260710-multiple-wild-fixed/
+testwebgame/boya-mahjong2/local-controlled-final-20260710-local-users/
+testwebgame/boya-mahjong2/local-controlled-final-20260710-live-controls-usergame1/
+testwebgame/boya-mahjong2/local-controlled-final-20260710-regression/
+```
+
+### 20.8 级联可视错位、长转与本地 token 最终修复
+
+2026-07-10 的人工截图复核发现，旧引擎虽然逐帧满足 `drawResult + lines + score` 公式，但把级联补牌写到了下一帧的 `topResult`。Cocos 会用当前中奖帧的 `topResult` 先执行掉落，因此下一帧高亮时盘面已经被错误补牌替换。最终修复为：
+
+```text
+current winning step.topResult = current cascade incomingByReel.at(-1)
+next step.drawResult = cascaded board
+```
+
+新增门禁和结果：
+
+- 单测固定 `cascade-limit-terminal`：第一中奖帧补牌必须是 `[7,7,7]`，第二中奖帧终止补牌必须是 `[3,5,11]`。
+- 28 个场景逐个浏览器执行，所有中奖步骤保留早/中/晚三帧，高亮路线人工复核；2 个胡场景使用独立长等待。
+- 每个测试场景终局后 `idleRequests=0`；live 强制概率连续 10 把，每把均有终局且 `idleRequests=0`。
+- `/__game/test` 和 `/__game/live?token=user1` 由同源入口壳保持地址栏不变，内层兼容 token 不参与本地用户认证。
+- 客户端 `gateConfig` 默认网关改为当前 `window.location.host`。
+- 最终运行时审计覆盖客户端、后台和历史：唯一主机为 `127.0.0.1:18082`，外部 URL、HTTP 4xx/5xx、请求失败均为 0。
+
+完整证据和路径见 `docs/specs/2026-07-10-boya-mahjong2-local-users-scenario-coverage-spec.md` 第 11 节。

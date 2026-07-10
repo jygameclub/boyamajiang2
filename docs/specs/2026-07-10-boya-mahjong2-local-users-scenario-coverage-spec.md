@@ -4,7 +4,7 @@
 
 **工作目录:** `/Users/yang/work/git/sun/boyamajiang2`
 
-**状态:** 设计已由用户确认，进入实现
+**状态:** 已实现并完成协议、真机和持久化验收
 
 **约束:** 不切分支；运行时所有客户端、素材、用户、余额、概率、历史和后台数据都在当前目录与当前本地服务内完成。
 
@@ -40,7 +40,9 @@ http://127.0.0.1:18082/__game/live?token=user2
 http://127.0.0.1:18082/__game/live?token=usergame1
 ```
 
-HTTP 跳转后的 Cocos URL 继续携带 `token=<本地用户 token>`；base64 `g` 中的本地 WebSocket URL同时携带 `userToken=<本地用户 token>`。大厅连接和游戏连接都从本地 WebSocket 参数获取用户，不解析或信任 HAR 登录 token。
+外部快捷地址的 `token` 是本地用户标识。HTTP 跳转后的 Cocos URL 必须继续使用 HAR 录制的认证 `token`，不能替换为 `user1` 等本地值；实测替换后客户端不会建立 WebSocket。base64 `g` 中的本地 WebSocket URL携带 `userToken=<本地用户 token>`，大厅和游戏连接都只从该参数绑定本地用户。
+
+Cocos 建连时会在 `userToken` 后追加自身缓存后缀，例如 `user1?BA...`。网关只剥离这个客户端后缀，再按下述正则校验原始用户 token；不能把后缀一起写入数据库，也不能用 HAR 登录 token 作为本地用户主键。
 
 未传 token 时使用兼容用户 `local-default`。token 区分大小写，允许正则：
 
@@ -99,7 +101,7 @@ rtp        = totalWager > 0 ? totalWin / totalWager : 0
 | Scatter | Scatter 不替代普通图标、不消除；周围中奖消除后随重力移动 |
 | 边界 | 两轴近失；级联上限合法终止；多个潜在图标但只有声明 Ways |
 
-每个场景目录项增加预期元数据：中奖步数、终止步、必含倍率、最少 Wild 数、是否发生金转 Wild、是否包含 Scatter。单测从实际 `buildRoundPlan()` 结果验证元数据，避免标签与真实盘面脱节。
+每个场景目录项增加预期元数据：中奖步数、终止步、必含倍率、最少 Wild 数、是否发生金转 Wild、精确 Scatter 数量。单测从实际 `buildRoundPlan()` 结果验证元数据，避免标签与真实盘面脱节。普通旋转所有步骤强制 `Scatter <= 2`；只有购买免费套件允许 3/4/5/6 个 Scatter。
 
 ## 5. 线路与元素一致性
 
@@ -122,7 +124,7 @@ Playwright 对扩展后的场景逐个运行并保存：
 scenario-key/step-01-highlight.png
 scenario-key/step-02-highlight.png
 scenario-key/protocol.json
-scenario-key/verdict.json
+report.json
 ```
 
 截图必须在高亮动画窗口，报告保存该步盘面、line、预期位置、Wild/金牌位置、金额和客户端显示金额。人工抽查所有特殊场景；普通同类场景使用协议一致性和像素非空/稳定性门禁。live 模式至少抽取普通输局、单线中奖、多 Ways、级联、购买 3+ 胡及免费旋转。
@@ -168,3 +170,120 @@ GET /__game/live?token=user1
 - 用户历史：游戏内“菜单 -> 历史”和后台 token 过滤结果一致。
 - 最终报告给出场景总数、逐场景 verdict、至少一组 Wild 连续演化截图、至少两个 token 的余额/历史隔离证据及用户 RTP。
 
+## 9. 2026-07-10 实施结果
+
+### 9.1 场景覆盖
+
+当前目录一共提供 38 个确定性场景：
+
+```text
+base-small-ladder = 6
+route-and-cascade = 28
+buyfree-ladder = 4
+total = 38
+```
+
+`route-and-cascade` 的 28 个场景已由 `tests/playwright/boya-mahjong2-scenario-matrix.mjs` 逐个真机执行。最终报告：
+
+```text
+testwebgame/boya-mahjong2/local-controlled-final-20260710-scenario-matrix-final/report.json
+```
+
+报告结果为 `28/28 PASS`，共 41 个中奖动画步骤，`HTTP >= 400=0`、`pageErrors=0`、`clientClose=0`、`authTimeout=false`、`mismatches=0`。每一步都从解码后的 `drawResult` 重新计算 Ways，并严格比较 `lines`、路径位置、`roundWin` 和 `sum(lines.score)`。
+
+两个 Wild 同一路线的最终定点证据：
+
+```text
+testwebgame/boya-mahjong2/local-controlled-final-20260710-multiple-wild-fixed/
+```
+
+该盘只有一条 `iconId=13` 四轴线路，第一轴 4 个目标符号，第二、三轴各一个 Wild，第四轴一个目标符号；`lineNum=4`、`score=400`，客户端高亮和横幅 `4.00` 一致。
+
+### 9.2 多用户与历史
+
+`user1`、`user2`、`usergame1` 已在真实客户端逐个连接并下注。最终报告：
+
+```text
+testwebgame/boya-mahjong2/local-controlled-final-20260710-local-users/report.json
+```
+
+关键结果：
+
+```text
+verdict = PASS
+user2 first 40001 = 100000000
+usergame1 first 40001 = 100000000
+each user WebSocket contains its own userToken
+each user balance = enter balance - bet + total win
+history rows contain only the requested token
+cross-user detail request = HTTP 404
+admin RTP = recomputed SQLite RTP
+game history 20048/20052 = current user records
+HTTP >= 400 / pageErrors / clientClose / authTimeout / mismatches = 0
+```
+
+后台桌面和手机截图分别为 `admin-users.png`、`admin-users-mobile.png`；`admin-usergame1-history.png` 证明后台 token 筛选只显示 `usergame1`。
+
+### 9.3 控件、购买和免费旋转
+
+`tests/playwright/boya-mahjong2-live-controls.mjs --token usergame1` 已验证：自动旋转 3 次、下注切换为 `20.00`、购买费用 `1600.00`、本地概率抽到 6 个胡并给 15 次免费、游戏内历史列表与详情均可打开。报告：
+
+```text
+testwebgame/boya-mahjong2/local-controlled-final-20260710-live-controls-usergame1/report.json
+```
+
+完整回归 `local-controlled-final-20260710-regression` 还验证了 3/4/5/6 胡分别对应 10/12/14/15 次免费、测试免费局从小到大、x2/x4/x6/x10、金牌转 Wild、live 免费盘面读取当前概率配置，最终 `verdict=PASS`。
+
+## 10. 真机排障经验
+
+1. **三者自洽还不够，状态必须合法。** 盘面、`lines` 和金额即使数学一致，普通 `40003` 若含 3 个胡仍会让客户端进入逐轴胡牌动画并等待免费状态。错误场景连续 14 秒不再发送终止子轮，说明它不是可接受的普通局。普通模式必须限制最多 2 胡，3+ 胡只能走 `40006/40007`。
+2. **Wild 会复用任意可支付符号。** 两个连续 Wild 放在第二、三轴时，第一轴的每个普通填充符号都可能额外生成一条 Ways。设计“单一 Wild 路线”时，必须从引擎结果反查所有 `lines`，不能只检查目标图标存在。最终把第一轴其余格也设为目标符号，消除了意外 `iconId=3` 线路。
+3. **高亮时间不能用一个固定延迟。** 首次停轴、后续级联和 2 个胡的期待动画时长不同。最终脚本对首次中奖取约 `1.8/2.3/2.8s` 三帧，对后续级联取 `0.7/1.2/1.7s` 三帧；2 个胡场景取 `9.8/10.6/11.2s` 三帧。中间帧作为正式 `highlight.png`，前后帧用于确认没有截到停轴前或爆破后。
+4. **本地用户不能直接替换 Cocos 兼容 token。** 短 token 放进 Cocos 顶层 `token` 会导致 WebSocket 不建立。现在 `/__game/live?token=user1` 返回同源全屏入口壳，地址栏始终保留 `user1`；壳内 Cocos 仍使用 HAR 格式兼容值，但没有远端验证，实际用户身份只由本地 WS `userToken` 和 SQLite 决定。测试入口同样保持 `/__game/test`。
+5. **历史必须同时验两条入口。** REST `/api/history/rounds?token=...` 用于后台和所有权检查；客户端原生历史必须真实完成 `20047/20048` 和 `20051/20052`。只验证其中一个不能证明用户看到的是自己的记录。
+6. **`topResult` 属于触发掉落的当前帧。** 真实 HAR 表明，当前中奖帧的 `topResult[reel]` 是本次消除后进入下一盘的边界牌。旧实现把补牌写到下一帧，造成客户端先生成一块盘面，再用下一帧 `lines` 高亮另一种符号。修复后由当前步骤回写 `incomingByReel.at(-1)`，并新增固定级联单测。
+7. **长转必须检查终局后的静默状态。** 只收到最后一个 `40003` 不代表 UI 已恢复。矩阵对每个场景等待终局后检查未点击时新增 `40002=0`；live 连续 10 把每把都要求零中奖终局帧、下一把可点击、`idleRequests=0`。
+8. **完全本地要同时做静态和运行时审计。** `gateConfig` 原本仍有线上 `wss://gateway...` 兜底，现已改成 `window.location.host`。Playwright 对测试、live、后台、历史页记录全部 HTTP/WS URL，任何非 `127.0.0.1:18082` 主机、请求失败或 HTTP 4xx/5xx 都判失败。
+
+## 11. 2026-07-10 最终缺陷修复与验收
+
+### 11.1 修复内容
+
+- 修复级联补牌帧归属，解决“盘面是发/中/八万，`lines` 却高亮紫框牌”的错位。
+- 测试与 live 使用同源全屏入口壳，地址栏不再变成长 HAR token。
+- HAR 客户端默认网关改为本机，移除运行时线上网关兜底。
+- 场景矩阵增加多时点高亮截图和终局静默门禁。
+- live 综合回归扩展为连续 10 把并逐把检查 `idleRequests=0`。
+
+### 11.2 浏览器证据
+
+```text
+28 场景矩阵：testwebgame/boya-mahjong2/scenario-matrix-visual-final-20260710/
+Scatter 定点：testwebgame/boya-mahjong2/scatter-gravity-visual-final2-20260710/
+综合回归：testwebgame/boya-mahjong2/controlled-stability-local-final-20260710/
+三用户短 token：testwebgame/boya-mahjong2/local-users-token-shell-20260710/
+按钮回归：testwebgame/boya-mahjong2/live-controls-bugfix-final-20260710/
+本地网络审计：testwebgame/boya-mahjong2/local-runtime-audit-final-20260710/
+```
+
+最终结果：
+
+```text
+route-and-cascade = 28/28 PASS
+test idleRequests = 0
+live stability spins = 10/10 PASS
+live idleRequests = 0 for every spin
+HTTP >= 400 = 0
+pageErrors = 0
+clientClose = 0
+authTimeout = false
+serverMismatches = 0
+runtime external URLs = 0
+runtime hosts = 127.0.0.1:18082 only
+```
+
+### 11.3 当前本地边界
+
+- 客户端脚本、图片、音频和懒加载包均由 `local-har-client/boya-mahjong2` 提供。
+- 大厅、游戏协议、概率配置、购买免费、用户余额、历史和 RTP 均由当前目录 Node 服务与 SQLite 控制。
+- HAR 长 token 只作为未改动 Cocos 启动格式的内层兼容值，不连接远端、不决定本地用户，也不会出现在两个主要入口的地址栏。
