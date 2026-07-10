@@ -1,0 +1,78 @@
+{
+  "baseUrl": "http://127.0.0.1:18082",
+  "pages": [
+    {
+      "name": "test-client",
+      "pathname": "/__game/test",
+      "finalUrl": "http://127.0.0.1:18082/v2/?token=uzuN0IxNjgzMDhGN0Y3Qjk4nPpYNzI2MTU3M0MwQzEyNEQ2NDA0RjIzQTg3NDkzN0MyMkQ4QUY4NTdEMjEwMUY4QThGMzBDNDBBRjAyMTdGREFFQzAyOUYxQkEyNEFBREI5NjFDMjVCNzJFMzMxODU0Mzk4QTBCNDE2RUU1OUE5Q0ZCMTU1RkFCQzM0Rjc0NTBENkM2QjE3RERGNTc5MDdFQTdFREFBRkMzRTgzNjk4NkRFQzNGMEUwQzg1NUM3MDlDRDc0vpEgl&deviceType=0&pcode=ZHlnd3N3&t=MTAz&ma=bWFpbmxhbmQ=&lang=CN&g=d3M6Ly8xMjcuMC4wLjE6MTgwODIvZ2F0ZS93cz9tb2RlPXRlc3Q%3D&sound=0&music=0&localMode=test",
+      "expectedUrl": null,
+      "canvasVisible": true,
+      "requestCount": 263,
+      "responseCount": 263,
+      "websocketCount": 2,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "live-client",
+      "pathname": "/__game/live?token=audit-user",
+      "finalUrl": "http://127.0.0.1:18082/__game/live?token=audit-user",
+      "expectedUrl": "http://127.0.0.1:18082/__game/live?token=audit-user",
+      "canvasVisible": true,
+      "requestCount": 247,
+      "responseCount": 247,
+      "websocketCount": 2,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "admin",
+      "pathname": "/__admin",
+      "finalUrl": "http://127.0.0.1:18082/__admin",
+      "expectedUrl": null,
+      "canvasVisible": false,
+      "requestCount": 6,
+      "responseCount": 6,
+      "websocketCount": 0,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    },
+    {
+      "name": "history",
+      "pathname": "/__history",
+      "finalUrl": "http://127.0.0.1:18082/__admin#history",
+      "expectedUrl": null,
+      "canvasVisible": false,
+      "requestCount": 8,
+      "responseCount": 8,
+      "websocketCount": 0,
+      "hosts": [
+        "127.0.0.1:18082"
+      ],
+      "externalUrls": [],
+      "failedRequests": [],
+      "httpErrors": [],
+      "pageErrors": [],
+      "verdict": "PASS"
+    }
+  ],
+  "verdict": "PASS"
+}

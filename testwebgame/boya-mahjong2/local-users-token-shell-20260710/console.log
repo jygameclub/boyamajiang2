@@ -1,0 +1,22 @@
+[user1][warning] Allow attribute will take precedence over 'allowfullscreen'.
+[user1][log] init language en
+[user1][log] init language zh
+[user1][warning] [.WebGL-0x11c00476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[user1][log] Cocos Creator v2.4.6
+[user1][warning] [.WebGL-0x11c00476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[user1][warning] [.WebGL-0x11c00476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[user1][warning] [.WebGL-0x11c00476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[user1][timeEnd] LoadScene dy_mjlltwo_en: 48.48388671875 ms
+[user1][log] showGame
+[user2][warning] Allow attribute will take precedence over 'allowfullscreen'.
+[user2][log] init language en
+[user2][log] init language zh
+[user2][log] Cocos Creator v2.4.6
+[user2][timeEnd] LoadScene dy_mjlltwo_en: 44.210205078125 ms
+[user2][log] showGame
+[usergame1][warning] Allow attribute will take precedence over 'allowfullscreen'.
+[usergame1][log] init language en
+[usergame1][log] init language zh
+[usergame1][log] Cocos Creator v2.4.6
+[usergame1][timeEnd] LoadScene dy_mjlltwo_en: 47.026123046875 ms
+[usergame1][log] showGame
