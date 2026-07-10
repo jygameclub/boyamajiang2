@@ -889,3 +889,119 @@ docs/specs/2026-07-10-boya-mahjong2-local-users-scenario-coverage-spec.md
 - 高亮截图不能统一等待 2700 ms：首次中奖、后续级联、2 个胡期待动画必须使用不同的三时点采样，具体见用户与场景覆盖 spec 第 10--11 节。
 - 真实 HAR 的 `topResult` 属于触发本次消除的当前中奖帧；把补牌写到下一帧会造成可视盘面与 `lines` 错位。
 - 测试、live、后台和历史页的最终运行时审计只有 `127.0.0.1:18082`，外部 URL、HTTP 错误和请求失败均为 0。
+
+## 15. 客户端按钮、本地规则、回放与连接角色审计（2026-07-10）
+
+### 15.1 审计结论
+
+对当前 Boya Cocos 客户端的可操作入口做了逐项真机检查，以下功能均已接入当前本地环境：
+
+| 入口 | 本地实现与验证依据 |
+| --- | --- |
+| 普通旋转 / 空格旋转 | 空格键真实发出 `40002`，本地服务返回 `40003`；设置关闭空格旋转后写入本地存储 |
+| 投注加减 | 客户端倍率从 `20` 切到 `100`，下一次 `40003` 同步返回 `betMulti=100`、`betCoin=2000`，再切回 `20` |
+| 极速 | `gameConfigData.isTurbo` 真机验证 `false -> true -> false` |
+| 声音 | 音乐和音效状态同步切换并可恢复，设置页写入本地存储 |
+| 自动旋转 | 10 次自然结束和旋转中点击中央按钮停止均已验证；停止后 SQLite 局数不再增长 |
+| 规则 | `/v2/help/dy_mjlltwo/` 由本地服务渲染，内容使用当前引擎赔率、2000 Ways、消除倍数和 80 倍购买费用 |
+| 历史 / 详情 | 游戏内真实走 `20047 -> 20048`、`20051 -> 20052`，按本地 token 从 SQLite 读取 |
+| 设置 / 语言 | 音乐、音效、简介、极速、空格键均可保存；语言选择懒加载素材已本地补齐，简体切繁体真机通过 |
+| 回放 | 列表走 `20049 -> 20050`，数据走 `70000 -> 70001`；本地 SQLite 盘面、lines、金额被重建成原客户端回放帧 |
+| 大厅 | 原按钮实际打开活动 WebView；现由 `/v2/help/dy_activity/` 提供本地入口页，并用 `20152 -> 20153` 完成原客户端握手 |
+| 退出 | 本地退出确认 prefab 和按钮依赖已补齐；弹窗、取消及返回游戏均无 404 |
+
+完整回归脚本：
+
+```text
+tests/playwright/boya-mahjong2-button-audit.mjs
+```
+
+最终证据目录：
+
+```text
+testwebgame/boya-mahjong2/button-audit-final-20260710/
+```
+
+最终报告 `verdict=PASS`，并且：
+
+```text
+HTTP >= 400                0
+request failures           0
+external HTTP requests     0
+page errors                0
+unexpected client closes   0
+auth timeout               false
+server mismatches          0
+```
+
+### 15.2 本地规则页与大厅页
+
+`tools/local/server/game-help.mjs` 现在提供两个完全同源页面：
+
+- `renderBoyaGameHelp()`：当前规则服使用的 Ways、赔率、普通/免费消除倍数、胡牌次数和购买费用。
+- `renderBoyaLocalHub()`：测试数据、本地概率、控制后台和服务端历史四个入口。
+
+大厅页不能只返回 HTTP 200。原 `SlotActivity` 在加载后等待页面发送 JSON `get` 消息；5 秒内没有收到就会显示“打开活动页面失败”并关闭 WebView。本地页因此发送：
+
+```json
+{"type":"get","tag":"Msg_GetActivityLobbyGameInfoReq","args":{"language":true}}
+```
+
+大厅通道本地返回压缩 protobuf `20153`，页面保持显示；页面自己的关闭按钮再发送 `onCloseClick`，恢复游戏画面。真机同时确认页面停留超过 5 秒、可关闭、无外部请求。
+
+### 15.3 SQLite 回放协议
+
+`tools/local/server/hall-history-responder.mjs` 增加了原生回放链：
+
+- `20049`：读取当前 token 的本地中奖基础局和购买免费局，返回 `20050` 列表。
+- `70000`：解析 `playid=local-<roundId>`，并校验 round 所属 token。
+- `70001`：把 SQLite 的 board、top/bottom、lines、分数、倍数和免费态重建为 gzip+base64 的 `40003/40007/40005` 帧。
+- 基础中奖回放使用 `40003`；购买局依次回放 `40007` 触发盘和对应 `40005` 免费步骤。
+- 回放完成后客户端主动关闭 replay WebSocket 属于原状态机行为，不计为异常断连。
+
+真机已验证中奖高亮、金额及终局“再次观看/复制链接”界面，并在回放结束后用同一个 token 重新进入普通游戏。
+
+### 15.4 回放后重进的通道错位修复
+
+旧服务按同一 token 的 WebSocket 建立次数交替分配 `connectionIndex=0/1`。正常页面恰好建立“大厅 + 游戏”两个连接，但回放 WebView 会额外建立一个仅发送 `70000` 的连接；之后同 token 重进时，第一个 `10000` 会被误分到游戏通道，出现：
+
+```text
+No replay response for cmd 10000 on connection 1
+```
+
+现改为在 `live/test` 连接收到首个二进制帧后判定角色：
+
+- `10000/20047/20049/20152/70000` 等大厅命令 -> `connectionIndex=0`
+- `31008/31010/40000/40002/40004/40006` 等游戏命令 -> `connectionIndex=1`
+
+角色分类位于 `tools/local/server/connection-role.mjs`。回放连接不再污染后续连接顺序；同 token 回放完成后重进已纳入 Playwright 门禁。
+
+### 15.5 懒加载素材经验
+
+HAR 只记录用户当时触发过的请求。规则、回放结束、语言选择和退出确认等入口属于运行时懒加载，必须逐按钮真机点击才能发现缺口。本轮补齐并增加单测门禁的关键共享素材包括：
+
+```text
+assets/resources/import/0a/0a4b4a236.2d13e.json
+assets/resources/import/02/02b7b0d1c.f9004.json
+assets/resources/import/79/791d6f4c-58f1-40f3-b49a-ae3291719814.5c121.json
+assets/resources/import/99/991d1741-2dd3-4b0d-90f8-f8dfc2706b73.4632e.json
+```
+
+同时补齐语言选择引用的 `assets/dy_mjlltwo_en/import/*` JSON 和 `native/1c/1c0b3a350.1b891.webp`。这些文件仅在恢复阶段从原精确资源 URL 取回；当前运行时全部从 `127.0.0.1:18082` 读取，不依赖线上 CDN。
+
+### 15.6 测试统计边界
+
+- `40002` 不等于“用户完成一局”：基础中奖消除子轮仍会继续发送 `40002`。自动旋转次数和停止行为必须以 SQLite 新增的完整 round 数、`gameConfigData.isAuto/autoTimes` 和静默期共同判断。
+- 按坐标点一次不等于按钮生效：Cocos 在转轴动画或界面切换期间可能吞掉点击。Playwright 必须重试到目标协议帧、目标节点或目标状态出现。
+- 预加载 iframe 存在不等于页面已打开。规则和大厅验收同时检查可见 Cocos 节点、WebView 内容和协议握手。
+- 所有浏览器验收都必须监听 HTTP 4xx、requestfailed、pageerror、外部 HTTP URL、WebSocket close 和认证超时文本。
+
+### 15.7 当前地址
+
+```text
+测试数据客户端  http://127.0.0.1:18082/__game/test
+本地概率客户端  http://127.0.0.1:18082/__game/live?token=user1
+控制后台        http://127.0.0.1:18082/__admin
+服务端历史      http://127.0.0.1:18082/__admin#history
+本地规则        http://127.0.0.1:18082/v2/help/dy_mjlltwo/
+```

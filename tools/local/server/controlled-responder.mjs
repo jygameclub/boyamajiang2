@@ -13,6 +13,7 @@ import {
   PLAYABLE_INDEXES,
   freeSpinCountForScatter
 } from "../engine/constants.mjs";
+import { generateBoard } from "../engine/board-generator.mjs";
 import { classifyOutcome, generateLiveRound } from "../engine/outcome-selector.mjs";
 import { createSeededRng, weightedChoice } from "../engine/rng.mjs";
 import { buildRoundPlan } from "../engine/round-engine.mjs";
@@ -220,6 +221,7 @@ export function createControlledResponder({
     const finalBalance = balanceAfterBet + plan.totalWin;
     const round = store.recordRound({
       sessionId: session.id,
+      configId: roundConfig.id,
       roundNo,
       kind: "base",
       bet: betCoin,
@@ -305,13 +307,17 @@ export function createControlledResponder({
     return selected === "scatter3" ? 3 : selected === "scatter4" ? 4 : selected === "scatter5" ? 5 : 6;
   }
 
-  function createTriggerBoard(scatterCount, buyRoundNo) {
-    const board = [...triggerRotate.drawResult];
-    for (const index of PLAYABLE_INDEXES) {
-      if (board[index] === 1 || board[index] === 2) board[index] = 19;
-    }
-    const positions = [...PLAYABLE_INDEXES];
+  function createTriggerBoard(scatterCount, buyRoundNo, config) {
     const rng = createSeededRng(`${seed}:trigger:${buyRoundNo}`);
+    const buyInitial = config.payload.modes.buy.initial;
+    const board = generateBoard({
+      rng,
+      weightsByReel: buyInitial.symbolWeights,
+      goldRateByReel: buyInitial.goldRateByReel,
+      mode: "buy",
+      scatterCap: 0
+    });
+    const positions = [...PLAYABLE_INDEXES];
     for (let index = positions.length - 1; index > 0; index -= 1) {
       const target = rng.int(index + 1);
       [positions[index], positions[target]] = [positions[target], positions[index]];
@@ -322,7 +328,7 @@ export function createControlledResponder({
     return board;
   }
 
-  function prepareRecordedFreeQueue({ freeCount, buyBalance, featureRoundNo }) {
+  function prepareRecordedFreeQueue({ freeCount, buyBalance, featureRoundNo, configId }) {
     const selectedGroups = selectFreeSpinGroups(recordedFreeGroups, freeCount, mode);
     const finalShell = freeTemplates.at(-1);
     const finalState = decodeBoyaRotateFromPayload(parseFrameBase64(finalShell).payload);
@@ -392,6 +398,7 @@ export function createControlledResponder({
 
     const round = store.recordRound({
       sessionId: session.id,
+      configId,
       roundNo: featureRoundNo,
       kind: "free-feature",
       bet: betCoin,
@@ -511,6 +518,7 @@ export function createControlledResponder({
     const allWeighted = generatedSpins.every((generated) => generated.source === "weighted");
     const round = store.recordRound({
       sessionId: session.id,
+      configId: config.id,
       roundNo: featureRoundNo,
       kind: "free-feature",
       bet: betCoin,
@@ -541,9 +549,10 @@ export function createControlledResponder({
     const freeCount = freeSpinCountForScatter(scatterCount);
     const buyCost = betCoin * Number(featureConfig.payload.buyCostMultiplier || 80);
     const buyBalance = balance - buyCost;
-    const board = createTriggerBoard(scatterCount, buyRoundNo);
+    const board = createTriggerBoard(scatterCount, buyRoundNo, featureConfig);
     const round = store.recordRound({
       sessionId: session.id,
+      configId: featureConfig.id,
       roundNo: buyRoundNo,
       kind: "buy",
       bet: 0,
@@ -601,7 +610,7 @@ export function createControlledResponder({
     if (mode === "live") {
       prepareGeneratedFreeQueue({ freeCount, buyBalance, featureRoundNo, config: featureConfig });
     } else {
-      prepareRecordedFreeQueue({ freeCount, buyBalance, featureRoundNo });
+      prepareRecordedFreeQueue({ freeCount, buyBalance, featureRoundNo, configId: featureConfig.id });
     }
     roundNo = featureRoundNo;
     return {

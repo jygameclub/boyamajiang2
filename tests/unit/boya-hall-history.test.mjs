@@ -21,6 +21,11 @@ function varintField(field, value) {
   return Buffer.concat([encodeVarint(field << 3), encodeVarint(value)]);
 }
 
+function stringField(field, value) {
+  const bytes = Buffer.from(String(value), "utf8");
+  return Buffer.concat([encodeVarint((field << 3) | 2), encodeVarint(bytes.length), bytes]);
+}
+
 function frame(cmd, payload) {
   const result = Buffer.alloc(12 + payload.length);
   result.writeUInt32BE(result.length - 4, 0);
@@ -40,6 +45,22 @@ function listRequest(offset = 0, length = 20) {
 
 function detailRequest(betId) {
   return frame(20051, varintField(1, betId));
+}
+
+function playbackListRequest(page = 1, length = 75) {
+  return frame(20049, Buffer.concat([
+    varintField(1, 103),
+    varintField(2, page),
+    varintField(3, length),
+    varintField(4, 0)
+  ]));
+}
+
+function playbackDataRequest(playId) {
+  return frame(70000, Buffer.concat([
+    stringField(1, playId),
+    stringField(4, playId)
+  ]));
 }
 
 function sampleStep(stepNo, cmd, roundWin, totalWin) {
@@ -64,7 +85,9 @@ test("hall history returns current live SQLite rounds and their local details", 
   const {
     createHallHistoryResponder,
     decodeHallHistoryDetailResponse,
-    decodeHallHistoryListResponse
+    decodeHallHistoryListResponse,
+    decodeHallPlaybackDataResponse,
+    decodeHallPlaybackListResponse
   } = historyModule;
   const store = openLocalStore(":memory:");
   const user1 = store.getOrCreateUser("user1");
@@ -136,6 +159,10 @@ test("hall history returns current live SQLite rounds and their local details", 
     token: "user1"
   });
 
+  const activityInfo = responder.nextResponsesForClientFrame(frame(20152, Buffer.alloc(0)))[0];
+  assert.equal(activityInfo.buffer.readUInt32BE(4) & 0x7fffffff, 20153);
+  assert.equal(activityInfo.source, "local-activity-hub");
+
   const listInfo = responder.nextResponsesForClientFrame(listRequest())[0];
   const list = decodeHallHistoryListResponse(listInfo.buffer);
   assert.equal(list.gameId, 103);
@@ -163,6 +190,32 @@ test("hall history returns current live SQLite rounds and their local details", 
     responder.nextResponsesForClientFrame(detailRequest(user2Round.id))[0].buffer
   );
   assert.equal(foreignDetail.details.length, 0);
+
+  const playbackListInfo = responder.nextResponsesForClientFrame(playbackListRequest())[0];
+  const playbackList = decodeHallPlaybackListResponse(playbackListInfo.buffer);
+  assert.deepEqual(
+    playbackList.records.map((record) => ({ betId: record.betId, bet: record.betCoin, win: record.totalAmount })),
+    [
+      { betId: buy.id, bet: "160000", win: 10000 },
+      { betId: base.id, bet: "2000", win: 5000 }
+    ]
+  );
+  assert.ok(playbackList.records.every((record) => record.url === `?playid=local-${record.betId}&t=MTAz`));
+
+  const playbackInfo = responder.nextResponsesForClientFrame(playbackDataRequest(`local-${base.id}`))[0];
+  const playback = decodeHallPlaybackDataResponse(playbackInfo.buffer);
+  assert.equal(playback.gameId, 103);
+  assert.equal(playback.betCoin, 2000);
+  assert.equal(playback.winLose, 3000);
+  assert.equal(playback.frames.length, 1);
+  assert.equal(playback.frames[0].cmd, 40003);
+  assert.deepEqual(playback.frames[0].rotate.drawResult, sampleStep(0, 40003, 5000, 5000).board);
+  assert.deepEqual(playback.frames[0].rotate.lines, sampleStep(0, 40003, 5000, 5000).lines);
+
+  const foreignPlayback = decodeHallPlaybackDataResponse(
+    responder.nextResponsesForClientFrame(playbackDataRequest(`local-${user2Round.id}`))[0].buffer
+  );
+  assert.equal(foreignPlayback.frames.length, 0);
   responder.close();
   store.close();
 });

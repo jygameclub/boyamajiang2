@@ -1,0 +1,49 @@
+[core-controls:log] init language en
+[core-controls:log] init language zh
+[core-controls:warning] [.WebGL-0x10400476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[core-controls:log] Cocos Creator v2.4.6
+[core-controls:warning] [.WebGL-0x10400476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[core-controls:warning] [.WebGL-0x10400476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[core-controls:warning] [.WebGL-0x10400476600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[core-controls:timeEnd] LoadScene dy_mjlltwo_en: 53.6259765625 ms
+[core-controls:log] showGame
+[rules:log] init language en
+[rules:log] init language zh
+[rules:log] Cocos Creator v2.4.6
+[rules:timeEnd] LoadScene dy_mjlltwo_en: 42.52685546875 ms
+[rules:log] showGame
+[history:log] init language en
+[history:log] init language zh
+[history:log] Cocos Creator v2.4.6
+[history:timeEnd] LoadScene dy_mjlltwo_en: 49.9150390625 ms
+[history:log] showGame
+[settings:log] init language en
+[settings:log] init language zh
+[settings:log] Cocos Creator v2.4.6
+[settings:timeEnd] LoadScene dy_mjlltwo_en: 43.492919921875 ms
+[settings:log] showGame
+[replay:log] init language en
+[replay:log] init language zh
+[replay:log] Cocos Creator v2.4.6
+[replay:timeEnd] LoadScene dy_mjlltwo_en: 41.7451171875 ms
+[replay:log] showGame
+[replay:log] init language en
+[replay:log] init language zh
+[replay:log] Cocos Creator v2.4.6
+[replay:timeEnd] LoadScene dy_mjlltwo_en: 44.490966796875 ms
+[replay:log] showGame
+[reentry-after-replay:log] init language en
+[reentry-after-replay:log] init language zh
+[reentry-after-replay:log] Cocos Creator v2.4.6
+[reentry-after-replay:timeEnd] LoadScene dy_mjlltwo_en: 44.945068359375 ms
+[reentry-after-replay:log] showGame
+[local-hub:log] init language en
+[local-hub:log] init language zh
+[local-hub:log] Cocos Creator v2.4.6
+[local-hub:timeEnd] LoadScene dy_mjlltwo_en: 43.226806640625 ms
+[local-hub:log] showGame
+[quit:log] init language en
+[quit:log] init language zh
+[quit:log] Cocos Creator v2.4.6
+[quit:timeEnd] LoadScene dy_mjlltwo_en: 42.468017578125 ms
+[quit:log] showGame

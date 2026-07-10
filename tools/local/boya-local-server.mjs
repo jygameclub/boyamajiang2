@@ -17,9 +17,11 @@ import {
   WIN_LADDER_AMOUNTS
 } from "../lib/boya-har.mjs";
 import { createControlledResponder } from "./server/controlled-responder.mjs";
+import { inferLocalConnectionIndex } from "./server/connection-role.mjs";
 import { handleControlApi } from "./server/control-api.mjs";
 import { openLocalStore } from "./server/database.mjs";
 import { renderLocalGameEntry } from "./server/game-entry.mjs";
+import { renderBoyaGameHelp, renderBoyaLocalHub } from "./server/game-help.mjs";
 import { createHallHistoryResponder } from "./server/hall-history-responder.mjs";
 import {
   DEFAULT_LOCAL_USER_TOKEN,
@@ -285,6 +287,16 @@ async function serveStatic(req, res, root, manifest, state) {
     return;
   }
 
+  if (url.pathname === "/v2/help/dy_mjlltwo" || url.pathname === "/v2/help/dy_mjlltwo/") {
+    sendHtml(res, renderBoyaGameHelp());
+    return;
+  }
+
+  if (url.pathname === "/v2/help/dy_activity" || url.pathname === "/v2/help/dy_activity/") {
+    sendHtml(res, renderBoyaLocalHub());
+    return;
+  }
+
   let pathname = decodeURIComponent(url.pathname);
   if (pathname === "/v2" || pathname === "/v2/") {
     pathname = "/v2/index.html";
@@ -485,39 +497,52 @@ function handleUpgrade(req, socket, head, state) {
     ""
   ].join("\r\n"));
 
-  const connectionCount = Math.max(1, state.rawFrames.connections.length);
-  const cursorKey = `${mode}:${userToken || "shared"}`;
-  const cursor = state.connectionCursors.get(cursorKey) || 0;
-  const connectionIndex = cursor % connectionCount;
-  state.connectionCursors.set(cursorKey, cursor + 1);
+  const adaptiveLocalConnection = mode === "test" || mode === "live";
+  let connectionIndex = null;
+  let replay = null;
+  if (!adaptiveLocalConnection) {
+    const connectionCount = Math.max(1, state.rawFrames.connections.length);
+    const cursorKey = `${mode}:${userToken || "shared"}`;
+    const cursor = state.connectionCursors.get(cursorKey) || 0;
+    connectionIndex = cursor % connectionCount;
+    state.connectionCursors.set(cursorKey, cursor + 1);
+    replay = createReplayResponder(state.rawFrames, connectionIndex, mode);
+  }
   state.nextConnectionIndex += 1;
   state.counts.wsConnected += 1;
   increment(state.counts.modes, mode);
-  let replay;
-  if ((mode === "test" || mode === "live") && connectionIndex === 0) {
-    replay = createHallHistoryResponder({
-      rawFrames: state.rawFrames,
-      connectionIndex,
+  const selectLocalResponder = (firstFrame) => {
+    const firstCommand = parseFrameBase64(firstFrame).cmd;
+    connectionIndex = inferLocalConnectionIndex(firstCommand);
+    replay = connectionIndex === 0
+      ? createHallHistoryResponder({
+        rawFrames: state.rawFrames,
+        connectionIndex,
+        mode,
+        store: state.store,
+        token: userToken
+      })
+      : createControlledResponder({
+        rawFrames: state.rawFrames,
+        connectionIndex,
+        mode,
+        store: state.store,
+        user,
+        seed: `${mode}-${userToken || "shared"}-${Date.now()}-${state.nextConnectionIndex}`
+      });
+    logEvent(state, {
+      kind: "ws-role",
       mode,
-      store: state.store,
-      token: userToken
-    });
-  } else if ((mode === "test" || mode === "live") && connectionIndex === 1) {
-    replay = createControlledResponder({
-      rawFrames: state.rawFrames,
       connectionIndex,
-      mode,
-      store: state.store,
-      user,
-      seed: `${mode}-${userToken || "shared"}-${Date.now()}-${state.nextConnectionIndex}`
+      firstCommand,
+      userToken
     });
-  } else {
-    replay = createReplayResponder(state.rawFrames, connectionIndex, mode);
-  }
+  };
   let pending = head?.length ? Buffer.from(head) : Buffer.alloc(0);
-  const heartbeatTimer = (mode.startsWith("normalwin") || mode === "test" || mode === "live") && connectionIndex === 1
+  const heartbeatTimer = (mode.startsWith("normalwin") || adaptiveLocalConnection)
+    && (adaptiveLocalConnection || connectionIndex === 1)
     ? setInterval(() => {
-      if (socket.destroyed || socket.writableEnded) {
+      if (connectionIndex !== 1 || socket.destroyed || socket.writableEnded) {
         return;
       }
       const heartbeat = createGeneratedHeartbeatFrame();
@@ -552,6 +577,9 @@ function handleUpgrade(req, socket, head, state) {
       let parsed;
       while ((parsed = readWebSocketFrame(pending))) {
         pending = pending.subarray(parsed.bytesRead);
+        if (adaptiveLocalConnection && !replay && parsed.opcode === 0x2) {
+          selectLocalResponder(parsed.payload);
+        }
         handleClientWsFrame(socket, state, replay, mode, connectionIndex, parsed);
       }
     } catch (error) {
@@ -571,7 +599,7 @@ function handleUpgrade(req, socket, head, state) {
       clearInterval(heartbeatTimer);
     }
     state.counts.wsClosed += 1;
-    replay.close?.("socket-close");
+    replay?.close?.("socket-close");
     logEvent(state, { kind: "ws-close", mode, connectionIndex });
   });
 

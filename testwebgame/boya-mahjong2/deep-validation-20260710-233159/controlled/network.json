@@ -1,0 +1,9350 @@
+{
+  "verdict": "PASS",
+  "baseUrl": "http://127.0.0.1:18083",
+  "baseLadder": [
+    {
+      "amount": 100,
+      "roundWin": 100,
+      "lineSum": 100,
+      "formulaMatches": true,
+      "iconId": 19,
+      "axleId": 2,
+      "lineNum": 5,
+      "sentinelValid": true,
+      "settleRoundWin": 0,
+      "settleLines": 0
+    },
+    {
+      "amount": 200,
+      "roundWin": 200,
+      "lineSum": 200,
+      "formulaMatches": true,
+      "iconId": 17,
+      "axleId": 2,
+      "lineNum": 10,
+      "sentinelValid": true,
+      "settleRoundWin": 0,
+      "settleLines": 0
+    },
+    {
+      "amount": 300,
+      "roundWin": 300,
+      "lineSum": 300,
+      "formulaMatches": true,
+      "iconId": 13,
+      "axleId": 2,
+      "lineNum": 5,
+      "sentinelValid": true,
+      "settleRoundWin": 0,
+      "settleLines": 0
+    },
+    {
+      "amount": 500,
+      "roundWin": 500,
+      "lineSum": 500,
+      "formulaMatches": true,
+      "iconId": 13,
+      "axleId": 3,
+      "lineNum": 5,
+      "sentinelValid": true,
+      "settleRoundWin": 0,
+      "settleLines": 0
+    },
+    {
+      "amount": 600,
+      "roundWin": 600,
+      "lineSum": 600,
+      "formulaMatches": true,
+      "iconId": 7,
+      "axleId": 2,
+      "lineNum": 5,
+      "sentinelValid": true,
+      "settleRoundWin": 0,
+      "settleLines": 0
+    },
+    {
+      "amount": 800,
+      "roundWin": 800,
+      "lineSum": 800,
+      "formulaMatches": true,
+      "iconId": 5,
+      "axleId": 2,
+      "lineNum": 5,
+      "sentinelValid": true,
+      "settleRoundWin": 0,
+      "settleLines": 0
+    }
+  ],
+  "routes": {
+    "goldToWildCount": 1,
+    "wildNextLineCount": 1,
+    "wildEliminatedNext": true,
+    "goldTerminalWin": 0,
+    "reuseLineCount": 2,
+    "reuseContainsWild": true,
+    "reuseTerminalWin": 0,
+    "cascadeMultipliers": [
+      1,
+      2,
+      3,
+      5
+    ],
+    "cascadeTerminalWin": 0,
+    "formulaMatches": true
+  },
+  "buyFree": {
+    "scatterCount": 4,
+    "freeAppend": 12,
+    "freeRemainCount": 12,
+    "responseCount": 25,
+    "finalFreeRemain": 0,
+    "winningFrameCount": 13,
+    "largestRoundWin": 11280,
+    "formulaMatches": true,
+    "freeSpinTotals": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      560,
+      1280,
+      5360,
+      14560
+    ],
+    "ascendingSpinTotals": true,
+    "multipliers": [
+      2,
+      4,
+      6,
+      10
+    ],
+    "goldToWildFrames": 10,
+    "countCases": [
+      {
+        "scatterCount": 4,
+        "freeCount": 12
+      },
+      {
+        "scatterCount": 3,
+        "freeCount": 10
+      },
+      {
+        "scatterCount": 5,
+        "freeCount": 14
+      },
+      {
+        "scatterCount": 6,
+        "freeCount": 15
+      }
+    ]
+  },
+  "live": [
+    {
+      "spin": 1,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 2,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 3,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 4,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 5,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 6,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 7,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 8,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 9,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    },
+    {
+      "spin": 10,
+      "configId": 2,
+      "roundWin": 2000,
+      "lineCount": 1,
+      "lineSum": 2000,
+      "formulaMatches": true,
+      "responseCount": 2,
+      "totalWin": 2000,
+      "terminalRoundWin": 0,
+      "terminalLines": 0,
+      "idleRequests": 0,
+      "sentinelValid": true,
+      "historySource": "weighted"
+    }
+  ],
+  "liveFree": {
+    "scatterCount": 3,
+    "freeCount": 10,
+    "responseCount": 10,
+    "finalFreeRemain": 0,
+    "historySource": "weighted-free",
+    "formulaMatches": true,
+    "configuredColumnsMatch": true
+  },
+  "admin": {
+    "weightRows": 10,
+    "historyRows": 29,
+    "configVersion": "Active v3 · restore-default-local",
+    "mobileOverflow": false
+  },
+  "serverMismatches": 0,
+  "persistedRounds": 29,
+  "diagnostics": {
+    "console": [
+      "[log] init language en",
+      "[log] init language zh",
+      "[warning] [.WebGL-0x134004dc600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[log] Cocos Creator v2.4.6",
+      "[warning] [.WebGL-0x134004dc600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x134004dc600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x134004dc600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 55.06494140625 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 57.352783203125 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 49.4521484375 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 51.638916015625 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 46.783935546875 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 51.7138671875 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 47.330810546875 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 48.75390625 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 45.073974609375 ms",
+      "[log] showGame"
+    ],
+    "pageErrors": [],
+    "httpErrors": [],
+    "clientCloses": []
+  },
+  "counts": {
+    "send40002": 42,
+    "receive40003": 42,
+    "send40006": 5,
+    "receive40007": 5,
+    "send40004": 35,
+    "receive40005": 35
+  },
+  "frames": [
+    {
+      "id": 1,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 2,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 3,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 4,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 5,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 6,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 7,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 8,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 9,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 10,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 11,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 12,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 13,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 14,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 15,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 16,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 17,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 18,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 19,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 20,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 21,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 22,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 23,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 24,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 25,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 26,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 27,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 28,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 29,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 30,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 31,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 120,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 5,
+            "score": 100,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-1-1",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "purchase": false,
+        "totalWin": 100,
+        "roundWin": 100
+      }
+    },
+    {
+      "id": 32,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 33,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 34,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 106,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-1-2",
+        "coin": 455705538,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "purchase": false,
+        "totalWin": 100,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 35,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 36,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 123,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 2,
+            "lineNum": 10,
+            "score": 200,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          3,
+          17,
+          3,
+          3,
+          17,
+          5,
+          5,
+          17,
+          5,
+          17,
+          17,
+          17,
+          17,
+          17,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-2-1",
+        "coin": 455705138,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -200,
+        "purchase": false,
+        "totalWin": 200,
+        "roundWin": 200
+      }
+    },
+    {
+      "id": 37,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 38,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 39,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 107,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-2-2",
+        "coin": 455705338,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -200,
+        "purchase": false,
+        "totalWin": 200,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 40,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 41,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 123,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 13,
+            "axleId": 2,
+            "lineNum": 5,
+            "score": 300,
+            "multi": 1,
+            "odds": 3
+          }
+        ],
+        "drawResult": [
+          101,
+          3,
+          3,
+          13,
+          3,
+          5,
+          13,
+          5,
+          5,
+          5,
+          13,
+          13,
+          13,
+          13,
+          13,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-3-1",
+        "coin": 455704938,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -100,
+        "purchase": false,
+        "totalWin": 300,
+        "roundWin": 300
+      }
+    },
+    {
+      "id": 42,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 43,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 44,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 107,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-3-2",
+        "coin": 455705238,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -100,
+        "purchase": false,
+        "totalWin": 300,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 45,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 46,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 47,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 13,
+            "axleId": 3,
+            "lineNum": 5,
+            "score": 500,
+            "multi": 1,
+            "odds": 5
+          }
+        ],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          13,
+          5,
+          5,
+          13,
+          5,
+          5,
+          13,
+          7,
+          7,
+          7,
+          7,
+          13,
+          13,
+          13,
+          13,
+          13,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-4-1",
+        "coin": 455704838,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 100,
+        "roundScoreSigned": 100,
+        "purchase": false,
+        "totalWin": 500,
+        "roundWin": 500
+      }
+    },
+    {
+      "id": 48,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 49,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 50,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 51,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 52,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 53,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 54,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-4-2",
+        "coin": 455705338,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 100,
+        "roundScoreSigned": 100,
+        "purchase": false,
+        "totalWin": 500,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 55,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 56,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 115,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 7,
+            "axleId": 2,
+            "lineNum": 5,
+            "score": 600,
+            "multi": 1,
+            "odds": 6
+          }
+        ],
+        "drawResult": [
+          101,
+          7,
+          3,
+          3,
+          3,
+          5,
+          5,
+          7,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          11,
+          11,
+          11,
+          11,
+          11,
+          101,
+          13,
+          13,
+          13,
+          13
+        ],
+        "topResult": [
+          3,
+          5,
+          9,
+          11,
+          13
+        ],
+        "buttomResult": [
+          3,
+          5,
+          9,
+          11,
+          13
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-5-1",
+        "coin": 455704938,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 200,
+        "roundScoreSigned": 200,
+        "purchase": false,
+        "totalWin": 600,
+        "roundWin": 600
+      }
+    },
+    {
+      "id": 57,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 58,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 59,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 99,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          9,
+          9,
+          9,
+          9,
+          9,
+          11,
+          11,
+          11,
+          11,
+          11,
+          101,
+          13,
+          13,
+          13,
+          13
+        ],
+        "topResult": [
+          3,
+          5,
+          9,
+          11,
+          13
+        ],
+        "buttomResult": [
+          3,
+          5,
+          9,
+          11,
+          13
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-5-2",
+        "coin": 455705538,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 200,
+        "roundScoreSigned": 200,
+        "purchase": false,
+        "totalWin": 600,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 60,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 61,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 115,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 5,
+            "axleId": 2,
+            "lineNum": 5,
+            "score": 800,
+            "multi": 1,
+            "odds": 8
+          }
+        ],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          5,
+          5,
+          5,
+          5,
+          5,
+          11,
+          11,
+          11,
+          11,
+          11,
+          101,
+          13,
+          13,
+          13,
+          13
+        ],
+        "topResult": [
+          3,
+          7,
+          9,
+          11,
+          13
+        ],
+        "buttomResult": [
+          3,
+          7,
+          9,
+          11,
+          13
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-6-1",
+        "coin": 455705138,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 400,
+        "roundScoreSigned": 400,
+        "purchase": false,
+        "totalWin": 800,
+        "roundWin": 800
+      }
+    },
+    {
+      "id": 62,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 63,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 64,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 99,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          11,
+          11,
+          11,
+          11,
+          11,
+          101,
+          13,
+          13,
+          13,
+          13
+        ],
+        "topResult": [
+          3,
+          7,
+          9,
+          11,
+          13
+        ],
+        "buttomResult": [
+          3,
+          7,
+          9,
+          11,
+          13
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-1-6-2",
+        "coin": 455705938,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 400,
+        "roundScoreSigned": 400,
+        "purchase": false,
+        "totalWin": 800,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 65,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 66,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 67,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 68,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 69,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 70,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 71,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 72,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 73,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 74,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 75,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 76,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 77,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 78,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 79,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 80,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 81,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 82,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 83,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 84,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 85,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 86,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 87,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 88,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 89,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 90,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 91,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 92,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 93,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 94,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 95,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 96,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 123,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 20,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          17,
+          3,
+          3,
+          3,
+          5,
+          5,
+          18,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          17,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          19,
+          5,
+          19,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [
+          7
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-2-1-1",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -340,
+        "purchase": false,
+        "totalWin": 20,
+        "roundWin": 20
+      }
+    },
+    {
+      "id": 97,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 98,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 120,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 40,
+            "multi": 2,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          3,
+          3,
+          3,
+          5,
+          5,
+          2,
+          5,
+          5,
+          19,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-2-1-2",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -340,
+        "purchase": false,
+        "totalWin": 60,
+        "roundWin": 40
+      }
+    },
+    {
+      "id": 99,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 100,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 101,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 106,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-2-1-3",
+        "coin": 455705498,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 3,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -340,
+        "purchase": false,
+        "totalWin": 60,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 102,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 103,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 104,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 105,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 106,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 107,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 108,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 109,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 110,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 111,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 112,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 113,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 114,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 115,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 116,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 117,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 118,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 119,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 120,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 121,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 122,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 123,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 124,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 125,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 126,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 127,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 128,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 129,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 130,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 131,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 132,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 134,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 13,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 60,
+            "multi": 1,
+            "odds": 3
+          },
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 20,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          13,
+          19,
+          3,
+          3,
+          5,
+          5,
+          2,
+          5,
+          5,
+          13,
+          19,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-3-1-1",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -320,
+        "purchase": false,
+        "totalWin": 80,
+        "roundWin": 80
+      }
+    },
+    {
+      "id": 133,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 134,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 106,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-3-1-2",
+        "coin": 455705518,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -320,
+        "purchase": false,
+        "totalWin": 80,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 135,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 136,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 137,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 138,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 139,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 140,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 141,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 142,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 143,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 144,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 145,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 146,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 147,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 148,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 149,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 150,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 151,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 152,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 153,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 154,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 155,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 156,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 157,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 158,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 159,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 160,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 161,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 162,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 163,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 164,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 165,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 111,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 20,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          19,
+          5,
+          19,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          17,
+          17,
+          17,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-4-1-1",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 80,
+        "roundScoreSigned": 80,
+        "purchase": false,
+        "totalWin": 20,
+        "roundWin": 20
+      }
+    },
+    {
+      "id": 166,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 167,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 111,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 40,
+            "multi": 2,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          17,
+          3,
+          3,
+          3,
+          17,
+          5,
+          5,
+          5,
+          5,
+          17,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          15,
+          15,
+          15,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-4-1-2",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 80,
+        "roundScoreSigned": 80,
+        "purchase": false,
+        "totalWin": 60,
+        "roundWin": 40
+      }
+    },
+    {
+      "id": 168,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 169,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 170,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 112,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 15,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 120,
+            "multi": 3,
+            "odds": 2
+          }
+        ],
+        "drawResult": [
+          101,
+          15,
+          3,
+          3,
+          3,
+          15,
+          5,
+          5,
+          5,
+          5,
+          15,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          13,
+          13,
+          13,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-4-1-3",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 3,
+        "roundScore": 80,
+        "roundScoreSigned": 80,
+        "purchase": false,
+        "totalWin": 180,
+        "roundWin": 120
+      }
+    },
+    {
+      "id": 171,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 172,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 173,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 13,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 300,
+            "multi": 5,
+            "odds": 3
+          }
+        ],
+        "drawResult": [
+          101,
+          13,
+          3,
+          3,
+          3,
+          13,
+          5,
+          5,
+          5,
+          5,
+          13,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-4-1-4",
+        "coin": 455705438,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 5,
+        "roundScore": 80,
+        "roundScoreSigned": 80,
+        "purchase": false,
+        "totalWin": 480,
+        "roundWin": 300
+      }
+    },
+    {
+      "id": 174,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 175,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          7,
+          9,
+          11
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-4-1-5",
+        "coin": 455705918,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 5,
+        "roundScore": 80,
+        "roundScoreSigned": 80,
+        "purchase": false,
+        "totalWin": 480,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 176,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 177,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 178,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 179,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 180,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 181,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 182,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 183,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 184,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 185,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 186,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 187,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 188,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 189,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 190,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 191,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 192,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 193,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 194,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 195,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 196,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 197,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 198,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 199,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 200,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 201,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 202,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 203,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 204,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 205,
+      "direction": "send",
+      "cmd": 40006,
+      "bytes": 14
+    },
+    {
+      "id": 206,
+      "direction": "receive",
+      "cmd": 40007,
+      "bytes": 126,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          17,
+          3,
+          19,
+          1,
+          4,
+          1,
+          19,
+          7,
+          6,
+          15,
+          11,
+          19,
+          1,
+          13,
+          18,
+          9,
+          1,
+          10,
+          16,
+          101,
+          11,
+          19,
+          19,
+          15
+        ],
+        "topResult": [
+          17,
+          9,
+          13,
+          11,
+          17
+        ],
+        "buttomResult": [
+          9,
+          19,
+          9,
+          9,
+          15
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "status": 1,
+        "seq": "local-buy-5-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "betCoin": 32000,
+        "purchase": true,
+        "gameNum": 1,
+        "roundScore": 18446744073709519000,
+        "roundScoreSigned": -32000,
+        "bFree": true,
+        "freeAppend": 12,
+        "freeRemainCount": 12,
+        "freeMaxCount": 12,
+        "totalWin": 0,
+        "roundWin": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 207,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 208,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 209,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 210,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 211,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 212,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 213,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 214,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 215,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 216,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 217,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          15,
+          15,
+          17,
+          7,
+          17,
+          15,
+          19,
+          19,
+          17,
+          12,
+          8,
+          20,
+          6,
+          12,
+          13,
+          19,
+          17,
+          15,
+          9,
+          101,
+          5,
+          15,
+          17,
+          17
+        ],
+        "topResult": [
+          15,
+          10,
+          10,
+          9,
+          5
+        ],
+        "buttomResult": [
+          19,
+          11,
+          8,
+          11,
+          7
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-1-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 11,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 218,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 219,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 220,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          19,
+          5,
+          17,
+          17,
+          19,
+          13,
+          17,
+          17,
+          3,
+          12,
+          14,
+          10,
+          8,
+          8,
+          19,
+          11,
+          15,
+          17,
+          7,
+          101,
+          11,
+          19,
+          5,
+          7
+        ],
+        "topResult": [
+          19,
+          19,
+          10,
+          11,
+          19
+        ],
+        "buttomResult": [
+          15,
+          7,
+          18,
+          13,
+          5
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-2-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 10,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 221,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 222,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          13,
+          17,
+          11,
+          13,
+          4,
+          14,
+          13,
+          13,
+          17,
+          6,
+          6,
+          12,
+          6,
+          6,
+          7,
+          9,
+          15,
+          19,
+          13,
+          101,
+          19,
+          17,
+          15,
+          11
+        ],
+        "topResult": [
+          11,
+          19,
+          12,
+          17,
+          19
+        ],
+        "buttomResult": [
+          3,
+          15,
+          20,
+          9,
+          17
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-3-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeTotalWin": 0,
+        "freeRemainCount": 9,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true
+      }
+    },
+    {
+      "id": 223,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 224,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 225,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          11,
+          15,
+          15,
+          13,
+          14,
+          19,
+          19,
+          15,
+          19,
+          12,
+          6,
+          12,
+          12,
+          18,
+          16,
+          5,
+          15,
+          13,
+          5,
+          101,
+          13,
+          11,
+          11,
+          13
+        ],
+        "topResult": [
+          19,
+          9,
+          12,
+          17,
+          11
+        ],
+        "buttomResult": [
+          3,
+          19,
+          14,
+          19,
+          17
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-4-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeTotalWin": 0,
+        "freeRemainCount": 8,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true
+      }
+    },
+    {
+      "id": 226,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 227,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          19,
+          19,
+          11,
+          17,
+          4,
+          15,
+          19,
+          13,
+          13,
+          8,
+          6,
+          10,
+          12,
+          14,
+          19,
+          15,
+          12,
+          17,
+          11,
+          101,
+          15,
+          13,
+          7,
+          9
+        ],
+        "topResult": [
+          19,
+          13,
+          12,
+          11,
+          19
+        ],
+        "buttomResult": [
+          17,
+          17,
+          8,
+          15,
+          7
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-5-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeTotalWin": 0,
+        "freeRemainCount": 7,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true
+      }
+    },
+    {
+      "id": 228,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 229,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 230,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          13,
+          17,
+          17,
+          9,
+          20,
+          8,
+          3,
+          3,
+          11,
+          6,
+          4,
+          10,
+          10,
+          10,
+          20,
+          13,
+          15,
+          11,
+          15,
+          101,
+          7,
+          19,
+          17,
+          17
+        ],
+        "topResult": [
+          11,
+          17,
+          8,
+          19,
+          5
+        ],
+        "buttomResult": [
+          3,
+          7,
+          10,
+          17,
+          19
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-6-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeTotalWin": 0,
+        "freeRemainCount": 6,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true
+      }
+    },
+    {
+      "id": 231,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 232,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          15,
+          15,
+          17,
+          7,
+          17,
+          15,
+          19,
+          19,
+          17,
+          12,
+          8,
+          20,
+          6,
+          12,
+          13,
+          19,
+          17,
+          15,
+          9,
+          101,
+          5,
+          15,
+          17,
+          17
+        ],
+        "topResult": [
+          15,
+          10,
+          10,
+          9,
+          5
+        ],
+        "buttomResult": [
+          19,
+          11,
+          8,
+          11,
+          7
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-7-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 5,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 233,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 234,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 235,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 118,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          19,
+          5,
+          17,
+          17,
+          19,
+          13,
+          17,
+          17,
+          3,
+          12,
+          14,
+          10,
+          8,
+          8,
+          19,
+          11,
+          15,
+          17,
+          7,
+          101,
+          11,
+          19,
+          5,
+          7
+        ],
+        "topResult": [
+          19,
+          19,
+          10,
+          11,
+          19
+        ],
+        "buttomResult": [
+          15,
+          7,
+          18,
+          13,
+          5
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-8-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 4,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 236,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 237,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 139,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 15,
+            "axleId": 3,
+            "lineNum": 2,
+            "score": 320,
+            "multi": 2,
+            "odds": 4
+          }
+        ],
+        "drawResult": [
+          101,
+          15,
+          13,
+          13,
+          19,
+          19,
+          15,
+          17,
+          6,
+          12,
+          12,
+          6,
+          10,
+          4,
+          16,
+          11,
+          15,
+          17,
+          7,
+          15,
+          101,
+          17,
+          17,
+          9,
+          13
+        ],
+        "topResult": [
+          15,
+          3,
+          8,
+          19,
+          13
+        ],
+        "buttomResult": [
+          11,
+          3,
+          10,
+          3,
+          9
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          14
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-9-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "totalWin": 320,
+        "roundWin": 320,
+        "freeTotalWin": 320,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true,
+        "freeRemainCount": 3
+      }
+    },
+    {
+      "id": 238,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 239,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 240,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 136,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 240,
+            "multi": 4,
+            "odds": 3
+          }
+        ],
+        "drawResult": [
+          101,
+          15,
+          13,
+          13,
+          19,
+          3,
+          19,
+          17,
+          6,
+          12,
+          12,
+          6,
+          10,
+          4,
+          2,
+          11,
+          19,
+          11,
+          17,
+          7,
+          101,
+          17,
+          17,
+          9,
+          13
+        ],
+        "topResult": [
+          17,
+          17,
+          8,
+          17,
+          13
+        ],
+        "buttomResult": [
+          11,
+          3,
+          10,
+          3,
+          9
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-9-2",
+        "coin": 455673838,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 4,
+        "totalWin": 560,
+        "roundWin": 240,
+        "freeTotalWin": 560,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true,
+        "freeRemainCount": 3
+      }
+    },
+    {
+      "id": 241,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 242,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 243,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 244,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 245,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 246,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 247,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 152,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          17,
+          15,
+          13,
+          13,
+          17,
+          3,
+          17,
+          6,
+          12,
+          8,
+          12,
+          6,
+          10,
+          4,
+          17,
+          11,
+          11,
+          17,
+          7,
+          101,
+          17,
+          17,
+          9,
+          13
+        ],
+        "topResult": [
+          13,
+          17,
+          6,
+          9,
+          13
+        ],
+        "buttomResult": [
+          11,
+          3,
+          10,
+          3,
+          9
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [
+          101,
+          17,
+          3,
+          1,
+          5,
+          4,
+          1,
+          19,
+          7,
+          6,
+          15,
+          11,
+          1,
+          16,
+          13,
+          18,
+          9,
+          20,
+          10,
+          16,
+          101,
+          11,
+          19,
+          19,
+          15
+        ],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "seq": "local-free-5-2-9-3",
+        "coin": 455674398,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 6,
+        "roundScore": 560,
+        "roundScoreSigned": 560,
+        "totalWin": 560,
+        "freeTotalWin": 560,
+        "freeMaxCount": 12,
+        "status": 1,
+        "betCoin": 400,
+        "roundWin": 0,
+        "bFree": true,
+        "freeRemainCount": 3
+      }
+    },
+    {
+      "id": 248,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 249,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 137,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 2,
+            "lineNum": 2,
+            "score": 80,
+            "multi": 2,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          11,
+          17,
+          17,
+          13,
+          15,
+          17,
+          20,
+          8,
+          3,
+          18,
+          8,
+          12,
+          12,
+          8,
+          15,
+          13,
+          13,
+          9,
+          13,
+          101,
+          11,
+          13,
+          11,
+          11
+        ],
+        "topResult": [
+          13,
+          17,
+          8,
+          11,
+          15
+        ],
+        "buttomResult": [
+          13,
+          11,
+          14,
+          3,
+          3
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          10
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-10-1",
+        "coin": 455674398,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "totalWin": 80,
+        "roundWin": 80,
+        "freeTotalWin": 640,
+        "freeRemainCount": 2,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 250,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 251,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 252,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 138,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 80,
+            "multi": 4,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          13,
+          11,
+          13,
+          17,
+          15,
+          20,
+          8,
+          3,
+          2,
+          8,
+          12,
+          12,
+          8,
+          15,
+          13,
+          13,
+          9,
+          13,
+          101,
+          11,
+          13,
+          11,
+          11
+        ],
+        "topResult": [
+          17,
+          7,
+          8,
+          11,
+          15
+        ],
+        "buttomResult": [
+          13,
+          11,
+          14,
+          3,
+          3
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          7
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-10-2",
+        "coin": 455674398,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 4,
+        "totalWin": 160,
+        "roundWin": 80,
+        "freeTotalWin": 720,
+        "freeRemainCount": 2,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 253,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 254,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 255,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 141,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 11,
+            "axleId": 2,
+            "lineNum": 2,
+            "score": 720,
+            "multi": 6,
+            "odds": 3
+          }
+        ],
+        "drawResult": [
+          101,
+          17,
+          13,
+          11,
+          13,
+          17,
+          15,
+          2,
+          8,
+          3,
+          8,
+          8,
+          12,
+          12,
+          8,
+          15,
+          13,
+          13,
+          9,
+          13,
+          101,
+          11,
+          13,
+          11,
+          11
+        ],
+        "topResult": [
+          13,
+          7,
+          18,
+          11,
+          15
+        ],
+        "buttomResult": [
+          13,
+          11,
+          14,
+          3,
+          3
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          13,
+          12
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-10-3",
+        "coin": 455674398,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 6,
+        "totalWin": 880,
+        "roundWin": 720,
+        "freeTotalWin": 1440,
+        "freeRemainCount": 2,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 256,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 257,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 258,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 137,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 2,
+            "lineNum": 2,
+            "score": 400,
+            "multi": 10,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          13,
+          17,
+          13,
+          13,
+          7,
+          17,
+          15,
+          8,
+          3,
+          8,
+          8,
+          2,
+          2,
+          8,
+          15,
+          13,
+          13,
+          9,
+          13,
+          101,
+          11,
+          13,
+          11,
+          11
+        ],
+        "topResult": [
+          17,
+          13,
+          18,
+          11,
+          15
+        ],
+        "buttomResult": [
+          13,
+          11,
+          14,
+          3,
+          3
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-10-4",
+        "coin": 455674398,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 10,
+        "totalWin": 1280,
+        "roundWin": 400,
+        "freeTotalWin": 1840,
+        "freeRemainCount": 2,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 259,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 260,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 124,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          17,
+          13,
+          13,
+          13,
+          13,
+          7,
+          15,
+          8,
+          3,
+          12,
+          18,
+          8,
+          8,
+          8,
+          15,
+          13,
+          13,
+          9,
+          13,
+          101,
+          11,
+          13,
+          11,
+          11
+        ],
+        "topResult": [
+          19,
+          17,
+          12,
+          11,
+          15
+        ],
+        "buttomResult": [
+          13,
+          11,
+          14,
+          3,
+          3
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-10-5",
+        "coin": 455675678,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 10,
+        "roundScore": 1280,
+        "roundScoreSigned": 1280,
+        "totalWin": 1280,
+        "freeTotalWin": 1840,
+        "freeRemainCount": 2,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "roundWin": 0,
+        "bFree": true
+      }
+    },
+    {
+      "id": 261,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 262,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 263,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 137,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 15,
+            "axleId": 2,
+            "lineNum": 1,
+            "score": 80,
+            "multi": 2,
+            "odds": 2
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          17,
+          15,
+          17,
+          13,
+          15,
+          17,
+          18,
+          12,
+          6,
+          10,
+          4,
+          16,
+          20,
+          17,
+          11,
+          3,
+          11,
+          101,
+          15,
+          19,
+          15,
+          13
+        ],
+        "topResult": [
+          9,
+          19,
+          8,
+          7,
+          15
+        ],
+        "buttomResult": [
+          9,
+          9,
+          18,
+          5,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          14
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-11-1",
+        "coin": 455675678,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "totalWin": 80,
+        "roundWin": 80,
+        "freeTotalWin": 1920,
+        "freeRemainCount": 1,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 264,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 265,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 266,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 157,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 3,
+            "lineNum": 3,
+            "score": 720,
+            "multi": 4,
+            "odds": 3
+          },
+          {
+            "iconId": 19,
+            "axleId": 4,
+            "lineNum": 2,
+            "score": 960,
+            "multi": 4,
+            "odds": 6
+          }
+        ],
+        "drawResult": [
+          101,
+          9,
+          19,
+          19,
+          17,
+          19,
+          17,
+          13,
+          17,
+          18,
+          12,
+          6,
+          10,
+          4,
+          2,
+          20,
+          17,
+          11,
+          3,
+          11,
+          101,
+          15,
+          19,
+          15,
+          13
+        ],
+        "topResult": [
+          17,
+          15,
+          8,
+          7,
+          15
+        ],
+        "buttomResult": [
+          9,
+          9,
+          18,
+          5,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          9,
+          15
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-11-2",
+        "coin": 455675678,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 4,
+        "totalWin": 1760,
+        "roundWin": 1680,
+        "freeTotalWin": 3600,
+        "freeRemainCount": 1,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 267,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 268,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 269,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 270,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 271,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 272,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 273,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 140,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 9,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 1200,
+            "multi": 6,
+            "odds": 10
+          }
+        ],
+        "drawResult": [
+          101,
+          13,
+          17,
+          17,
+          9,
+          17,
+          16,
+          15,
+          13,
+          2,
+          8,
+          12,
+          6,
+          10,
+          4,
+          7,
+          2,
+          11,
+          3,
+          11,
+          101,
+          15,
+          15,
+          15,
+          13
+        ],
+        "topResult": [
+          11,
+          13,
+          6,
+          18,
+          19
+        ],
+        "buttomResult": [
+          9,
+          9,
+          18,
+          5,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          13
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-11-3",
+        "coin": 455675678,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 6,
+        "totalWin": 2960,
+        "roundWin": 1200,
+        "freeTotalWin": 4800,
+        "freeRemainCount": 1,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 274,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 275,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 156,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 3,
+            "lineNum": 2,
+            "score": 1200,
+            "multi": 10,
+            "odds": 3
+          },
+          {
+            "iconId": 13,
+            "axleId": 2,
+            "lineNum": 2,
+            "score": 1200,
+            "multi": 10,
+            "odds": 3
+          }
+        ],
+        "drawResult": [
+          101,
+          11,
+          13,
+          17,
+          17,
+          13,
+          17,
+          16,
+          15,
+          13,
+          8,
+          12,
+          6,
+          2,
+          4,
+          18,
+          7,
+          11,
+          3,
+          11,
+          101,
+          15,
+          15,
+          15,
+          13
+        ],
+        "topResult": [
+          17,
+          17,
+          6,
+          14,
+          19
+        ],
+        "buttomResult": [
+          9,
+          9,
+          18,
+          5,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          15
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-11-4",
+        "coin": 455675678,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 10,
+        "totalWin": 5360,
+        "roundWin": 2400,
+        "freeTotalWin": 7200,
+        "freeRemainCount": 1,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 276,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 277,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 278,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 124,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          11,
+          13,
+          17,
+          11,
+          15,
+          13,
+          17,
+          16,
+          15,
+          6,
+          8,
+          12,
+          6,
+          4,
+          2,
+          7,
+          11,
+          3,
+          11,
+          101,
+          15,
+          15,
+          15,
+          13
+        ],
+        "topResult": [
+          17,
+          17,
+          8,
+          14,
+          19
+        ],
+        "buttomResult": [
+          9,
+          9,
+          18,
+          5,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-11-5",
+        "coin": 455681038,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 10,
+        "roundScore": 5360,
+        "roundScoreSigned": 5360,
+        "totalWin": 5360,
+        "freeTotalWin": 7200,
+        "freeRemainCount": 1,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "roundWin": 0,
+        "bFree": true
+      }
+    },
+    {
+      "id": 279,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 280,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 281,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 141,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 17,
+            "axleId": 4,
+            "lineNum": 2,
+            "score": 480,
+            "multi": 2,
+            "odds": 6
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          17,
+          17,
+          13,
+          18,
+          10,
+          9,
+          16,
+          19,
+          10,
+          12,
+          12,
+          18,
+          6,
+          13,
+          13,
+          13,
+          13,
+          17,
+          101,
+          15,
+          3,
+          11,
+          17
+        ],
+        "topResult": [
+          11,
+          15,
+          10,
+          17,
+          11
+        ],
+        "buttomResult": [
+          19,
+          17,
+          18,
+          7,
+          5
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          5,
+          13
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-12-1",
+        "coin": 455681038,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "totalWin": 480,
+        "roundWin": 480,
+        "freeTotalWin": 7680,
+        "freeRemainCount": 0,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 282,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 283,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 284,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 188,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 13,
+            "axleId": 3,
+            "lineNum": 4,
+            "score": 1600,
+            "multi": 4,
+            "odds": 5
+          },
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 2,
+            "score": 160,
+            "multi": 4,
+            "odds": 1
+          },
+          {
+            "iconId": 15,
+            "axleId": 2,
+            "lineNum": 2,
+            "score": 320,
+            "multi": 4,
+            "odds": 2
+          },
+          {
+            "iconId": 11,
+            "axleId": 2,
+            "lineNum": 3,
+            "score": 720,
+            "multi": 4,
+            "odds": 3
+          }
+        ],
+        "drawResult": [
+          101,
+          15,
+          11,
+          19,
+          13,
+          2,
+          10,
+          9,
+          16,
+          19,
+          10,
+          12,
+          12,
+          2,
+          6,
+          17,
+          13,
+          13,
+          13,
+          13,
+          101,
+          11,
+          15,
+          3,
+          11
+        ],
+        "topResult": [
+          19,
+          15,
+          10,
+          19,
+          15
+        ],
+        "buttomResult": [
+          19,
+          17,
+          18,
+          7,
+          5
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [
+          8,
+          12,
+          11
+        ],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-12-2",
+        "coin": 455681038,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 4,
+        "totalWin": 3280,
+        "roundWin": 2800,
+        "freeTotalWin": 10480,
+        "freeRemainCount": 0,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 285,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 286,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 169,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 3,
+            "lineNum": 24,
+            "score": 8640,
+            "multi": 6,
+            "odds": 3
+          },
+          {
+            "iconId": 7,
+            "axleId": 2,
+            "lineNum": 2,
+            "score": 1440,
+            "multi": 6,
+            "odds": 6
+          },
+          {
+            "iconId": 13,
+            "axleId": 3,
+            "lineNum": 2,
+            "score": 1200,
+            "multi": 6,
+            "odds": 5
+          }
+        ],
+        "drawResult": [
+          101,
+          13,
+          19,
+          7,
+          19,
+          19,
+          15,
+          10,
+          9,
+          2,
+          10,
+          10,
+          2,
+          2,
+          6,
+          19,
+          13,
+          19,
+          19,
+          17,
+          101,
+          11,
+          15,
+          3,
+          11
+        ],
+        "topResult": [
+          13,
+          17,
+          10,
+          19,
+          15
+        ],
+        "buttomResult": [
+          19,
+          17,
+          18,
+          7,
+          5
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-free-5-2-12-3",
+        "coin": 455681038,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 6,
+        "totalWin": 14560,
+        "roundWin": 11280,
+        "freeTotalWin": 21760,
+        "freeRemainCount": 0,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "bFree": true
+      }
+    },
+    {
+      "id": 287,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 288,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 289,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 120,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          5,
+          17,
+          19,
+          13,
+          19,
+          17,
+          15,
+          10,
+          9,
+          4,
+          10,
+          10,
+          10,
+          6,
+          17,
+          7,
+          13,
+          19,
+          17,
+          101,
+          11,
+          15,
+          3,
+          11
+        ],
+        "topResult": [
+          15,
+          19,
+          6,
+          19,
+          15
+        ],
+        "buttomResult": [
+          19,
+          17,
+          18,
+          7,
+          5
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "seq": "local-free-5-2-12-4",
+        "coin": 455695598,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 10,
+        "roundScore": 14560,
+        "roundScoreSigned": 14560,
+        "totalWin": 14560,
+        "freeTotalWin": 21760,
+        "freeMaxCount": 12,
+        "betCoin": 400,
+        "roundWin": 0,
+        "freeRemainCount": 0
+      }
+    },
+    {
+      "id": 290,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 291,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 292,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 293,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 294,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 295,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 296,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 297,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 298,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 299,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 300,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 301,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 302,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 303,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 304,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 305,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 306,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 307,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 308,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 309,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 310,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 311,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 312,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 313,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 314,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 315,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 316,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 317,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 318,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 319,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 320,
+      "direction": "send",
+      "cmd": 40006,
+      "bytes": 14
+    },
+    {
+      "id": 321,
+      "direction": "receive",
+      "cmd": 40007,
+      "bytes": 126,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          17,
+          3,
+          19,
+          5,
+          4,
+          19,
+          19,
+          1,
+          6,
+          1,
+          11,
+          19,
+          16,
+          13,
+          1,
+          9,
+          20,
+          10,
+          16,
+          101,
+          11,
+          19,
+          19,
+          15
+        ],
+        "topResult": [
+          17,
+          9,
+          13,
+          11,
+          17
+        ],
+        "buttomResult": [
+          9,
+          19,
+          9,
+          9,
+          15
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "status": 1,
+        "seq": "local-buy-6-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "betCoin": 32000,
+        "purchase": true,
+        "gameNum": 1,
+        "roundScore": 18446744073709519000,
+        "roundScoreSigned": -32000,
+        "bFree": true,
+        "freeAppend": 10,
+        "freeRemainCount": 10,
+        "freeMaxCount": 10,
+        "totalWin": 0,
+        "roundWin": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 322,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 323,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 324,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 325,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 326,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 327,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 328,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 329,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 330,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 331,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 332,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 333,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 334,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 335,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 336,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 337,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 338,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 339,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 340,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 341,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 342,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 343,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 344,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 345,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 346,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 347,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 348,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 349,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 350,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 351,
+      "direction": "send",
+      "cmd": 40006,
+      "bytes": 14
+    },
+    {
+      "id": 352,
+      "direction": "receive",
+      "cmd": 40007,
+      "bytes": 126,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          1,
+          3,
+          19,
+          5,
+          4,
+          19,
+          19,
+          7,
+          6,
+          15,
+          11,
+          19,
+          1,
+          1,
+          18,
+          9,
+          1,
+          10,
+          16,
+          101,
+          11,
+          1,
+          19,
+          15
+        ],
+        "topResult": [
+          17,
+          9,
+          13,
+          11,
+          17
+        ],
+        "buttomResult": [
+          9,
+          19,
+          9,
+          9,
+          15
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "status": 1,
+        "seq": "local-buy-7-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "betCoin": 32000,
+        "purchase": true,
+        "gameNum": 1,
+        "roundScore": 18446744073709519000,
+        "roundScoreSigned": -32000,
+        "bFree": true,
+        "freeAppend": 14,
+        "freeRemainCount": 14,
+        "freeMaxCount": 14,
+        "totalWin": 0,
+        "roundWin": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 353,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 354,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 355,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 356,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 357,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 358,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 359,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 360,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 361,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 362,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 363,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 364,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 365,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 366,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 367,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 368,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 369,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 370,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 371,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 372,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 373,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 374,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 375,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 376,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 377,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 378,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 379,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 380,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 88,
+      "enterBalance": 455706238
+    },
+    {
+      "id": 381,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 382,
+      "direction": "send",
+      "cmd": 40006,
+      "bytes": 14
+    },
+    {
+      "id": 383,
+      "direction": "receive",
+      "cmd": 40007,
+      "bytes": 126,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          1,
+          3,
+          1,
+          5,
+          4,
+          19,
+          19,
+          7,
+          6,
+          15,
+          11,
+          19,
+          16,
+          13,
+          1,
+          9,
+          1,
+          10,
+          16,
+          101,
+          11,
+          1,
+          19,
+          1
+        ],
+        "topResult": [
+          17,
+          9,
+          13,
+          11,
+          17
+        ],
+        "buttomResult": [
+          9,
+          19,
+          9,
+          9,
+          15
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "status": 1,
+        "seq": "local-buy-8-1",
+        "coin": 455673838,
+        "betMulti": 20,
+        "betCoin": 32000,
+        "purchase": true,
+        "gameNum": 1,
+        "roundScore": 18446744073709519000,
+        "roundScoreSigned": -32000,
+        "bFree": true,
+        "freeAppend": 15,
+        "freeRemainCount": 15,
+        "freeMaxCount": 15,
+        "totalWin": 0,
+        "roundWin": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 384,
+      "direction": "send",
+      "cmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 385,
+      "direction": "receive",
+      "cmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 386,
+      "direction": "send",
+      "cmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 387,
+      "direction": "send",
+      "cmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 388,
+      "direction": "send",
+      "cmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 389,
+      "direction": "send",
+      "cmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 390,
+      "direction": "send",
+      "cmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 391,
+      "direction": "send",
+      "cmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 392,
+      "direction": "send",
+      "cmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 393,
+      "direction": "send",
+      "cmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 394,
+      "direction": "send",
+      "cmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 395,
+      "direction": "receive",
+      "cmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 396,
+      "direction": "receive",
+      "cmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 397,
+      "direction": "receive",
+      "cmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 398,
+      "direction": "receive",
+      "cmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 399,
+      "direction": "receive",
+      "cmd": 20005,
+      "bytes": 473
+    },
+    {
+      "id": 400,
+      "direction": "receive",
+      "cmd": 20017,
+      "bytes": 468
+    },
+    {
+      "id": 401,
+      "direction": "receive",
+      "cmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 402,
+      "direction": "receive",
+      "cmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 403,
+      "direction": "receive",
+      "cmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 404,
+      "direction": "send",
+      "cmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 405,
+      "direction": "receive",
+      "cmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 406,
+      "direction": "send",
+      "cmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 407,
+      "direction": "receive",
+      "cmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 408,
+      "direction": "send",
+      "cmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 409,
+      "direction": "receive",
+      "cmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 410,
+      "direction": "send",
+      "cmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 411,
+      "direction": "receive",
+      "cmd": 40001,
+      "bytes": 87,
+      "enterBalance": 100000000
+    },
+    {
+      "id": 412,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 413,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 414,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-1-1",
+        "coin": 99999600,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 415,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 416,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-1-2",
+        "coin": 100001600,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 417,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 418,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 419,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-2-1",
+        "coin": 100001200,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 420,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 421,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 422,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-2-2",
+        "coin": 100003200,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 423,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 424,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-3-1",
+        "coin": 100002800,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 425,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 426,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 427,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-3-2",
+        "coin": 100004800,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 428,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 429,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-4-1",
+        "coin": 100004400,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 430,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 431,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 432,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-4-2",
+        "coin": 100006400,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 433,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 434,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-5-1",
+        "coin": 100006000,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 435,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 436,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 437,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 438,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 439,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 440,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 441,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-5-2",
+        "coin": 100008000,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 442,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 443,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-6-1",
+        "coin": 100007600,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 444,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 445,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 446,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-6-2",
+        "coin": 100009600,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 447,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 448,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 449,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-7-1",
+        "coin": 100009200,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 450,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 451,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-7-2",
+        "coin": 100011200,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 452,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 453,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 454,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-8-1",
+        "coin": 100010800,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 455,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 456,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 457,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-8-2",
+        "coin": 100012800,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 458,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 459,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 114,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-9-1",
+        "coin": 100012400,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 460,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 461,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 462,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 98,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-9-2",
+        "coin": 100014400,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 463,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 464,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 115,
+      "rotate": {
+        "lines": [
+          {
+            "iconId": 19,
+            "axleId": 2,
+            "lineNum": 100,
+            "score": 2000,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "drawResult": [
+          101,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          19,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          3,
+          5,
+          7,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-10-1",
+        "coin": 100014000,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 1,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 2000
+      }
+    },
+    {
+      "id": 465,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 466,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 467,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 468,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 469,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 470,
+      "direction": "send",
+      "cmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 471,
+      "direction": "receive",
+      "cmd": 40003,
+      "bytes": 99,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          7,
+          7,
+          7,
+          7,
+          7,
+          3,
+          3,
+          3,
+          3,
+          3,
+          101,
+          5,
+          5,
+          5,
+          5
+        ],
+        "topResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "buttomResult": [
+          19,
+          19,
+          19,
+          3,
+          5
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "seq": "local-9-10-2",
+        "coin": 100016000,
+        "betMulti": 20,
+        "betCoin": 400,
+        "gameNum": 2,
+        "roundScore": 1600,
+        "roundScoreSigned": 1600,
+        "purchase": false,
+        "totalWin": 2000,
+        "roundWin": 0
+      }
+    },
+    {
+      "id": 472,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 473,
+      "direction": "send",
+      "cmd": 40006,
+      "bytes": 14
+    },
+    {
+      "id": 474,
+      "direction": "receive",
+      "cmd": 40007,
+      "bytes": 126,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          17,
+          3,
+          19,
+          1,
+          4,
+          19,
+          19,
+          7,
+          6,
+          15,
+          11,
+          19,
+          16,
+          13,
+          18,
+          1,
+          20,
+          1,
+          16,
+          101,
+          11,
+          19,
+          19,
+          15
+        ],
+        "topResult": [
+          17,
+          9,
+          13,
+          11,
+          17
+        ],
+        "buttomResult": [
+          9,
+          19,
+          9,
+          9,
+          15
+        ],
+        "gameNumList": [
+          1,
+          2,
+          3,
+          5
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "status": 1,
+        "seq": "local-buy-9-11",
+        "coin": 99984000,
+        "betMulti": 20,
+        "betCoin": 32000,
+        "purchase": true,
+        "gameNum": 1,
+        "roundScore": 18446744073709519000,
+        "roundScoreSigned": -32000,
+        "bFree": true,
+        "freeAppend": 10,
+        "freeRemainCount": 10,
+        "freeMaxCount": 10,
+        "totalWin": 0,
+        "roundWin": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 475,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 476,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 477,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 478,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 479,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-1-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 9,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 480,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 481,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 482,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-2-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 8,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 483,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 484,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 485,
+      "direction": "send",
+      "cmd": 5000,
+      "bytes": 12
+    },
+    {
+      "id": 486,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 487,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 488,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 489,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-3-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 7,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 490,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 491,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-4-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 6,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 492,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 493,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 494,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-5-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 5,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 495,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 496,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-6-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 4,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 497,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 498,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 499,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-7-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 3,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 500,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 501,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-8-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 2,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 502,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 503,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 504,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 128,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "status": 1,
+        "seq": "local-live-free-9-12-9-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "freeRemainCount": 1,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "roundWin": 0,
+        "bFree": true,
+        "freeAppend": 0,
+        "freeTotalWin": 0
+      }
+    },
+    {
+      "id": 505,
+      "direction": "send",
+      "cmd": 40004,
+      "bytes": 12
+    },
+    {
+      "id": 506,
+      "direction": "receive",
+      "cmd": 40005,
+      "bytes": 153,
+      "rotate": {
+        "lines": [],
+        "drawResult": [
+          101,
+          3,
+          3,
+          3,
+          3,
+          5,
+          5,
+          5,
+          5,
+          5,
+          8,
+          8,
+          8,
+          8,
+          8,
+          9,
+          9,
+          9,
+          9,
+          9,
+          101,
+          11,
+          11,
+          11,
+          11
+        ],
+        "topResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "buttomResult": [
+          3,
+          5,
+          8,
+          9,
+          11
+        ],
+        "gameNumList": [
+          2,
+          4,
+          6,
+          10
+        ],
+        "goldToWildPos": [],
+        "triggerDraw": [
+          101,
+          17,
+          3,
+          1,
+          5,
+          4,
+          1,
+          19,
+          7,
+          6,
+          15,
+          11,
+          1,
+          16,
+          13,
+          18,
+          9,
+          20,
+          10,
+          16,
+          101,
+          11,
+          19,
+          19,
+          15
+        ],
+        "triggerTopResult": [],
+        "triggerButtomResult": [],
+        "originalStatus": 1,
+        "seq": "local-live-free-9-12-10-1",
+        "coin": 99984000,
+        "betMulti": 20,
+        "purchase": true,
+        "gameNum": 2,
+        "roundScore": 0,
+        "roundScoreSigned": 0,
+        "totalWin": 0,
+        "freeTotalWin": 0,
+        "freeMaxCount": 10,
+        "betCoin": 400,
+        "roundWin": 0,
+        "freeAppend": 0,
+        "freeRemainCount": 0
+      }
+    },
+    {
+      "id": 507,
+      "direction": "receive",
+      "cmd": 5001,
+      "bytes": 18
+    }
+  ]
+}

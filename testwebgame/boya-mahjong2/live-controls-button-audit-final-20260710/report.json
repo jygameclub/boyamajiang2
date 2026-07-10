@@ -1,0 +1,66 @@
+{
+  "baseUrl": "http://127.0.0.1:18082",
+  "token": "button-final-live-20260710",
+  "diagnostics": {
+    "console": [
+      "[log] init language en",
+      "[log] init language zh",
+      "[warning] [.WebGL-0x10c004db400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[log] Cocos Creator v2.4.6",
+      "[warning] [.WebGL-0x10c004db400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x10c004db400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x10c004db400]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 42.44921875 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 43.017822265625 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 42.496826171875 ms",
+      "[log] showGame",
+      "[log] init language en",
+      "[log] init language zh",
+      "[log] Cocos Creator v2.4.6",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 46.010986328125 ms",
+      "[log] showGame"
+    ],
+    "pageErrors": [],
+    "httpErrors": [],
+    "clientCloses": []
+  },
+  "verdict": "PASS",
+  "auto": {
+    "requests": 3,
+    "responses": 3
+  },
+  "bet": {
+    "betMulti": 100,
+    "betCoin": 2000,
+    "roundWin": 0
+  },
+  "buy": {
+    "betMulti": 100,
+    "buyCost": 160000,
+    "scatterCount": 3,
+    "scatterPositions": [
+      11,
+      16,
+      17
+    ],
+    "freeCount": 10,
+    "firstFreeBetMulti": 100,
+    "firstFreeBetCoin": 2000,
+    "firstFreeRoundWin": 3600
+  },
+  "history": {
+    "listBytes": 147,
+    "detailBytes": 6176
+  },
+  "persistedLiveRows": 4,
+  "serverMismatches": 0,
+  "authTimeout": false
+}

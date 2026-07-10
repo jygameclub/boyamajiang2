@@ -9,6 +9,7 @@ import {
 } from "../../tools/lib/boya-har.mjs";
 import { createControlledResponder } from "../../tools/local/server/controlled-responder.mjs";
 import { openLocalStore } from "../../tools/local/server/database.mjs";
+import { PLAYABLE_INDEXES } from "../../tools/local/engine/constants.mjs";
 import { calculateWays } from "../../tools/local/engine/ways-calculator.mjs";
 import { createRouteAndCascadeScenarios } from "../../tools/local/engine/scenarios.mjs";
 
@@ -422,6 +423,60 @@ test("live purchase reads newly activated scatter weights without reconnecting",
   const trigger = decodeResponse(responder.nextResponsesForClientFrame(buyRequest)[0]);
   assert.equal(trigger.drawResult.filter((symbol) => symbol === 1).length, 4);
   assert.equal(trigger.freeRemainCount, 12);
+  responder.close("test-done");
+  store.close();
+});
+
+test("live purchase applies buy initial reel weights to non-scatter trigger symbols", () => {
+  const store = openLocalStore(":memory:");
+  const payload = structuredClone(store.getActiveConfig().payload);
+  payload.modes.buy.scatterWeights = { scatter3: 1, scatter4: 0, scatter5: 0, scatter6plus: 0 };
+  payload.modes.buy.initial.goldRateByReel = [0, 0, 100, 0, 0];
+  payload.modes.buy.initial.symbolWeights = [3, 5, 7, 9, 11].map((symbol) => ({ [symbol]: 1 }));
+  store.activateConfig(store.createDraft("forced-buy-reels", payload).id);
+  const responder = createControlledResponder({
+    rawFrames,
+    connectionIndex: 1,
+    mode: "live",
+    store,
+    seed: "buy-reel-weights"
+  });
+
+  const trigger = decodeResponse(responder.nextResponsesForClientFrame(buyRequest)[0]);
+  const expectedByReel = [3, 5, 8, 9, 11];
+  for (const index of PLAYABLE_INDEXES) {
+    const reel = Math.floor(index / 5);
+    assert.ok(
+      trigger.drawResult[index] === 1 || trigger.drawResult[index] === expectedByReel[reel],
+      `index ${index} on reel ${reel} must use the configured symbol`
+    );
+  }
+
+  responder.close("test-done");
+  store.close();
+});
+
+test("live round history records the config version activated for that round", () => {
+  const store = openLocalStore(":memory:");
+  const responder = createControlledResponder({
+    rawFrames,
+    connectionIndex: 1,
+    mode: "live",
+    store,
+    seed: "round-config-version"
+  });
+  const payload = structuredClone(store.getActiveConfig().payload);
+  payload.modes.base.outcomeWeights = { miss: 1, small: 0, medium: 0, big: 0, mega: 0, super: 0 };
+  payload.modes.base.scatterCap = 0;
+  for (const phase of ["initial", "cascade"]) {
+    payload.modes.base[phase].goldRateByReel = [0, 0, 0, 0, 0];
+    payload.modes.base[phase].symbolWeights = [3, 5, 7, 9, 11].map((symbol) => ({ [symbol]: 1 }));
+  }
+  const activated = store.activateConfig(store.createDraft("round-config", payload).id);
+
+  responder.nextResponsesForClientFrame(spinRequest);
+
+  assert.equal(store.listRounds({ limit: 1 })[0].configId, activated.id);
   responder.close("test-done");
   store.close();
 });

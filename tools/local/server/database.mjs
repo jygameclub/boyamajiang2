@@ -8,7 +8,7 @@ import {
   normalizeLocalUserToken
 } from "./local-user.mjs";
 
-const SCHEMA_VERSION = 3;
+const SCHEMA_VERSION = 4;
 
 function now() {
   return new Date().toISOString();
@@ -150,6 +150,7 @@ function migrate(db) {
     CREATE TABLE IF NOT EXISTS game_rounds (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       session_id INTEGER NOT NULL REFERENCES game_sessions(id) ON DELETE CASCADE,
+      config_id INTEGER REFERENCES config_versions(id),
       round_no INTEGER NOT NULL,
       kind TEXT NOT NULL,
       bet INTEGER NOT NULL DEFAULT 0,
@@ -209,6 +210,7 @@ function migrate(db) {
   ensureColumn(db, "game_rounds", "bet_multi", "INTEGER NOT NULL DEFAULT 0");
   ensureColumn(db, "game_rounds", "balance_before", "INTEGER NOT NULL DEFAULT 0");
   ensureColumn(db, "game_rounds", "balance_after", "INTEGER NOT NULL DEFAULT 0");
+  ensureColumn(db, "game_rounds", "config_id", "INTEGER REFERENCES config_versions(id)");
   ensureColumn(db, "game_sessions", "user_id", "INTEGER REFERENCES local_users(id)");
   db.exec("CREATE INDEX IF NOT EXISTS idx_sessions_user ON game_sessions(user_id, id)");
   db.prepare("INSERT OR IGNORE INTO schema_migrations(version, applied_at) VALUES (?, ?)")
@@ -418,12 +420,13 @@ export function openLocalStore(dbPath) {
       return transaction(() => {
         const result = db.prepare(`
           INSERT INTO game_rounds(
-            session_id, round_no, kind, bet, buy_cost, total_win, bet_multi,
+            session_id, config_id, round_no, kind, bet, buy_cost, total_win, bet_multi,
             balance_before, balance_after, outcome, source,
             scenario_key, seed, validation_status, fallback_reason, created_at
-          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+          ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         `).run(
           round.sessionId,
+          round.configId || null,
           round.roundNo,
           round.kind,
           round.bet || 0,
@@ -498,6 +501,7 @@ export function openLocalStore(dbPath) {
       const where = clauses.length ? `WHERE ${clauses.join(" AND ")}` : "";
       return db.prepare(`
         SELECT r.id, r.session_id AS sessionId, s.mode, r.round_no AS roundNo,
+               COALESCE(r.config_id, s.config_id) AS configId,
                r.kind, r.bet, r.buy_cost AS buyCost, r.total_win AS totalWin,
                r.bet_multi AS betMulti, r.balance_before AS balanceBefore,
                r.balance_after AS balanceAfter,
@@ -516,6 +520,7 @@ export function openLocalStore(dbPath) {
       if (token) params.push(normalizeLocalUserToken(token, { useDefault: false }));
       const round = plain(db.prepare(`
         SELECT r.id, r.session_id AS sessionId, s.mode, r.round_no AS roundNo,
+               COALESCE(r.config_id, s.config_id) AS configId,
                r.kind, r.bet, r.buy_cost AS buyCost, r.total_win AS totalWin,
                r.bet_multi AS betMulti, r.balance_before AS balanceBefore,
                r.balance_after AS balanceAfter, r.outcome, r.source,
