@@ -6,7 +6,7 @@
 
 **当前基线:** `1a24c10`
 
-**状态:** 设计已定，待按本文分阶段实现
+**状态:** V1 核心交付已实现并通过真机验收；免费旋转内 Scatter retrigger 保留为证据受限项
 
 **参考实现:** `/Users/yang/work/git/slot-platform` 仅用于规则和数据集设计参考；运行时不得依赖该目录
 
@@ -611,3 +611,105 @@ testwebgame/boya-mahjong2/local-controlled-final-YYYYMMDD-HHMMSS/
 8. **全链路真机验收**：素材 404、动画高亮、金额、免费次数、重启持久化和两地址交付。
 
 进入下一批前，上一批的单测、集成测试和 `git diff --check` 必须通过。最终结论以 Boya 客户端真机表现和持久化历史为准，不以“接口返回成功”代替验收。
+
+## 20. 2026-07-10 实施结果与经验复盘
+
+### 20.1 已完成的本地闭环
+
+当前仓库已经具备独立运行闭环，运行时不依赖 `slot-platform`：
+
+- `tools/local/engine/`：固定赔率、seeded RNG、每列权重采样、Ways、级联、金牌转 Wild、Validator、确定性场景和 outcome fallback。
+- `tools/local/server/database.mjs`：SQLite WAL、配置版本、测试游标、session、round、step、协议事件和后台审计持久化。
+- `tools/local/server/controlled-responder.mjs`：test/live 的 `40002/40003`、`40006/40007`、`40004/40005` 和心跳状态机。
+- `tools/local/server/control-api.mjs`：配置草稿、结构校验、激活、测试套件控制、模拟和运行信息 API。
+- `local-admin/boya-mahjong2/`：base/free/buy、initial/cascade、5 列符号权重、金牌率、结果权重、胡数量、测试控制和历史详情后台。
+- `/__game/test`：普通小奖阶梯、12 类路线/级联/Wild 场景、3/4/5/6 胡购买免费。
+- `/__game/live`：新 session 绑定激活配置；基础局和购买后的免费局都由本地列权重与 outcome 权重控制。
+- `/__history`、`/api/history/rounds`：读取 SQLite 领域历史，重启后仍存在。
+
+测试模式购买免费使用真实 HAR 免费旋转组作为原子单位，组内盘面、lines、倍率和 Wild 转换不改；只把完整旋转组重排为：
+
+```text
+0 / 0 / 0 / 0 / 0 / 0 / 0 / 0 / 5.60 / 12.80 / 53.60 / 145.60
+```
+
+live 免费模式不复用这套固定盘面，而是读取 `free.initial/cascade` 每列权重和 free outcome 权重，由规则引擎生成盘面后编译进真实 `40005` 外壳。
+
+### 20.2 新增确定性路线套件
+
+`route-and-cascade` 已落为 12 个可在后台单独选择或循环的场景：
+
+```text
+route-near-miss
+route-zigzag-single
+route-multi-ways
+route-five-axes
+route-multi-icon
+cascade-two-win-steps
+cascade-four-win-steps
+cascade-gold-to-wild
+cascade-wild-next-eliminate
+route-wild-reuse
+cascade-refill-win
+cascade-limit-terminal
+```
+
+这些场景只定义初始 25 格盘面和每列后续补牌队列；`lines`、Ways、倍率和金额仍由统一规则引擎计算。`cascade-limit-terminal` 在上限处再做一次重力掉落，只有新盘面无 Ways 才作为合法终止盘发送，否则拒绝生成。
+
+### 20.3 协议与素材排障经验
+
+1. `40001` 不是可按旋转结果解码的 MsgRotate。Playwright 观察器曾因此丢掉真实已返回的进入帧并误报超时；现在只对 `40003/40005/40007` 解码旋转数据。
+2. recorded base `40003` 没有 field 14。原 protobuf 重建器只替换已有 packed 字段，导致服务端计算出 `goldToWildPos` 但客户端收不到；现在会把缺失的 packed override 按字段追加。
+3. HAR 基础局全输，中奖后懒加载的 `14symbol02` 音效没有被抓取。已补齐本地 metadata JSON 和 MP3，并增加资源存在性单测。
+4. 不能用固定的短等待假设按钮已经解锁。旋转和购买测试都以观察到新的 `40002/40006` 为准，未发请求时按间隔重试点击。
+5. Cocos 收到网络帧后仍要完成滚轴停止，高亮截图不能在帧刚到时截。基础和 live 使用约 2600 ms 的高亮窗口；最终截图能同时看到发光路径和“赢取”金额。
+6. 免费奖励排序必须按完整 free-spin group 做，不能按单个 `40005` 排序，否则会拆散同一局 x2/x4/x6/x10 级联并破坏累计金额。
+7. live free 的每一步仍使用真实 HAR 外壳：中奖步按 x2/x4/x6/x10 选择外壳，普通终止使用真实终止外壳，最后一步使用真实退出免费状态外壳；只替换 Validator 已确认字段。
+
+### 20.4 最终真机验收
+
+最终报告：
+
+`testwebgame/boya-mahjong2/local-controlled-final-20260710-120111/report.md`
+
+关键结果：
+
+```text
+verdict = PASS
+unit tests = 50 pass
+base ladder = 1.00 / 2.00 / 3.00 / 5.00 / 6.00 / 8.00
+route goldToWildCount = 1
+route Wild next eliminated = true
+route Wild reuse lines = 7
+base cascade multipliers = 1 / 2 / 3 / 5
+buy scatter/free = 3->10, 4->12, 5->14, 6->15
+test free totals ascending = true
+test free largest cascade = 112.80
+live base = 20.00 x 3, source=weighted
+live free = 3 胡 / 10 次 / 10 个 40005, source=weighted-free
+live free configured columns match = true
+HTTP 404 = 0
+pageErrors = 0
+clientClose = 0
+mismatches = 0
+```
+
+人工检查通过的关键截图：
+
+```text
+base-00100-highlight.png ... base-00800-highlight.png
+route-gold-highlight.png
+route-wild-highlight.png
+route-wild-reuse-highlight.png
+route-cascade-x5-highlight.png
+buy-x10-highlight.png
+buy-largest-highlight.png
+live-forced-medium-highlight.png
+live-free-complete.png
+admin-desktop.png
+admin-mobile.png
+```
+
+### 20.5 V1 证据边界
+
+当前唯一主动限制是免费旋转内的 3+ Scatter retrigger：现有 HAR 没有 retrigger `40005` 状态链，不能确认客户端要求的追加动画字段和时序。live free 生成时暂把单盘 Scatter 上限限制为 2，避免伪造状态并再次引发认证超时。购买入口的 3/4/5/6 胡与 10/12/14/15 次已完整实现和真机验证；拿到真实 retrigger 录制后再开放该项。

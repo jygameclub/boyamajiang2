@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boya 麻将2本地控制台</title>
+  <link rel="stylesheet" href="/__admin/admin.css">
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <h1>Boya 麻将2本地控制台</h1>
+      <p id="runtime-line">正在连接本地服务</p>
+    </div>
+    <div class="header-links">
+      <a href="/__game/test" target="_blank">测试客户端</a>
+      <a href="/__game/live" target="_blank">概率客户端</a>
+    </div>
+  </header>
+
+  <nav class="tabs" aria-label="管理视图">
+    <button type="button" class="tab active" data-tab="weights">概率配置</button>
+    <button type="button" class="tab" data-tab="outcomes">结果权重</button>
+    <button type="button" class="tab" data-tab="testing">测试控制</button>
+    <button type="button" class="tab" data-tab="history">运行历史</button>
+  </nav>
+
+  <main>
+    <section id="panel-weights" class="panel active">
+      <div class="toolbar">
+        <div class="segmented" id="mode-control" aria-label="游戏模式">
+          <button type="button" class="active" data-mode="base">普通</button>
+          <button type="button" data-mode="free">免费</button>
+          <button type="button" data-mode="buy">购买</button>
+        </div>
+        <div class="segmented" id="phase-control" aria-label="生成阶段">
+          <button type="button" class="active" data-phase="initial">初始盘</button>
+          <button type="button" data-phase="cascade">级联掉落</button>
+        </div>
+        <span id="config-version" class="status-chip">配置载入中</span>
+      </div>
+      <div class="table-scroll">
+        <table class="weights-table">
+          <thead><tr><th>符号</th><th>第1列</th><th>第2列</th><th>第3列</th><th>第4列</th><th>第5列</th></tr></thead>
+          <tbody id="weight-rows"></tbody>
+        </table>
+      </div>
+      <div class="settings-row">
+        <label>金牌率 第1列<input data-gold-reel="0" type="number" min="0" max="100"></label>
+        <label>第2列<input data-gold-reel="1" type="number" min="0" max="100"></label>
+        <label>第3列<input data-gold-reel="2" type="number" min="0" max="100"></label>
+        <label>第4列<input data-gold-reel="3" type="number" min="0" max="100"></label>
+        <label>第5列<input data-gold-reel="4" type="number" min="0" max="100"></label>
+        <label>级联上限<input id="cascade-limit" type="number" min="1" max="10"></label>
+      </div>
+      <div class="actions">
+        <button id="save-draft" type="button" class="primary">保存为草稿</button>
+        <button id="validate-draft" type="button" disabled>校验草稿</button>
+        <button id="activate-draft" type="button" disabled>激活草稿</button>
+        <span id="config-message" role="status"></span>
+      </div>
+    </section>
+
+    <section id="panel-outcomes" class="panel">
+      <div class="section-heading">
+        <h2>结果档位权重</h2>
+        <span>权重选择目标档位，奖金仍由盘面公式计算</span>
+      </div>
+      <div id="outcome-controls" class="outcome-grid"></div>
+      <div class="section-heading buy-heading"><h2>购买免费胡数量</h2></div>
+      <div id="scatter-controls" class="outcome-grid"></div>
+    </section>
+
+    <section id="panel-testing" class="panel">
+      <div class="form-row">
+        <label>测试套件<select id="suite-select"></select></label>
+        <label>固定场景<select id="scenario-select"></select></label>
+        <label class="check-label"><input id="cycle-check" type="checkbox"> 顺序循环</label>
+        <label>当前游标<input id="test-cursor" type="number" min="0"></label>
+        <button id="save-test-state" type="button" class="primary">应用测试控制</button>
+      </div>
+      <div class="scenario-table-wrap">
+        <table><thead><tr><th>场景</th><th>金额</th><th>符号</th><th>轴数</th><th>Ways</th></tr></thead><tbody id="scenario-rows"></tbody></table>
+      </div>
+      <div class="actions">
+        <button id="run-simulation" type="button">模拟 100 局</button>
+        <span id="test-message" role="status"></span>
+      </div>
+      <pre id="simulation-output" class="json-output" hidden></pre>
+    </section>
+
+    <section id="panel-history" class="panel">
+      <div class="history-toolbar">
+        <select id="history-mode"><option value="">全部模式</option><option value="test">test</option><option value="live">live</option></select>
+        <select id="history-outcome"><option value="">全部结果</option><option>miss</option><option>small</option><option>medium</option><option>big</option><option>mega</option><option>super</option></select>
+        <button id="refresh-history" type="button">刷新</button>
+      </div>
+      <div class="history-layout">
+        <div class="table-scroll">
+          <table><thead><tr><th>ID</th><th>时间</th><th>模式</th><th>来源</th><th>结果</th><th>下注</th><th>中奖</th><th>场景</th></tr></thead><tbody id="history-rows"></tbody></table>
+        </div>
+        <pre id="round-detail" class="json-output">选择一局查看盘面与级联步骤</pre>
+      </div>
+    </section>
+  </main>
+
+  <script type="module" src="/__admin/admin.mjs"></script>
+</body>
+</html>
