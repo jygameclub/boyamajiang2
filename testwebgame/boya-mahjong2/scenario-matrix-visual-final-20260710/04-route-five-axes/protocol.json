@@ -1,0 +1,181 @@
+{
+  "key": "route-five-axes",
+  "label": "五轴连续路线",
+  "verdict": "PASS",
+  "winSteps": 1,
+  "multipliers": [
+    1
+  ],
+  "lineCounts": [
+    1
+  ],
+  "peakWild": 0,
+  "hasGoldTransform": false,
+  "scatterCounts": [
+    0,
+    0
+  ],
+  "idleRequests": 0,
+  "steps": [
+    {
+      "stepIndex": 0,
+      "drawResult": [
+        101,
+        15,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        15,
+        15,
+        7,
+        7,
+        7,
+        7,
+        9,
+        9,
+        9,
+        15,
+        9,
+        101,
+        11,
+        15,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [
+        {
+          "iconId": 15,
+          "axleId": 4,
+          "lineNum": 1,
+          "score": 200,
+          "multi": 1,
+          "odds": 10
+        }
+      ],
+      "roundWin": 200,
+      "totalWin": 200,
+      "gameNum": 1,
+      "goldToWildPos": [],
+      "wildCount": 0,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [
+        {
+          "iconId": 15,
+          "axleId": 4,
+          "lineNum": 1,
+          "score": 200,
+          "multi": 1,
+          "odds": 10
+        }
+      ],
+      "expectedLines": [
+        {
+          "iconId": 15,
+          "axleId": 4,
+          "lineNum": 1,
+          "score": 200,
+          "multi": 1,
+          "odds": 10
+        }
+      ],
+      "paths": [
+        {
+          "iconId": 15,
+          "positionsByReel": [
+            [
+              1
+            ],
+            [
+              9
+            ],
+            [
+              10
+            ],
+            [
+              18
+            ],
+            [
+              22
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "stepIndex": 1,
+      "drawResult": [
+        101,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        7,
+        7,
+        9,
+        9,
+        9,
+        9,
+        9,
+        101,
+        11,
+        11,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [],
+      "roundWin": 0,
+      "totalWin": 200,
+      "gameNum": 2,
+      "goldToWildPos": [],
+      "wildCount": 0,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [],
+      "expectedLines": [],
+      "paths": []
+    }
+  ]
+}

@@ -1,0 +1,72 @@
+{
+  "key": "route-near-miss",
+  "label": "两轴同符号近失",
+  "verdict": "PASS",
+  "winSteps": 0,
+  "multipliers": [],
+  "lineCounts": [],
+  "peakWild": 0,
+  "hasGoldTransform": false,
+  "scatterCounts": [
+    0
+  ],
+  "idleRequests": 0,
+  "steps": [
+    {
+      "stepIndex": 0,
+      "drawResult": [
+        101,
+        17,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        17,
+        5,
+        7,
+        7,
+        7,
+        7,
+        7,
+        9,
+        9,
+        9,
+        9,
+        9,
+        101,
+        11,
+        11,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [],
+      "roundWin": 0,
+      "totalWin": 0,
+      "gameNum": 1,
+      "goldToWildPos": [],
+      "wildCount": 0,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [],
+      "expectedLines": [],
+      "paths": []
+    }
+  ]
+}

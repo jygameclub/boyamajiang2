@@ -1,0 +1,200 @@
+{
+  "baseUrl": "http://127.0.0.1:18082",
+  "diagnostics": {
+    "console": [
+      "[warning] Allow attribute will take precedence over 'allowfullscreen'.",
+      "[log] init language en",
+      "[log] init language zh",
+      "[warning] [.WebGL-0x13400472a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[log] Cocos Creator v2.4.6",
+      "[warning] [.WebGL-0x13400472a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x13400472a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels",
+      "[warning] [.WebGL-0x13400472a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)",
+      "[timeEnd] LoadScene dy_mjlltwo_en: 58.825927734375 ms",
+      "[log] showGame"
+    ],
+    "pageErrors": [],
+    "httpErrors": [],
+    "clientCloses": []
+  },
+  "scenarios": [
+    {
+      "key": "cascade-scatter-gravity",
+      "label": "胡牌不消除并随重力移动",
+      "verdict": "PASS",
+      "winSteps": 1,
+      "multipliers": [
+        1
+      ],
+      "lineCounts": [
+        1
+      ],
+      "peakWild": 0,
+      "hasGoldTransform": false,
+      "scatterCounts": [
+        2,
+        2
+      ],
+      "idleRequests": 0,
+      "steps": [
+        {
+          "stepIndex": 0,
+          "drawResult": [
+            101,
+            3,
+            3,
+            3,
+            19,
+            5,
+            5,
+            1,
+            5,
+            19,
+            7,
+            1,
+            7,
+            7,
+            19,
+            9,
+            9,
+            9,
+            9,
+            9,
+            101,
+            11,
+            11,
+            11,
+            11
+          ],
+          "topResult": [
+            3,
+            5,
+            7,
+            9,
+            11
+          ],
+          "buttomResult": [
+            3,
+            5,
+            7,
+            9,
+            11
+          ],
+          "lines": [
+            {
+              "iconId": 19,
+              "axleId": 2,
+              "lineNum": 1,
+              "score": 20,
+              "multi": 1,
+              "odds": 1
+            }
+          ],
+          "roundWin": 20,
+          "totalWin": 20,
+          "gameNum": 1,
+          "goldToWildPos": [],
+          "wildCount": 0,
+          "scatterCount": 2,
+          "formulaMatches": true,
+          "pathsValid": true,
+          "actualLines": [
+            {
+              "iconId": 19,
+              "axleId": 2,
+              "lineNum": 1,
+              "score": 20,
+              "multi": 1,
+              "odds": 1
+            }
+          ],
+          "expectedLines": [
+            {
+              "iconId": 19,
+              "axleId": 2,
+              "lineNum": 1,
+              "score": 20,
+              "multi": 1,
+              "odds": 1
+            }
+          ],
+          "paths": [
+            {
+              "iconId": 19,
+              "positionsByReel": [
+                [
+                  4
+                ],
+                [
+                  9
+                ],
+                [
+                  14
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "stepIndex": 1,
+          "drawResult": [
+            101,
+            3,
+            3,
+            3,
+            3,
+            5,
+            5,
+            5,
+            1,
+            5,
+            7,
+            7,
+            1,
+            7,
+            7,
+            9,
+            9,
+            9,
+            9,
+            9,
+            101,
+            11,
+            11,
+            11,
+            11
+          ],
+          "topResult": [
+            3,
+            5,
+            7,
+            9,
+            11
+          ],
+          "buttomResult": [
+            3,
+            5,
+            7,
+            9,
+            11
+          ],
+          "lines": [],
+          "roundWin": 0,
+          "totalWin": 20,
+          "gameNum": 2,
+          "goldToWildPos": [],
+          "wildCount": 0,
+          "scatterCount": 2,
+          "formulaMatches": true,
+          "pathsValid": true,
+          "actualLines": [],
+          "expectedLines": [],
+          "paths": []
+        }
+      ]
+    }
+  ],
+  "verdict": "PASS",
+  "serverMismatches": 0,
+  "authTimeout": false
+}

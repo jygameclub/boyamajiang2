@@ -1,0 +1,282 @@
+{
+  "key": "cascade-double-gold-to-wild",
+  "label": "双金牌转双 Wild 后参与消除",
+  "verdict": "PASS",
+  "winSteps": 2,
+  "multipliers": [
+    1,
+    2
+  ],
+  "lineCounts": [
+    1,
+    1
+  ],
+  "peakWild": 2,
+  "hasGoldTransform": true,
+  "scatterCounts": [
+    0,
+    0,
+    0
+  ],
+  "idleRequests": 0,
+  "steps": [
+    {
+      "stepIndex": 0,
+      "drawResult": [
+        101,
+        17,
+        3,
+        3,
+        3,
+        5,
+        5,
+        18,
+        5,
+        5,
+        7,
+        7,
+        7,
+        18,
+        7,
+        9,
+        9,
+        9,
+        9,
+        9,
+        101,
+        11,
+        11,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [
+        {
+          "iconId": 17,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 20,
+          "multi": 1,
+          "odds": 1
+        }
+      ],
+      "roundWin": 20,
+      "totalWin": 20,
+      "gameNum": 1,
+      "goldToWildPos": [
+        7,
+        13
+      ],
+      "wildCount": 0,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [
+        {
+          "iconId": 17,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 20,
+          "multi": 1,
+          "odds": 1
+        }
+      ],
+      "expectedLines": [
+        {
+          "iconId": 17,
+          "axleId": 2,
+          "lineNum": 1,
+          "score": 20,
+          "multi": 1,
+          "odds": 1
+        }
+      ],
+      "paths": [
+        {
+          "iconId": 17,
+          "positionsByReel": [
+            [
+              1
+            ],
+            [
+              7
+            ],
+            [
+              13
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "stepIndex": 1,
+      "drawResult": [
+        101,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        2,
+        5,
+        5,
+        7,
+        7,
+        7,
+        2,
+        7,
+        9,
+        9,
+        9,
+        9,
+        9,
+        101,
+        11,
+        11,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [
+        {
+          "iconId": 3,
+          "axleId": 2,
+          "lineNum": 4,
+          "score": 1600,
+          "multi": 2,
+          "odds": 10
+        }
+      ],
+      "roundWin": 1600,
+      "totalWin": 1620,
+      "gameNum": 2,
+      "goldToWildPos": [],
+      "wildCount": 2,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [
+        {
+          "iconId": 3,
+          "axleId": 2,
+          "lineNum": 4,
+          "score": 1600,
+          "multi": 2,
+          "odds": 10
+        }
+      ],
+      "expectedLines": [
+        {
+          "iconId": 3,
+          "axleId": 2,
+          "lineNum": 4,
+          "score": 1600,
+          "multi": 2,
+          "odds": 10
+        }
+      ],
+      "paths": [
+        {
+          "iconId": 3,
+          "positionsByReel": [
+            [
+              1,
+              2,
+              3,
+              4
+            ],
+            [
+              7
+            ],
+            [
+              13
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "stepIndex": 2,
+      "drawResult": [
+        101,
+        3,
+        3,
+        3,
+        3,
+        5,
+        5,
+        5,
+        5,
+        5,
+        7,
+        7,
+        7,
+        7,
+        7,
+        9,
+        9,
+        9,
+        9,
+        9,
+        101,
+        11,
+        11,
+        11,
+        11
+      ],
+      "topResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "buttomResult": [
+        3,
+        5,
+        7,
+        9,
+        11
+      ],
+      "lines": [],
+      "roundWin": 0,
+      "totalWin": 1620,
+      "gameNum": 3,
+      "goldToWildPos": [],
+      "wildCount": 0,
+      "scatterCount": 0,
+      "formulaMatches": true,
+      "pathsValid": true,
+      "actualLines": [],
+      "expectedLines": [],
+      "paths": []
+    }
+  ]
+}
