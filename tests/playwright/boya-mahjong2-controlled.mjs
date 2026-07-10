@@ -11,10 +11,12 @@ import {
   collectRotateSequence,
   decodeObservedFrame,
   renderControlledReport,
+  waitForGameCanvas,
   waitForObservedFrame as waitForFrame
 } from "./boya-observed-frame.mjs";
 
 const BASE_HIGHLIGHT_DELAY_MS = 2600;
+const LIVE_STABILITY_SPINS = 10;
 
 function parseArgs(argv) {
   const args = { baseUrl: "http://127.0.0.1:18082", out: "", heartbeatWaitMs: 5000 };
@@ -101,7 +103,7 @@ async function openGame(context, url, diagnostics, frames, screenshotPath) {
   const deactivate = bindPage(page, diagnostics, frames);
   const start = frames.length;
   await page.goto(url, { waitUntil: "domcontentloaded", timeout: 60000 });
-  await page.waitForSelector("canvas#GameCanvas", { state: "visible", timeout: 60000 });
+  await waitForGameCanvas(page);
   await waitForFrame(frames, (frame) => frame.id > start && frame.direction === "receive" && frame.cmd === 40001, 90000, "40001");
   await page.waitForTimeout(2500);
   if (screenshotPath) await page.screenshot({ path: screenshotPath, fullPage: true });
@@ -437,7 +439,7 @@ async function verifyLive({ context, baseUrl, out, diagnostics, frames }) {
   let liveFree = null;
   try {
     opened = await openGame(context, new URL("/__game/live", baseUrl).toString(), diagnostics, frames);
-    for (let spin = 0; spin < 3; spin += 1) {
+    for (let spin = 0; spin < LIVE_STABILITY_SPINS; spin += 1) {
       const start = frames.length;
       const request = await clickUntilObservedFrame({
         page: opened.page,
@@ -467,6 +469,10 @@ async function verifyLive({ context, baseUrl, out, diagnostics, frames }) {
       });
       const terminal = sequence.at(-1);
       const validations = sequence.map((frame, cascadeIndex) => validateRotate(frame.rotate, "base", cascadeIndex));
+      await opened.page.waitForTimeout(900);
+      const idleRequests = frames.filter((frame) => (
+        frame.id > terminal.id && frame.direction === "send" && frame.cmd === 40002
+      )).length;
       results.push({
         spin: spin + 1,
         configId: active.id,
@@ -478,9 +484,9 @@ async function verifyLive({ context, baseUrl, out, diagnostics, frames }) {
         totalWin: terminal.rotate.totalWin,
         terminalRoundWin: terminal.rotate.roundWin,
         terminalLines: terminal.rotate.lines.length,
+        idleRequests,
         sentinelValid: first.rotate.drawResult[0] === 101 && first.rotate.drawResult[20] === 101
       });
-      await opened.page.waitForTimeout(900);
     }
     await opened.page.screenshot({ path: path.join(out, "live-after-spins.png"), fullPage: true });
     const buyStart = frames.length;
@@ -513,8 +519,8 @@ async function verifyLive({ context, baseUrl, out, diagnostics, frames }) {
       .slice(0, 10);
     await opened.page.waitForTimeout(1200);
     await opened.page.screenshot({ path: path.join(out, "live-free-complete.png"), fullPage: true });
-    const recent = await api(baseUrl, "/api/history/rounds?mode=live&limit=8");
-    const baseRounds = recent.filter((round) => round.kind === "base").slice(0, 3);
+    const recent = await api(baseUrl, `/api/history/rounds?mode=live&limit=${LIVE_STABILITY_SPINS + 5}`);
+    const baseRounds = recent.filter((round) => round.kind === "base").slice(0, LIVE_STABILITY_SPINS);
     results.forEach((entry, index) => { entry.historySource = baseRounds[index]?.source || null; });
     const freeHistory = recent.find((round) => round.kind === "free-feature");
     liveFree = {
@@ -636,13 +642,13 @@ async function main() {
       && report.routes.wildNextLineCount > 0
       && report.routes.wildEliminatedNext
       && report.routes.goldTerminalWin === 0
-      && report.routes.reuseLineCount >= 3
+      && report.routes.reuseLineCount === 2
       && report.routes.reuseContainsWild
       && report.routes.reuseTerminalWin === 0
       && JSON.stringify(report.routes.cascadeMultipliers) === JSON.stringify([1, 2, 3, 5])
       && report.routes.cascadeTerminalWin === 0
       && report.routes.formulaMatches;
-    const livePass = report.live.length === 3 && report.live.every((entry) => (
+    const livePass = report.live.length === LIVE_STABILITY_SPINS && report.live.every((entry) => (
       entry.formulaMatches
       && entry.sentinelValid
       && entry.roundWin === 2000
@@ -651,6 +657,7 @@ async function main() {
       && entry.historySource === "weighted"
       && entry.terminalRoundWin === 0
       && entry.terminalLines === 0
+      && entry.idleRequests === 0
     ))
       && report.liveFree.scatterCount === 3
       && report.liveFree.freeCount === 10

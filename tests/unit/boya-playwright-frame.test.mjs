@@ -7,7 +7,8 @@ import {
   clickSequenceUntilObservedFrame,
   collectRotateSequence,
   decodeObservedFrame,
-  renderControlledReport
+  renderControlledReport,
+  waitForGameCanvas
 } from "../playwright/boya-observed-frame.mjs";
 
 const frames = JSON.parse(
@@ -20,14 +21,15 @@ function recordedFrame(cmd) {
   return Buffer.from(message.rawFrameBase64, "base64");
 }
 
-test("Playwright frame observer keeps 40001 without decoding it as a rotate result", () => {
+test("Playwright frame observer decodes 40001 as an enter balance instead of a rotate result", () => {
   const observed = decodeObservedFrame("receive", recordedFrame(40001), 7);
 
   assert.deepEqual(observed, {
     id: 7,
     direction: "receive",
     cmd: 40001,
-    bytes: recordedFrame(40001).length
+    bytes: recordedFrame(40001).length,
+    enterBalance: 455706238
   });
 });
 
@@ -133,4 +135,31 @@ test("controlled Playwright collects every cascade through the zero-win terminal
   });
 
   assert.deepEqual(sequence.map((frame) => frame.rotate.roundWin), [100, 200, 0]);
+});
+
+test("Playwright canvas wait enters the local live iframe", async () => {
+  const waits = [];
+  const canvas = {
+    async waitFor(options) {
+      waits.push(options);
+    }
+  };
+  const page = {
+    locator(selector) {
+      assert.equal(selector, "iframe#local-game-frame");
+      return { async count() { return 1; } };
+    },
+    frameLocator(selector) {
+      assert.equal(selector, "iframe#local-game-frame");
+      return {
+        locator(canvasSelector) {
+          assert.equal(canvasSelector, "canvas#GameCanvas");
+          return canvas;
+        }
+      };
+    }
+  };
+
+  assert.equal(await waitForGameCanvas(page, { timeoutMs: 1234 }), canvas);
+  assert.deepEqual(waits, [{ state: "visible", timeout: 1234 }]);
 });

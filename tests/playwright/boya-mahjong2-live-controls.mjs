@@ -7,14 +7,16 @@ import { chromium } from "playwright";
 import {
   clickUntilObservedFrame,
   decodeObservedFrame,
+  waitForGameCanvas,
   waitForObservedFrame as waitForFrame
 } from "./boya-observed-frame.mjs";
 
 function parseArgs(argv) {
-  const args = { baseUrl: "http://127.0.0.1:18082", out: "" };
+  const args = { baseUrl: "http://127.0.0.1:18082", out: "", token: "local-default" };
   for (let index = 0; index < argv.length; index += 1) {
     if (argv[index] === "--base-url") args.baseUrl = argv[++index];
     else if (argv[index] === "--out") args.out = argv[++index];
+    else if (argv[index] === "--token") args.token = argv[++index];
     else throw new Error(`Unknown argument ${argv[index]}`);
   }
   if (!args.out) throw new Error("--out is required");
@@ -62,16 +64,16 @@ async function api(baseUrl, pathname) {
   return payload?.data ?? payload;
 }
 
-async function openGame({ browser, baseUrl, out, name, diagnostics, frames }) {
+async function openGame({ browser, baseUrl, out, name, token, diagnostics, frames }) {
   const context = await browser.newContext({ viewport: { width: 900, height: 1400 } });
   const page = await context.newPage();
   const deactivate = bindPage(page, diagnostics, frames);
   const start = frames.length;
-  await page.goto(new URL("/__game/live", baseUrl).toString(), {
+  await page.goto(new URL(`/__game/live?token=${encodeURIComponent(token)}`, baseUrl).toString(), {
     waitUntil: "domcontentloaded",
     timeout: 60000
   });
-  await page.waitForSelector("canvas#GameCanvas", { state: "visible", timeout: 60000 });
+  await waitForGameCanvas(page);
   await waitForFrame(
     frames,
     (frame) => frame.id > start && frame.direction === "receive" && frame.cmd === 40001,
@@ -228,6 +230,7 @@ function markdown(report) {
     "",
     `- verdict: ${report.verdict}`,
     `- baseUrl: ${report.baseUrl}`,
+    `- token: ${report.token}`,
     `- error: ${report.error || "none"}`,
     `- HTTP >= 400: ${report.diagnostics.httpErrors.length}`,
     `- pageErrors: ${report.diagnostics.pageErrors.length}`,
@@ -252,7 +255,7 @@ await mkdir(args.out, { recursive: true });
 const diagnostics = { console: [], pageErrors: [], httpErrors: [], clientCloses: [] };
 const frames = [];
 frames.listeners = [];
-const report = { baseUrl: args.baseUrl, diagnostics, verdict: "FAIL" };
+const report = { baseUrl: args.baseUrl, token: args.token, diagnostics, verdict: "FAIL" };
 let browser;
 
 try {
@@ -260,12 +263,15 @@ try {
     headless: true,
     args: ["--use-gl=angle", "--use-angle=swiftshader", "--ignore-gpu-blocklist", "--enable-webgl"]
   });
-  const options = { browser, baseUrl: args.baseUrl, out: args.out, diagnostics, frames };
+  const options = { browser, baseUrl: args.baseUrl, out: args.out, token: args.token, diagnostics, frames };
   report.auto = await verifyAuto(options);
   report.bet = await verifyBet(options);
   report.buy = await verifyBuy(options);
   report.history = await verifyHistory(options);
-  const rounds = await api(args.baseUrl, "/api/history/rounds?mode=live&limit=20");
+  const rounds = await api(
+    args.baseUrl,
+    `/api/history/rounds?mode=live&token=${encodeURIComponent(args.token)}&limit=20`
+  );
   const replayHistory = await api(args.baseUrl, "/__history.json");
   report.persistedLiveRows = rounds.length;
   report.serverMismatches = replayHistory.counts.mismatches;
@@ -285,6 +291,7 @@ try {
     && report.history.listBytes > 12
     && report.history.detailBytes > 12
     && report.persistedLiveRows > 0
+    && rounds.every((round) => round.token === args.token)
     && report.serverMismatches === 0
     && !report.authTimeout
     && diagnostics.httpErrors.length === 0

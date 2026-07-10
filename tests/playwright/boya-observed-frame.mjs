@@ -1,4 +1,12 @@
-import { decodeBoyaRotateFromPayload, parseFrameBase64 } from "../../tools/lib/boya-har.mjs";
+import {
+  decodeBoyaEnterBalanceFromPayload,
+  decodeBoyaRotateFromPayload,
+  parseFrameBase64
+} from "../../tools/lib/boya-har.mjs";
+import {
+  decodeHallHistoryDetailResponse,
+  decodeHallHistoryListResponse
+} from "../../tools/local/server/hall-history-responder.mjs";
 
 function payloadBuffer(payload) {
   if (Buffer.isBuffer(payload)) return payload;
@@ -15,8 +23,14 @@ export function decodeObservedFrame(direction, payload, id) {
   try {
     const parsed = parseFrameBase64(buffer);
     const frame = { id, direction, cmd: parsed.cmd, bytes: buffer.length };
-    if ([40003, 40005, 40007].includes(parsed.cmd)) {
+    if (parsed.cmd === 40001) {
+      frame.enterBalance = decodeBoyaEnterBalanceFromPayload(parsed.payload);
+    } else if ([40003, 40005, 40007].includes(parsed.cmd)) {
       frame.rotate = decodeBoyaRotateFromPayload(parsed.payload);
+    } else if (parsed.cmd === 20048) {
+      frame.historyList = decodeHallHistoryListResponse(buffer);
+    } else if (parsed.cmd === 20052) {
+      frame.historyDetail = decodeHallHistoryDetailResponse(buffer);
     }
     return frame;
   } catch {
@@ -44,6 +58,15 @@ export function waitForObservedFrame(frames, predicate, timeoutMs, label) {
     }
     frames.listeners.push(listener);
   });
+}
+
+export async function waitForGameCanvas(page, { timeoutMs = 60000 } = {}) {
+  const frame = page.locator("iframe#local-game-frame");
+  const canvas = await frame.count()
+    ? page.frameLocator("iframe#local-game-frame").locator("canvas#GameCanvas")
+    : page.locator("canvas#GameCanvas");
+  await canvas.waitFor({ state: "visible", timeout: timeoutMs });
+  return canvas;
 }
 
 export async function clickUntilObservedFrame({
@@ -165,7 +188,7 @@ export function renderControlledReport(report) {
     "",
     "## Live",
     "",
-    ...live.map((entry) => `- spin ${entry.spin}: win=${entry.roundWin}, lines=${entry.lineCount}, formula=${entry.formulaMatches}`),
+    ...live.map((entry) => `- spin ${entry.spin}: win=${entry.roundWin}, lines=${entry.lineCount}, formula=${entry.formulaMatches}, idleRequests=${entry.idleRequests}`),
     `- weighted free scatter/count: ${liveFree.scatterCount ?? "not-run"}/${liveFree.freeCount ?? "not-run"}`,
     `- weighted free responses: ${liveFree.responseCount ?? "not-run"}`,
     `- weighted free source: ${liveFree.historySource ?? "not-run"}`,
