@@ -8,8 +8,10 @@ import { fileURLToPath } from "node:url";
 
 import {
   buildLocalGameUrl,
+  createGeneratedHeartbeatFrame,
   createReplayResponder,
   inferContentType,
+  NORMAL_WIN_AMOUNTS,
   normalizeReplayMode,
   parseFrameBase64,
   WIN_LADDER_AMOUNTS
@@ -116,9 +118,12 @@ async function serveStatic(req, res, root, manifest, state) {
       links: {
         replay: buildLocalGameUrl({ host, port, mode: "replay" }),
         dataset: buildLocalGameUrl({ host, port, mode: "dataset" }),
+        normalwin: buildLocalGameUrl({ host, port, mode: "normalwin" }),
+        normalwinScenarios: NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host, port, mode: `normalwin-${index + 1}` })),
         winladder: buildLocalGameUrl({ host, port, mode: "winladder" }),
         history: `http://${host}:${port}/__history`
       },
+      normalWinAmounts: NORMAL_WIN_AMOUNTS,
       winLadderAmounts: WIN_LADDER_AMOUNTS,
       recentEvents: state.events.slice(-50)
     });
@@ -136,9 +141,12 @@ async function serveStatic(req, res, root, manifest, state) {
     return;
   }
 
-  if (url.pathname === "/__game/replay" || url.pathname === "/__game/dataset" || url.pathname === "/__game/winladder") {
+  const normalWinMatch = /^\/__game\/normalwin(?:-(\d+))?$/.exec(url.pathname);
+  if (url.pathname === "/__game/replay" || url.pathname === "/__game/dataset" || normalWinMatch || url.pathname === "/__game/winladder") {
     const mode = url.pathname.endsWith("/dataset")
       ? "dataset"
+      : normalWinMatch
+        ? `normalwin${normalWinMatch[1] ? `-${normalWinMatch[1]}` : ""}`
       : url.pathname.endsWith("/winladder")
         ? "winladder"
         : "replay";
@@ -261,6 +269,10 @@ function renderHistoryPage(state, host, port) {
 
   const replayUrl = `http://${host}:${port}/__game/replay`;
   const datasetUrl = `http://${host}:${port}/__game/dataset`;
+  const normalWinUrl = `http://${host}:${port}/__game/normalwin`;
+  const normalWinLinks = NORMAL_WIN_AMOUNTS.map((amount, index) => (
+    `<a href="http://${host}:${port}/__game/normalwin-${index + 1}" target="_blank">普通小奖 ${escapeHtml(amount)}</a>`
+  )).join("\n    ");
   const winladderUrl = `http://${host}:${port}/__game/winladder`;
   const jsonUrl = `http://${host}:${port}/__history.json`;
   return `<!doctype html>
@@ -289,6 +301,8 @@ function renderHistoryPage(state, host, port) {
   <div class="links">
     <a href="${escapeHtml(replayUrl)}" target="_blank">HAR 回放入口</a>
     <a href="${escapeHtml(datasetUrl)}" target="_blank">测试数据集入口</a>
+    <a href="${escapeHtml(normalWinUrl)}" target="_blank">普通小奖入口</a>
+    ${normalWinLinks}
     <a href="${escapeHtml(winladderUrl)}" target="_blank">小到大中奖入口</a>
     <a href="${escapeHtml(jsonUrl)}" target="_blank">JSON 历史</a>
   </div>
@@ -356,6 +370,34 @@ function handleUpgrade(req, socket, head, state) {
   increment(state.counts.modes, mode);
   const replay = createReplayResponder(state.rawFrames, connectionIndex, mode);
   let pending = head?.length ? Buffer.from(head) : Buffer.alloc(0);
+  const heartbeatTimer = mode.startsWith("normalwin") && connectionIndex === 1
+    ? setInterval(() => {
+      if (socket.destroyed || socket.writableEnded) {
+        return;
+      }
+      const heartbeat = createGeneratedHeartbeatFrame();
+      socket.write(encodeWebSocketFrame(heartbeat, 0x2));
+      increment(state.counts.responses, 5001);
+      recordHistory(state, {
+        mode,
+        connectionIndex,
+        direction: "response",
+        cmd: 5001,
+        rawCmd: 5001,
+        bytes: heartbeat.length,
+        source: "server-heartbeat"
+      });
+      logEvent(state, {
+        kind: "server-frame",
+        mode,
+        connectionIndex,
+        cmd: 5001,
+        rawCmd: 5001,
+        bytes: heartbeat.length,
+        source: "server-heartbeat"
+      });
+    }, 5000)
+    : null;
 
   logEvent(state, { kind: "ws-open", mode, connectionIndex, url: req.url });
 
@@ -380,6 +422,9 @@ function handleUpgrade(req, socket, head, state) {
   });
 
   socket.on("close", () => {
+    if (heartbeatTimer) {
+      clearInterval(heartbeatTimer);
+    }
     state.counts.wsClosed += 1;
     logEvent(state, { kind: "ws-close", mode, connectionIndex });
   });
@@ -559,6 +604,8 @@ try {
   server.listen(args.port, args.host, async () => {
     const replayUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "replay" });
     const datasetUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "dataset" });
+    const normalWinUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "normalwin" });
+    const normalWinScenarioUrls = NORMAL_WIN_AMOUNTS.map((_, index) => buildLocalGameUrl({ host: args.host, port: args.port, mode: `normalwin-${index + 1}` }));
     const winladderUrl = buildLocalGameUrl({ host: args.host, port: args.port, mode: "winladder" });
     console.log(JSON.stringify({
       ok: true,
@@ -567,13 +614,17 @@ try {
       listen: `http://${args.host}:${args.port}`,
       replayUrl,
       datasetUrl,
+      normalWinUrl,
+      normalWinScenarioUrls,
       winladderUrl,
+      normalWinAmounts: NORMAL_WIN_AMOUNTS,
       winLadderAmounts: WIN_LADDER_AMOUNTS,
       historyUrl: `http://${args.host}:${args.port}/__history`
     }, null, 2));
     try {
       await writeFile(path.join(repoRoot, ".boya-local-server-url"), `${replayUrl}\n`, "utf8");
       await writeFile(path.join(repoRoot, ".boya-local-dataset-url"), `${datasetUrl}\n`, "utf8");
+      await writeFile(path.join(repoRoot, ".boya-local-normalwin-url"), `${normalWinUrl}\n`, "utf8");
       await writeFile(path.join(repoRoot, ".boya-local-winladder-url"), `${winladderUrl}\n`, "utf8");
       await writeFile(path.join(repoRoot, ".boya-local-history-url"), `http://${args.host}:${args.port}/__history\n`, "utf8");
     } catch {

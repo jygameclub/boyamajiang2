@@ -1,0 +1,19 @@
+[log] init language en
+[log] init language zh
+[warning] [.WebGL-0x11400486600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[log] Cocos Creator v2.4.6
+[warning] [.WebGL-0x11400486600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[warning] [.WebGL-0x11400486600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[warning] [.WebGL-0x11400486600]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[timeEnd] LoadScene dy_mjlltwo_en: 40.243896484375 ms
+[log] showGame
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[error] download failed: assets/dy_mjlltwo_en/native/6c/6c8f62b8-fb2a-44ef-a0ab-3ee7dd0120d8.760ad.mp3, status: 404(no response) Error: download failed: assets/dy_mjlltwo_en/native/6c/6c8f62b8-fb2a-44ef-a0ab-3ee7dd0120d8.760ad.mp3, status: 404(no response)
+    at o.onload (http://127.0.0.1:18082/v2/cocos2d-js-min.88923.js:1:360634)
+[error] download failed: assets/dy_mjlltwo_en/native/6c/6c8f62b8-fb2a-44ef-a0ab-3ee7dd0120d8.760ad.mp3, status: 404(no response) Error: download failed: assets/dy_mjlltwo_en/native/6c/6c8f62b8-fb2a-44ef-a0ab-3ee7dd0120d8.760ad.mp3, status: 404(no response)
+    at o.onload (http://127.0.0.1:18082/v2/cocos2d-js-min.88923.js:1:360634)
+[error] [bundle1.load] ERROR: Error: download failed: assets/dy_mjlltwo_en/native/6c/6c8f62b8-fb2a-44ef-a0ab-3ee7dd0120d8.760ad.mp3, status: 404(no response)
+[error] Wrong type of AudioClip.

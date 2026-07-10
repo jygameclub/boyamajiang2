@@ -1,0 +1,758 @@
+{
+  "verdict": "FAIL",
+  "url": "http://127.0.0.1:18082/__game/normalwin",
+  "out": "/Users/yang/work/git/sun/boyamajiang2/testwebgame/boya-mahjong2/normalwin-fixed-probe-20260709-181821",
+  "spins": 1,
+  "heartbeatWaitMs": 8000,
+  "perScenario": true,
+  "finalUrl": "http://127.0.0.1:18082/v2/?token=uzuN0IxNjgzMDhGN0Y3Qjk4nPpYNzI2MTU3M0MwQzEyNEQ2NDA0RjIzQTg3NDkzN0MyMkQ4QUY4NTdEMjEwMUY4QThGMzBDNDBBRjAyMTdGREFFQzAyOUYxQkEyNEFBREI5NjFDMjVCNzJFMzMxODU0Mzk4QTBCNDE2RUU1OUE5Q0ZCMTU1RkFCQzM0Rjc0NTBENkM2QjE3RERGNTc5MDdFQTdFREFBRkMzRTgzNjk4NkRFQzNGMEUwQzg1NUM3MDlDRDc0vpEgl&deviceType=0&pcode=ZHlnd3N3&t=MTAz&ma=bWFpbmxhbmQ=&lang=CN&g=d3M6Ly8xMjcuMC4wLjE6MTgwODIvZ2F0ZS93cz9tb2RlPW5vcm1hbHdpbi0x&sound=0&music=0&localMode=normalwin-1",
+  "pageErrors": [],
+  "httpErrors": [
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/08/0800587f-95a0-4301-8118-e007d5b2432b.dfe7f.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/08/0800587f-95a0-4301-8118-e007d5b2432b.dfe7f.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/d7/d783060f-127f-453d-af49-efc3b6d1dc44.e8f47.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/08/0800587f-95a0-4301-8118-e007d5b2432b.dfe7f.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/d7/d783060f-127f-453d-af49-efc3b6d1dc44.e8f47.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/6b/6b5b62c5-a5c1-483d-bb27-64debe73b57b.79abb.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/08/0800587f-95a0-4301-8118-e007d5b2432b.dfe7f.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/d7/d783060f-127f-453d-af49-efc3b6d1dc44.e8f47.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/6b/6b5b62c5-a5c1-483d-bb27-64debe73b57b.79abb.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/d7/d783060f-127f-453d-af49-efc3b6d1dc44.e8f47.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/6b/6b5b62c5-a5c1-483d-bb27-64debe73b57b.79abb.json"
+    },
+    {
+      "status": 404,
+      "url": "http://127.0.0.1:18082/v2/assets/dy_mjlltwo_en/import/6b/6b5b62c5-a5c1-483d-bb27-64debe73b57b.79abb.json"
+    }
+  ],
+  "clientCloses": [],
+  "spinResults": [
+    {
+      "spin": 1,
+      "frameId": 31,
+      "target": 100,
+      "totalWin": 100,
+      "roundWin": 100,
+      "roundScoreSigned": -300,
+      "lineSum": 100,
+      "lines": [
+        {
+          "iconId": 3,
+          "axleId": 3,
+          "lineNum": 1,
+          "score": 100,
+          "multi": 1,
+          "odds": 1
+        }
+      ],
+      "lineIconsOnBoard": true,
+      "firstThreeReelsMatch": true
+    }
+  ],
+  "counts": {
+    "send40002": 6,
+    "receive40003": 6,
+    "send40006": 0,
+    "receive40007": 0,
+    "send40004": 0,
+    "receive40005": 0,
+    "send5000": 0,
+    "receive5001": 4
+  },
+  "observedFrames": [
+    {
+      "id": 1,
+      "direction": "send",
+      "cmd": 10000,
+      "rawCmd": 10000,
+      "bytes": 328
+    },
+    {
+      "id": 2,
+      "direction": "receive",
+      "cmd": 10001,
+      "rawCmd": 10001,
+      "bytes": 52
+    },
+    {
+      "id": 3,
+      "direction": "send",
+      "cmd": 20026,
+      "rawCmd": 20026,
+      "bytes": 12
+    },
+    {
+      "id": 4,
+      "direction": "send",
+      "cmd": 20012,
+      "rawCmd": 20012,
+      "bytes": 12
+    },
+    {
+      "id": 5,
+      "direction": "send",
+      "cmd": 20000,
+      "rawCmd": 20000,
+      "bytes": 12
+    },
+    {
+      "id": 6,
+      "direction": "send",
+      "cmd": 20022,
+      "rawCmd": 20022,
+      "bytes": 12
+    },
+    {
+      "id": 7,
+      "direction": "send",
+      "cmd": 20004,
+      "rawCmd": 20004,
+      "bytes": 12
+    },
+    {
+      "id": 8,
+      "direction": "send",
+      "cmd": 20016,
+      "rawCmd": 20016,
+      "bytes": 12
+    },
+    {
+      "id": 9,
+      "direction": "send",
+      "cmd": 23209,
+      "rawCmd": 23209,
+      "bytes": 14
+    },
+    {
+      "id": 10,
+      "direction": "send",
+      "cmd": 24001,
+      "rawCmd": 24001,
+      "bytes": 12
+    },
+    {
+      "id": 11,
+      "direction": "send",
+      "cmd": 20020,
+      "rawCmd": 20020,
+      "bytes": 14
+    },
+    {
+      "id": 12,
+      "direction": "receive",
+      "cmd": 20027,
+      "rawCmd": 20027,
+      "bytes": 17
+    },
+    {
+      "id": 13,
+      "direction": "receive",
+      "cmd": 20013,
+      "rawCmd": 20013,
+      "bytes": 12
+    },
+    {
+      "id": 14,
+      "direction": "receive",
+      "cmd": 20001,
+      "rawCmd": 20001,
+      "bytes": 41
+    },
+    {
+      "id": 15,
+      "direction": "receive",
+      "cmd": 20023,
+      "rawCmd": 20023,
+      "bytes": 32
+    },
+    {
+      "id": 16,
+      "direction": "receive",
+      "cmd": 20005,
+      "rawCmd": 2147503653,
+      "bytes": 473
+    },
+    {
+      "id": 17,
+      "direction": "receive",
+      "cmd": 20017,
+      "rawCmd": 2147503665,
+      "bytes": 468
+    },
+    {
+      "id": 18,
+      "direction": "receive",
+      "cmd": 23210,
+      "rawCmd": 23210,
+      "bytes": 111
+    },
+    {
+      "id": 19,
+      "direction": "receive",
+      "cmd": 24002,
+      "rawCmd": 24002,
+      "bytes": 12
+    },
+    {
+      "id": 20,
+      "direction": "receive",
+      "cmd": 20021,
+      "rawCmd": 20021,
+      "bytes": 160
+    },
+    {
+      "id": 21,
+      "direction": "send",
+      "cmd": 30000,
+      "rawCmd": 30000,
+      "bytes": 21
+    },
+    {
+      "id": 22,
+      "direction": "receive",
+      "cmd": 30001,
+      "rawCmd": 30001,
+      "bytes": 36
+    },
+    {
+      "id": 23,
+      "direction": "send",
+      "cmd": 31008,
+      "rawCmd": 31008,
+      "bytes": 298
+    },
+    {
+      "id": 24,
+      "direction": "receive",
+      "cmd": 31009,
+      "rawCmd": 31009,
+      "bytes": 17
+    },
+    {
+      "id": 25,
+      "direction": "send",
+      "cmd": 31010,
+      "rawCmd": 31010,
+      "bytes": 12
+    },
+    {
+      "id": 26,
+      "direction": "receive",
+      "cmd": 31011,
+      "rawCmd": 31011,
+      "bytes": 12
+    },
+    {
+      "id": 27,
+      "direction": "send",
+      "cmd": 40000,
+      "rawCmd": 40000,
+      "bytes": 12
+    },
+    {
+      "id": 28,
+      "direction": "receive",
+      "cmd": 40001,
+      "rawCmd": 40001,
+      "bytes": 88
+    },
+    {
+      "id": 29,
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 30,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 31,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 143,
+      "rotate": {
+        "totalWin": 100,
+        "roundWin": 100,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "lineSum": 100,
+        "lines": [
+          {
+            "iconId": 3,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 100,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          3,
+          7,
+          15,
+          11,
+          5,
+          3,
+          13,
+          17,
+          9,
+          5,
+          3,
+          15,
+          11,
+          7,
+          19,
+          13,
+          9,
+          5,
+          17,
+          13,
+          11,
+          7,
+          19,
+          15,
+          5
+        ],
+        "topResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "buttomResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 33,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 34,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 143,
+      "rotate": {
+        "totalWin": 100,
+        "roundWin": 100,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "lineSum": 100,
+        "lines": [
+          {
+            "iconId": 3,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 100,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          3,
+          7,
+          15,
+          11,
+          5,
+          3,
+          13,
+          17,
+          9,
+          5,
+          3,
+          15,
+          11,
+          7,
+          19,
+          13,
+          9,
+          5,
+          17,
+          13,
+          11,
+          7,
+          19,
+          15,
+          5
+        ],
+        "topResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "buttomResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "id": 35,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 36,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 143,
+      "rotate": {
+        "totalWin": 100,
+        "roundWin": 100,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "lineSum": 100,
+        "lines": [
+          {
+            "iconId": 3,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 100,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          3,
+          7,
+          15,
+          11,
+          5,
+          3,
+          13,
+          17,
+          9,
+          5,
+          3,
+          15,
+          11,
+          7,
+          19,
+          13,
+          9,
+          5,
+          17,
+          13,
+          11,
+          7,
+          19,
+          15,
+          5
+        ],
+        "topResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "buttomResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "id": 37,
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 38,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 39,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 143,
+      "rotate": {
+        "totalWin": 100,
+        "roundWin": 100,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "lineSum": 100,
+        "lines": [
+          {
+            "iconId": 3,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 100,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          3,
+          7,
+          15,
+          11,
+          5,
+          3,
+          13,
+          17,
+          9,
+          5,
+          3,
+          15,
+          11,
+          7,
+          19,
+          13,
+          9,
+          5,
+          17,
+          13,
+          11,
+          7,
+          19,
+          15,
+          5
+        ],
+        "topResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "buttomResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "id": 40,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 41,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 143,
+      "rotate": {
+        "totalWin": 100,
+        "roundWin": 100,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "lineSum": 100,
+        "lines": [
+          {
+            "iconId": 3,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 100,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          3,
+          7,
+          15,
+          11,
+          5,
+          3,
+          13,
+          17,
+          9,
+          5,
+          3,
+          15,
+          11,
+          7,
+          19,
+          13,
+          9,
+          5,
+          17,
+          13,
+          11,
+          7,
+          19,
+          15,
+          5
+        ],
+        "topResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "buttomResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      }
+    },
+    {
+      "id": 42,
+      "direction": "receive",
+      "cmd": 5001,
+      "rawCmd": 5001,
+      "bytes": 18
+    },
+    {
+      "id": 43,
+      "direction": "send",
+      "cmd": 40002,
+      "rawCmd": 40002,
+      "bytes": 14
+    },
+    {
+      "id": 44,
+      "direction": "receive",
+      "cmd": 40003,
+      "rawCmd": 40003,
+      "bytes": 143,
+      "rotate": {
+        "totalWin": 100,
+        "roundWin": 100,
+        "roundScore": 18446744073709552000,
+        "roundScoreSigned": -300,
+        "lineSum": 100,
+        "lines": [
+          {
+            "iconId": 3,
+            "axleId": 3,
+            "lineNum": 1,
+            "score": 100,
+            "multi": 1,
+            "odds": 1
+          }
+        ],
+        "goldToWildPos": [],
+        "drawResult": [
+          3,
+          7,
+          15,
+          11,
+          5,
+          3,
+          13,
+          17,
+          9,
+          5,
+          3,
+          15,
+          11,
+          7,
+          19,
+          13,
+          9,
+          5,
+          17,
+          13,
+          11,
+          7,
+          19,
+          15,
+          5
+        ],
+        "topResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ],
+        "buttomResult": [
+          5,
+          5,
+          5,
+          5,
+          5
+        ]
+      }
+    }
+  ]
+}

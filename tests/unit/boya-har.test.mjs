@@ -14,6 +14,8 @@ import {
   extractAssetsFromHarObject,
   extractBoardFields,
   importFramesFromHarObject,
+  NORMAL_WIN_AMOUNTS,
+  normalWinScenarios,
   normalizeReplayMode,
   parseFrameBase64
 } from "../../tools/lib/boya-har.mjs";
@@ -83,6 +85,25 @@ function miniHar() {
       ]
     }
   };
+}
+
+function symbolMatchesLine(symbol, iconId) {
+  return symbol === 2 || symbol === iconId || (symbol - 1 === iconId && symbol % 2 === 0);
+}
+
+function winningWays(drawResult) {
+  return [3, 5, 7, 9, 11, 13, 15, 17, 19].flatMap((iconId) => {
+    const matchingRows = [];
+    for (let col = 0; col < 5; col += 1) {
+      const rows = drawResult
+        .slice(col * 5, col * 5 + 5)
+        .map((symbol, row) => (symbolMatchesLine(symbol, iconId) ? row : null))
+        .filter((row) => row !== null);
+      if (!rows.length) break;
+      matchingRows.push(rows);
+    }
+    return matchingRows.length >= 3 ? [{ iconId, matchingRows }] : [];
+  });
 }
 
 test("parseFrameBase64 extracts length, high-bit command, and payload", () => {
@@ -185,6 +206,8 @@ test("buildLocalGameUrl encodes mode in the local WebSocket gateway URL", () => 
 test("normalizeReplayMode tolerates client-appended WebSocket query suffixes", () => {
   assert.equal(normalizeReplayMode("dataset?CAFNMQJL"), "dataset");
   assert.equal(normalizeReplayMode("replay?BAJJMAVX"), "replay");
+  assert.equal(normalizeReplayMode("normalwin?BAJJMAVX"), "normalwin");
+  assert.equal(normalizeReplayMode("normalwin-3?BAJJMAVX"), "normalwin-3");
   assert.equal(normalizeReplayMode("winladder?BAJJMAVX"), "winladder");
   assert.equal(normalizeReplayMode(null), "replay");
 });
@@ -341,6 +364,142 @@ test("winladder real-data free cascades keep board, paths, and payout consistent
   }
 
   assert.deepEqual(observedWins, expectedWins);
+});
+
+test("normalwin scenario boards contain only the declared Ways win", () => {
+  for (const scenario of normalWinScenarios()) {
+    assert.deepEqual(
+      winningWays(scenario.board.drawResult),
+      [{
+        iconId: scenario.iconId,
+        matchingRows: scenario.targetRows.map((row) => [row])
+      }]
+    );
+  }
+});
+
+test("normalwin responder uses slot-platform ordinary Ways boards for small rewards", async () => {
+  const raw = JSON.parse(await readFile(
+    path.join(process.cwd(), "debugserver-data/boya-mahjong2/raw-frames.json"),
+    "utf8"
+  ));
+  const responder = createReplayResponder(raw, 1, "normalwin");
+  const scenarios = normalWinScenarios();
+
+  for (let index = 0; index < NORMAL_WIN_AMOUNTS.length; index += 1) {
+    const response = responder.nextResponsesForClientFrame(frameBase64(40002))[0];
+    const settleResponse = responder.nextResponsesForClientFrame(frameBase64(40002))[0];
+    const parsed = parseFrameBase64(response.buffer);
+    const settleParsed = parseFrameBase64(settleResponse.buffer);
+    const rotate = decodeBoyaRotateFromPayload(parsed.payload);
+    const settle = decodeBoyaRotateFromPayload(settleParsed.payload);
+    const scenario = scenarios[index];
+    const lineScoreSum = rotate.lines.reduce((sum, line) => sum + line.score, 0);
+
+    assert.equal(response.source, "normalwin");
+    assert.equal(response.winAmount, NORMAL_WIN_AMOUNTS[index]);
+    assert.equal(parsed.cmd, 40003);
+    assert.equal(rotate.roundWin, NORMAL_WIN_AMOUNTS[index]);
+    assert.equal(rotate.totalWin, NORMAL_WIN_AMOUNTS[index]);
+    assert.equal(rotate.roundScoreSigned, NORMAL_WIN_AMOUNTS[index] - rotate.betCoin);
+    assert.equal(lineScoreSum, NORMAL_WIN_AMOUNTS[index]);
+    assert.equal(rotate.lines.length, 1);
+    assert.deepEqual(rotate.lines[0], scenario.line);
+    assert.equal(rotate.lines[0].axleId, scenario.targetRows.length - 1);
+    assert.equal(rotate.lines[0].lineNum, 1);
+    assert.equal(rotate.purchase, undefined);
+    assert.equal(rotate.freeRemainCount, undefined);
+    assert.equal(rotate.goldToWildPos.length, 0);
+    assert.deepEqual(
+      winningWays(rotate.drawResult).map((win) => win.iconId),
+      [scenario.iconId],
+      "the visible board must not contain an undeclared Ways win"
+    );
+
+    // The selected slot-platform scenarios are ordinary 3-reel Ways wins.
+    // Each test case places the target symbol on a different visible path.
+    for (let col = 0; col < 5; col += 1) {
+      const matchingRows = rotate.drawResult
+        .slice(col * 5, col * 5 + 5)
+        .map((symbol, row) => (symbolMatchesLine(symbol, scenario.iconId) ? row : null))
+        .filter((row) => row !== null);
+      if (col < scenario.targetRows.length) {
+        assert.deepEqual(matchingRows, [scenario.targetRows[col]]);
+      } else {
+        assert.deepEqual(matchingRows, []);
+      }
+    }
+
+    assert.equal(settleResponse.source, "normalwin-settle");
+    assert.equal(settleResponse.datasetIndex, index);
+    assert.equal(settleResponse.winAmount, NORMAL_WIN_AMOUNTS[index]);
+    assert.equal(settleParsed.cmd, 40003);
+    assert.equal(settle.lines.length, 0);
+    assert.equal(settle.roundWin, 0);
+    assert.equal(settle.totalWin, NORMAL_WIN_AMOUNTS[index]);
+    assert.equal(settle.roundScoreSigned, NORMAL_WIN_AMOUNTS[index] - settle.betCoin);
+    assert.equal(settle.coin - rotate.coin, NORMAL_WIN_AMOUNTS[index]);
+    assert.deepEqual(winningWays(settle.drawResult), []);
+
+    for (let col = 0; col < 3; col += 1) {
+      const oldColumn = rotate.drawResult.slice(col * 5, col * 5 + 5);
+      const newColumn = settle.drawResult.slice(col * 5, col * 5 + 5);
+      const eliminatedRows = oldColumn
+        .map((symbol, row) => (symbolMatchesLine(symbol, scenario.iconId) ? row : null))
+        .filter((row) => row !== null);
+      const survivors = oldColumn.filter((_, row) => !eliminatedRows.includes(row));
+
+      if (oldColumn[0] === 101 && !eliminatedRows.includes(0)) {
+        assert.equal(newColumn[0], 101);
+        assert.deepEqual(newColumn.slice(1 + eliminatedRows.length), survivors.slice(1));
+      } else {
+        assert.deepEqual(newColumn.slice(eliminatedRows.length), survivors);
+      }
+    }
+  }
+});
+
+test("normalwin fixed mode returns the requested slot-platform ordinary scenario", async () => {
+  const raw = JSON.parse(await readFile(
+    path.join(process.cwd(), "debugserver-data/boya-mahjong2/raw-frames.json"),
+    "utf8"
+  ));
+  const responder = createReplayResponder(raw, 1, "normalwin-4");
+  const scenario = normalWinScenarios()[3];
+
+  const first = responder.nextResponsesForClientFrame(frameBase64(40002))[0];
+  const settleResponse = responder.nextResponsesForClientFrame(frameBase64(40002))[0];
+  const second = responder.nextResponsesForClientFrame(frameBase64(40002))[0];
+
+  for (const response of [first, second]) {
+    const rotate = decodeBoyaRotateFromPayload(parseFrameBase64(response.buffer).payload);
+    assert.equal(response.datasetIndex, 3);
+    assert.equal(response.winAmount, 500);
+    assert.equal(rotate.roundWin, 500);
+    assert.equal(rotate.roundScoreSigned, 100);
+    assert.deepEqual(rotate.lines[0], scenario.line);
+    assert.equal(rotate.lines[0].axleId, scenario.targetRows.length - 1);
+    for (let col = 0; col < 5; col += 1) {
+      const matchingRows = rotate.drawResult
+        .slice(col * 5, col * 5 + 5)
+        .map((symbol, row) => (symbolMatchesLine(symbol, scenario.iconId) ? row : null))
+        .filter((row) => row !== null);
+      if (col < scenario.targetRows.length) {
+        assert.deepEqual(matchingRows, [scenario.targetRows[col]]);
+      } else {
+        assert.deepEqual(matchingRows, []);
+      }
+    }
+  }
+
+  const settle = decodeBoyaRotateFromPayload(parseFrameBase64(settleResponse.buffer).payload);
+  assert.equal(settleResponse.source, "normalwin-settle");
+  assert.equal(settleResponse.datasetIndex, 3);
+  assert.equal(settleResponse.winAmount, 500);
+  assert.equal(settle.lines.length, 0);
+  assert.equal(settle.roundWin, 0);
+  assert.equal(settle.totalWin, 500);
+  assert.deepEqual(winningWays(settle.drawResult), []);
 });
 
 test("createWinLadderFrameFromBase swaps in a supplied board while keeping the win override", () => {

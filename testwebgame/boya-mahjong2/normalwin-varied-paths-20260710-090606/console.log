@@ -1,0 +1,34 @@
+[log] init language en
+[log] init language zh
+[warning] [.WebGL-0x10400497800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[log] Cocos Creator v2.4.6
+[warning] [.WebGL-0x10400497800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[warning] [.WebGL-0x10400497800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[warning] [.WebGL-0x10400497800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[timeEnd] LoadScene dy_mjlltwo_en: 42.181884765625 ms
+[log] showGame
+[log] init language en
+[log] init language zh
+[log] Cocos Creator v2.4.6
+[timeEnd] LoadScene dy_mjlltwo_en: 42.33203125 ms
+[log] showGame
+[log] init language en
+[log] init language zh
+[log] Cocos Creator v2.4.6
+[timeEnd] LoadScene dy_mjlltwo_en: 42.37109375 ms
+[log] showGame
+[log] init language en
+[log] init language zh
+[log] Cocos Creator v2.4.6
+[timeEnd] LoadScene dy_mjlltwo_en: 39.18798828125 ms
+[log] showGame
+[log] init language en
+[log] init language zh
+[log] Cocos Creator v2.4.6
+[timeEnd] LoadScene dy_mjlltwo_en: 38.677978515625 ms
+[log] showGame
+[log] init language en
+[log] init language zh
+[log] Cocos Creator v2.4.6
+[timeEnd] LoadScene dy_mjlltwo_en: 40.739990234375 ms
+[log] showGame

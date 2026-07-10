@@ -3,8 +3,72 @@ import path from "node:path";
 
 export const DEFAULT_HAR_TOKEN = "uzuN0IxNjgzMDhGN0Y3Qjk4nPpYNzI2MTU3M0MwQzEyNEQ2NDA0RjIzQTg3NDkzN0MyMkQ4QUY4NTdEMjEwMUY4QThGMzBDNDBBRjAyMTdGREFFQzAyOUYxQkEyNEFBREI5NjFDMjVCNzJFMzMxODU0Mzk4QTBCNDE2RUU1OUE5Q0ZCMTU1RkFCQzM0Rjc0NTBENkM2QjE3RERGNTc5MDdFQTdFREFBRkMzRTgzNjk4NkRFQzNGMEUwQzg1NUM3MDlDRDc0vpEgl";
 export const WIN_LADDER_AMOUNTS = [400, 1200, 2400, 6000, 12000, 20000];
+export const NORMAL_WIN_AMOUNTS = [100, 200, 300, 500, 600, 800];
 const HEARTBEAT_REQUEST_CMD = 5000;
 const HEARTBEAT_RESPONSE_CMD = 5001;
+
+const SLOT_TO_BOYA_SYMBOL = {
+  0: 2,
+  1: 101,
+  2: 19,
+  3: 17,
+  4: 15,
+  5: 13,
+  6: 11,
+  7: 9,
+  8: 7,
+  9: 5,
+  10: 3
+};
+const PAYING_SYMBOL_IDS = [3, 5, 7, 9, 11, 13, 15, 17, 19];
+
+// Ordinary base-game wins copied from slot-platform's Mahjong2 win_low/win_mid/
+// win_high scenarios. They avoid free-spin state and stay below the BigWin
+// threshold for a 4.00 Boya bet.
+const NORMAL_WIN_SCENARIOS = [
+  {
+    caseId: "slot-mj2-04-win-sym10",
+    slotSymbol: 10,
+    slotWin: 1,
+    targetRows: [0, 0, 0],
+    board: [9, 10, 8, 4, 6, 9, 9, 9, 10, 5, 3, 7, 9, 9, 9, 10, 4, 6, 8, 2, 9, 9, 5, 7, 9, 3, 5, 9, 9, 6, 8, 2, 4, 9, 9]
+  },
+  {
+    caseId: "slot-mj2-06-win-sym8",
+    slotSymbol: 8,
+    slotWin: 2,
+    targetRows: [1, 2, 3],
+    board: [10, 8, 6, 4, 2, 10, 10, 10, 8, 5, 3, 7, 9, 10, 10, 8, 4, 10, 6, 2, 10, 10, 5, 7, 9, 3, 5, 10, 10, 6, 2, 10, 4, 10, 10]
+  },
+  {
+    caseId: "slot-mj2-07-win-sym7",
+    slotSymbol: 7,
+    slotWin: 3,
+    targetRows: [3, 1, 4],
+    board: [10, 7, 8, 4, 6, 10, 10, 10, 7, 5, 3, 9, 5, 10, 10, 7, 4, 6, 8, 10, 10, 10, 3, 9, 5, 3, 9, 10, 10, 2, 10, 8, 6, 10, 10]
+  },
+  {
+    caseId: "slot-mj2-09-win-sym5",
+    slotSymbol: 5,
+    slotWin: 5,
+    targetRows: [2, 4, 1],
+    board: [10, 5, 8, 4, 6, 10, 10, 10, 5, 3, 7, 9, 3, 10, 10, 5, 4, 6, 8, 10, 10, 10, 3, 7, 9, 3, 7, 10, 10, 2, 10, 8, 6, 10, 10]
+  },
+  {
+    caseId: "slot-mj2-10-win-sym4",
+    slotSymbol: 4,
+    slotWin: 6,
+    targetRows: [3, 0, 2],
+    board: [10, 4, 8, 6, 2, 10, 10, 10, 4, 5, 3, 7, 9, 10, 10, 4, 6, 10, 8, 2, 10, 10, 5, 7, 9, 3, 5, 10, 10, 2, 8, 10, 6, 10, 10]
+  },
+  {
+    caseId: "slot-mj2-11-win-sym3",
+    slotSymbol: 3,
+    slotWin: 8,
+    targetRows: [1, 3, 0],
+    board: [10, 3, 8, 4, 6, 10, 10, 10, 3, 5, 7, 9, 5, 10, 10, 3, 4, 6, 8, 10, 10, 10, 5, 7, 9, 5, 7, 10, 10, 2, 10, 8, 6, 10, 10]
+  }
+];
 
 export function parseFrameBase64(input) {
   const buffer = Buffer.isBuffer(input) ? input : Buffer.from(String(input), "base64");
@@ -38,8 +102,12 @@ export function buildLocalGameUrl({ host, port, mode = "replay", token = DEFAULT
 
 export function normalizeReplayMode(mode) {
   const value = String(mode || "").toLowerCase();
+  const baseValue = value.split("?")[0];
   if (value.startsWith("dataset")) {
     return "dataset";
+  }
+  if (baseValue.startsWith("normalwin")) {
+    return baseValue;
   }
   if (value.startsWith("winladder")) {
     return "winladder";
@@ -273,6 +341,9 @@ export function createReplayResponder(rawFrames, connectionIndex, mode = "replay
   if (normalizedMode === "dataset") {
     return createDatasetResponder(rawFrames, connectionIndex);
   }
+  if (normalizedMode.startsWith("normalwin")) {
+    return createNormalWinResponder(rawFrames, connectionIndex, normalizedMode);
+  }
   if (normalizedMode === "winladder") {
     return createWinLadderResponder(rawFrames, connectionIndex);
   }
@@ -498,7 +569,7 @@ export function createWinLadderFrameFromBase(baseFrameBuffer, { winAmount, betCo
   const inner = rotateInnerOf(baseFrameBuffer);
   const patchedInner = rebuildRotateInner(inner, {
     varintOverrides: {
-      [ROTATE_FIELD_ROUND_SCORE]: Math.max(0, Number(winAmount) - Number(betCoin)),
+      [ROTATE_FIELD_ROUND_SCORE]: toUint64VarintValue(Number(winAmount) - Number(betCoin)),
       [ROTATE_FIELD_TOTAL_WIN]: Number(winAmount),
       [ROTATE_FIELD_ROUND_WIN]: Number(winAmount)
     },
@@ -518,7 +589,7 @@ export function createWinLadderFrameFromWinningTemplate(templateFrameBuffer, { w
   const scaledLines = scaleLineScores(rotate.lines, targetWin);
   const patchedInner = rebuildRotateInner(rotateInnerOf(templateFrameBuffer), {
     varintOverrides: {
-      [ROTATE_FIELD_ROUND_SCORE]: Math.max(0, targetWin - Number(betCoin)),
+      [ROTATE_FIELD_ROUND_SCORE]: toUint64VarintValue(targetWin - Number(betCoin)),
       [ROTATE_FIELD_TOTAL_WIN]: targetWin,
       [ROTATE_FIELD_ROUND_WIN]: targetWin,
       20: targetWin
@@ -541,7 +612,7 @@ export function createWinLadderFrameFromBaseWinningTemplate(baseFrameBuffer, tem
   const scaledLines = scaleLineScores(rotate.lines, targetWin);
   const patchedInner = rebuildRotateInner(rotateInnerOf(baseFrameBuffer), {
     varintOverrides: {
-      [ROTATE_FIELD_ROUND_SCORE]: Math.max(0, targetWin - Number(betCoin)),
+      [ROTATE_FIELD_ROUND_SCORE]: toUint64VarintValue(targetWin - Number(betCoin)),
       [ROTATE_FIELD_TOTAL_WIN]: targetWin,
       [ROTATE_FIELD_ROUND_WIN]: targetWin
     },
@@ -579,6 +650,252 @@ export function createWinLadderFreeCascadeFrame(templateFrameBuffer, { roundWin,
   return encodeGameFrame(parsed.cmd, encodeLengthDelimited(1, patchedInner));
 }
 
+export function slotPlatformBoardToBoyaBoard(slotBoard) {
+  if (!Array.isArray(slotBoard) || slotBoard.length !== 35) {
+    throw new Error("slot-platform Mahjong2 board must contain 35 symbols");
+  }
+
+  const topResult = [];
+  const drawResult = [];
+  const buttomResult = [];
+  for (let col = 0; col < 5; col += 1) {
+    const colOffset = col * 7;
+    topResult.push(mapSlotSymbolToBoya(slotBoard[colOffset]));
+    for (let row = 1; row <= 5; row += 1) {
+      drawResult.push(mapSlotSymbolToBoya(slotBoard[colOffset + row]));
+    }
+    buttomResult.push(mapSlotSymbolToBoya(slotBoard[colOffset + 6]));
+  }
+
+  return { drawResult, topResult, buttomResult };
+}
+
+export function normalWinScenarios() {
+  return NORMAL_WIN_SCENARIOS.map((scenario, index) => {
+    const amount = NORMAL_WIN_AMOUNTS[index];
+    const iconId = mapSlotSymbolToBoya(scenario.slotSymbol);
+    const board = placeSingleWaysPath(
+      slotPlatformBoardToBoyaBoard(scenario.board),
+      iconId,
+      scenario.targetRows || [0, 0, 0]
+    );
+    const line = {
+      iconId,
+      axleId: Math.max(0, (scenario.targetRows || []).length - 1),
+      lineNum: 1,
+      score: amount,
+      multi: 1,
+      odds: scenario.slotWin
+    };
+    return {
+      ...scenario,
+      amount,
+      iconId,
+      board,
+      settleBoard: createNormalWinSettleBoard(board, line),
+      line
+    };
+  });
+}
+
+function placeSingleWaysPath(board, iconId, targetRows) {
+  const drawResult = [...board.drawResult];
+  const topResult = board.topResult.map((symbol, index) => (
+    index < 5 && isLineMatchSymbol(symbol, iconId) ? replacementSymbol(iconId, index) : symbol
+  ));
+  const buttomResult = board.buttomResult.map((symbol, index) => (
+    index < 5 && isLineMatchSymbol(symbol, iconId) ? replacementSymbol(iconId, index + 5) : symbol
+  ));
+
+  for (let index = 0; index < drawResult.length; index += 1) {
+    if (isLineMatchSymbol(drawResult[index], iconId)) {
+      drawResult[index] = replacementSymbol(iconId, index);
+    }
+  }
+
+  for (let col = 0; col < 3; col += 1) {
+    const row = Math.max(0, Math.min(4, Number(targetRows[col] ?? 0)));
+    drawResult[col * 5 + row] = iconId;
+  }
+
+  removeUndeclaredWays(drawResult, iconId);
+  return { drawResult, topResult, buttomResult };
+}
+
+function isLineMatchSymbol(symbol, iconId) {
+  return symbol === 2 || symbol === iconId || (symbol - 1 === iconId && symbol % 2 === 0);
+}
+
+function replacementSymbol(iconId, salt) {
+  const fillers = PAYING_SYMBOL_IDS.filter((symbol) => symbol !== iconId);
+  return fillers[salt % fillers.length];
+}
+
+function matchingRowsForIcon(drawResult, col, iconId) {
+  return drawResult
+    .slice(col * 5, col * 5 + 5)
+    .map((symbol, row) => (isLineMatchSymbol(symbol, iconId) ? row : null))
+    .filter((row) => row !== null);
+}
+
+function waysIcons(drawResult) {
+  return PAYING_SYMBOL_IDS.filter((iconId) => {
+    for (let col = 0; col < 3; col += 1) {
+      if (!matchingRowsForIcon(drawResult, col, iconId).length) return false;
+    }
+    return true;
+  });
+}
+
+function removeUndeclaredWays(drawResult, targetIconId) {
+  for (const iconId of PAYING_SYMBOL_IDS) {
+    if (iconId === targetIconId) continue;
+    while (matchingRowsForIcon(drawResult, 0, iconId).length
+      && matchingRowsForIcon(drawResult, 1, iconId).length
+      && matchingRowsForIcon(drawResult, 2, iconId).length) {
+      const row = matchingRowsForIcon(drawResult, 2, iconId)[0];
+      const replacement = PAYING_SYMBOL_IDS.find((candidate) => (
+        candidate !== targetIconId
+        && !isLineMatchSymbol(candidate, iconId)
+        && (
+          !matchingRowsForIcon(drawResult, 0, candidate).length
+          || !matchingRowsForIcon(drawResult, 1, candidate).length
+        )
+      ));
+      if (replacement === undefined) {
+        throw new Error(`Unable to remove undeclared Ways win for icon ${iconId}`);
+      }
+      drawResult[2 * 5 + row] = replacement;
+    }
+  }
+}
+
+function createNormalWinSettleBoard(board, line) {
+  const drawResult = [...board.drawResult];
+  const topResult = [...board.topResult];
+  const buttomResult = [...board.buttomResult];
+  const placeholders = [];
+
+  for (let col = 0; col <= line.axleId; col += 1) {
+    const oldColumn = drawResult.slice(col * 5, col * 5 + 5);
+    const eliminatedRows = oldColumn
+      .map((symbol, row) => (isLineMatchSymbol(symbol, line.iconId) ? row : null))
+      .filter((row) => row !== null);
+    if (!eliminatedRows.length) {
+      throw new Error(`Normal win line icon ${line.iconId} is missing from reel ${col + 1}`);
+    }
+
+    const survivors = oldColumn.filter((_, row) => !eliminatedRows.includes(row));
+    const incoming = eliminatedRows.map((_, index) => -1000 - col * 10 - index);
+    const nextColumn = oldColumn[0] === 101 && !eliminatedRows.includes(0)
+      ? [101, ...incoming, ...survivors.slice(1)]
+      : [...incoming, ...survivors];
+    drawResult.splice(col * 5, 5, ...nextColumn);
+    for (const placeholder of incoming) {
+      placeholders.push({ col, placeholder });
+    }
+  }
+
+  for (const { col, placeholder } of placeholders) {
+    const position = drawResult.indexOf(placeholder);
+    const filler = PAYING_SYMBOL_IDS.find((candidate) => {
+      if (candidate === line.iconId) return false;
+      const candidateDraw = [...drawResult];
+      candidateDraw[position] = candidate;
+      return waysIcons(candidateDraw).length === 0;
+    });
+    if (filler === undefined) {
+      throw new Error(`Unable to create a non-winning fall board for reel ${col + 1}`);
+    }
+    drawResult[position] = filler;
+    topResult[col] = filler;
+  }
+
+  return { drawResult, topResult, buttomResult };
+}
+
+export function createNormalWinFrameFromSlotScenario(baseFrameBuffer, scenario, { betCoin = 400, coin, sequence } = {}) {
+  const normalizedScenario = scenario.board?.drawResult
+    ? scenario
+    : normalWinScenarios().find((candidate) => candidate.caseId === scenario.caseId) || scenario;
+  const board = normalizedScenario.board || slotPlatformBoardToBoyaBoard(normalizedScenario.board);
+  const line = normalizedScenario.line || {
+    iconId: mapSlotSymbolToBoya(normalizedScenario.slotSymbol),
+    axleId: Math.max(0, (normalizedScenario.targetRows || []).length - 1),
+    lineNum: 1,
+    score: normalizedScenario.amount,
+    multi: 1,
+    odds: normalizedScenario.slotWin
+  };
+  const winAmount = Number(normalizedScenario.amount || line.score || 0);
+  const rawFieldOverrides = {
+    8: encodePackedInt32Field(8, board.drawResult),
+    9: encodePackedInt32Field(9, board.topResult),
+    10: encodePackedInt32Field(10, board.buttomResult)
+  };
+  if (sequence !== undefined) {
+    rawFieldOverrides[3] = encodeStringField(3, `103-local-normalwin-${Date.now()}-${sequence}`);
+  }
+  const varintOverrides = {
+    [ROTATE_FIELD_ROUND_SCORE]: toUint64VarintValue(winAmount - Number(betCoin)),
+    [ROTATE_FIELD_TOTAL_WIN]: winAmount,
+    [ROTATE_FIELD_ROUND_WIN]: winAmount
+  };
+  if (coin !== undefined) {
+    varintOverrides[4] = Number(coin);
+  }
+  const patchedInner = rebuildRotateInner(rotateInnerOf(baseFrameBuffer), {
+    varintOverrides,
+    rawFieldOverrides,
+    repeatedFieldOverrides: {
+      [ROTATE_FIELD_LINE]: [encodeLengthDelimited(ROTATE_FIELD_LINE, encodeLineReward(line))]
+    },
+    insertRepeatedAfterField: {
+      10: [[ROTATE_FIELD_LINE, [encodeLengthDelimited(ROTATE_FIELD_LINE, encodeLineReward(line))]]]
+    },
+    omitFields: [...FREE_SPIN_ONLY_FIELDS, 7, 14]
+  });
+  return encodeGameFrame(40003, encodeLengthDelimited(1, patchedInner));
+}
+
+export function createNormalWinSettleFrameFromSlotScenario(baseFrameBuffer, scenario, { betCoin = 400, coin, sequence } = {}) {
+  const normalizedScenario = scenario.settleBoard?.drawResult
+    ? scenario
+    : normalWinScenarios().find((candidate) => candidate.caseId === scenario.caseId) || scenario;
+  const board = normalizedScenario.settleBoard;
+  const winAmount = Number(normalizedScenario.amount || normalizedScenario.line?.score || 0);
+  if (!board?.drawResult) {
+    throw new Error("Normal win settle frame requires a fall board");
+  }
+
+  const rawFieldOverrides = {
+    8: encodePackedInt32Field(8, board.drawResult),
+    9: encodePackedInt32Field(9, board.topResult),
+    10: encodePackedInt32Field(10, board.buttomResult)
+  };
+  if (sequence !== undefined) {
+    rawFieldOverrides[3] = encodeStringField(3, `103-local-normalwin-settle-${Date.now()}-${sequence}`);
+  }
+  const varintOverrides = {
+    [ROTATE_FIELD_ROUND_SCORE]: toUint64VarintValue(winAmount - Number(betCoin)),
+    [ROTATE_FIELD_TOTAL_WIN]: winAmount,
+    [ROTATE_FIELD_ROUND_WIN]: 0
+  };
+  if (coin !== undefined) {
+    varintOverrides[4] = Number(coin);
+  }
+
+  const patchedInner = rebuildRotateInner(rotateInnerOf(baseFrameBuffer), {
+    varintOverrides,
+    rawFieldOverrides,
+    repeatedFieldOverrides: {
+      [ROTATE_FIELD_LINE]: []
+    },
+    omitFields: [...FREE_SPIN_ONLY_FIELDS, 7, 14]
+  });
+  return encodeGameFrame(40003, encodeLengthDelimited(1, patchedInner));
+}
+
 export function createGeneratedWinFrame({ winAmount, sequence = 1, coin = 455700000 } = {}) {
   const normalizedWin = Number.isFinite(Number(winAmount)) ? Number(winAmount) : 400;
   const rotate = encodeMsgRotate({
@@ -609,7 +926,7 @@ export function createGeneratedWinFrame({ winAmount, sequence = 1, coin = 455700
     gameNumList: [1, 2, 3, 5],
     gameNum: sequence,
     goldToWildPos: [12],
-    roundScore: Math.max(0, normalizedWin - 400),
+    roundScore: toUint64VarintValue(normalizedWin - 400),
     totalWin: normalizedWin,
     roundWin: normalizedWin,
     bFree: false,
@@ -620,6 +937,14 @@ export function createGeneratedWinFrame({ winAmount, sequence = 1, coin = 455700
     triggerWin: 0
   });
   return encodeGameFrame(40003, encodeLengthDelimited(1, rotate));
+}
+
+function mapSlotSymbolToBoya(slotSymbol) {
+  const mapped = SLOT_TO_BOYA_SYMBOL[Number(slotSymbol)];
+  if (mapped === undefined) {
+    throw new Error(`Unsupported slot-platform Mahjong2 symbol: ${slotSymbol}`);
+  }
+  return mapped;
 }
 
 function createHeartbeatResponse(rawFrames, connectionIndex) {
@@ -637,7 +962,7 @@ function createHeartbeatResponse(rawFrames, connectionIndex) {
   };
 }
 
-function createGeneratedHeartbeatFrame() {
+export function createGeneratedHeartbeatFrame() {
   return encodeGameFrame(HEARTBEAT_RESPONSE_CMD, encodeVarintField(1, Math.floor(Date.now() / 1000)));
 }
 
@@ -675,7 +1000,10 @@ export function decodeBoyaRotateFromPayload(payload) {
     else if (field.field === 12) rotate.gameNumList = decodePackedInts(field);
     else if (field.field === 13) rotate.gameNum = Number(field.value);
     else if (field.field === 14) rotate.goldToWildPos = decodePackedInts(field);
-    else if (field.field === 15) rotate.roundScore = Number(field.value);
+    else if (field.field === 15) {
+      rotate.roundScore = Number(field.value);
+      rotate.roundScoreSigned = fromUint64VarintValue(field.value);
+    }
     else if (field.field === 16) rotate.totalWin = Number(field.value);
     else if (field.field === 17) rotate.roundWin = Number(field.value);
     else if (field.field === 18) rotate.bFree = Boolean(Number(field.value));
@@ -788,6 +1116,82 @@ function collectRecordedFrames(rawFrames, connectionIndex, cmd) {
     ? local
     : (rawFrames?.frames || []).filter((message) => message.type === "receive" && message.cmd === cmd);
   return source.map((message) => Buffer.from(message.rawFrameBase64, "base64"));
+}
+
+function createNormalWinResponder(rawFrames, connectionIndex, mode = "normalwin") {
+  const replay = createConnectionReplay(rawFrames, connectionIndex);
+  const baseBetFrame = findRecordedBetFrame(rawFrames, connectionIndex);
+  const scenarios = normalWinScenarios();
+  const fixedMatch = /^normalwin-(\d+)$/.exec(mode);
+  const fixedScenarioIndex = fixedMatch
+    ? Math.max(0, Math.min(scenarios.length - 1, Number(fixedMatch[1]) - 1))
+    : null;
+  const baseRotate = baseBetFrame
+    ? decodeBoyaRotateFromPayload(parseFrameBase64(baseBetFrame).payload)
+    : {};
+  const baseCoin = Number(baseRotate.coin || 0);
+  const betCoin = Number(baseRotate.betCoin || 400);
+  let spinIndex = 0;
+  let settledCoin = baseCoin;
+  let pendingWin = null;
+
+  return {
+    mode,
+    get cursor() {
+      return replay.cursor;
+    },
+    nextResponsesForClientFrame(input) {
+      const request = parseFrameBase64(input);
+      if (request.cmd === HEARTBEAT_REQUEST_CMD) {
+        return [createHeartbeatResponse(rawFrames, connectionIndex)];
+      }
+      if (request.cmd === 40002 && baseBetFrame) {
+        if (pendingWin) {
+          const { datasetIndex, scenario, spinCoin, sequence } = pendingWin;
+          const coin = baseCoin ? spinCoin + scenario.amount : undefined;
+          if (coin !== undefined) settledCoin = coin;
+          pendingWin = null;
+          return [{
+            buffer: createNormalWinSettleFrameFromSlotScenario(baseBetFrame, scenario, {
+              betCoin,
+              coin,
+              sequence
+            }),
+            source: "normalwin-settle",
+            datasetIndex,
+            datasetCount: scenarios.length,
+            winAmount: scenario.amount,
+            templateIndex: datasetIndex,
+            originalRoundWin: 0
+          }];
+        }
+
+        const datasetIndex = fixedScenarioIndex ?? (spinIndex % scenarios.length);
+        const scenario = scenarios[datasetIndex];
+        spinIndex += 1;
+        const spinCoin = baseCoin ? settledCoin - betCoin : undefined;
+        pendingWin = { datasetIndex, scenario, spinCoin, sequence: spinIndex };
+        return [{
+          buffer: createNormalWinFrameFromSlotScenario(baseBetFrame, scenario, {
+            betCoin,
+            coin: spinCoin,
+            sequence: spinIndex
+          }),
+          source: "normalwin",
+          datasetIndex,
+          datasetCount: scenarios.length,
+          winAmount: scenario.amount,
+          templateIndex: datasetIndex,
+          originalRoundWin: scenario.slotWin
+        }];
+      }
+
+      return replay.nextResponsesForClientFrame(input).map((buffer) => ({
+        buffer,
+        source: "har"
+      }));
+    }
+  };
 }
 
 // Replays the recorded free-spin feature: 40006 (buy free) -> 40007 trigger, then each
@@ -1023,6 +1427,16 @@ function scaleLineScores(lines, targetTotal) {
       score
     };
   });
+}
+
+function toUint64VarintValue(value) {
+  const normalized = BigInt(Math.trunc(Number(value) || 0));
+  return normalized < 0n ? (1n << 64n) + normalized : normalized;
+}
+
+function fromUint64VarintValue(value) {
+  const normalized = BigInt(value);
+  return Number(normalized >= (1n << 63n) ? normalized - (1n << 64n) : normalized);
 }
 
 function decodeLineReward(payload) {

@@ -4,7 +4,7 @@
 **工作目录:** `/Users/yang/work/git/sun/boyamajiang2`
 **输入 HAR:** `/Users/yang/work/git/sun/boyamajiang2/麻将2 boya.har`
 **参考项目:** `/Users/yang/work/git/slot-platform`
-**状态:** 已实现本地 HAR 客户端、WebSocket replay 服务、dataset 测试入口、小到大中奖控制入口、历史记录页、图片预览导出和 Playwright bet 验证；已修复 winladder「登录认证超时」（见 §9）。**已实现（§10 / §11 Phase A）：** winladder 每把切换真实盘面（27 套）；基础旋转小到大金额阶梯；点“购买免费游戏”回放真实免费旋转级联（“盘面掉了”+ 累计中奖 + 倍数 x2/x4/x6/x10 + 剩余次数），winladder 与 dataset 两模式均通过真机验证，无认证超时/无 404。对齐 slot-platform Unity Mahjong2 的调查与后续 Phase B/C 见 §11。
+**状态:** 已实现本地 HAR 客户端、WebSocket replay 服务、dataset 测试入口、普通小奖阶梯入口、winladder 免费级联入口、历史记录页、图片预览导出和 Playwright bet 验证；已修复 winladder「登录认证超时」（见 §9）。**已实现（§10 / §11 Phase A / §13）：** winladder 每把切换真实盘面（27 套）；`normalwin-1..6` 用 slot-platform Mahjong2 普通中奖盘面驱动 1.00→8.00 小奖，盘面/lines/奖金一致；点“购买免费游戏”回放真实免费旋转级联（“盘面掉了”+ 累计中奖 + 倍数 x2/x4/x6/x10 + 剩余次数）。normalwin、winladder 与 dataset 模式均通过真机验证，无认证超时/无 404。对齐 slot-platform Unity Mahjong2 的调查与后续 Phase B/C 见 §11。
 
 ## 1. 结论
 
@@ -127,6 +127,7 @@ bytes 12..   protobuf payload 或 gzip/protobuf payload
 ```text
 .boya-local-server-url    HAR 原始顺序回放入口
 .boya-local-dataset-url   本地测试数据集入口
+.boya-local-normalwin-url 普通小奖阶梯入口
 .boya-local-winladder-url 小到大中奖控制入口
 .boya-local-history-url   本地历史记录页面
 ```
@@ -136,6 +137,10 @@ bytes 12..   protobuf payload 或 gzip/protobuf payload
 ```text
 http://127.0.0.1:18082/__game/replay
 http://127.0.0.1:18082/__game/dataset
+http://127.0.0.1:18082/__game/normalwin
+http://127.0.0.1:18082/__game/normalwin-1
+...
+http://127.0.0.1:18082/__game/normalwin-6
 http://127.0.0.1:18082/__game/winladder
 http://127.0.0.1:18082/__history
 ```
@@ -144,7 +149,9 @@ http://127.0.0.1:18082/__history
 
 `/__game/dataset` 会跳转到同一个本地客户端，WebSocket 指向 `ws://127.0.0.1:18082/gate/ws?mode=dataset`。该模式下 `40001` 仍使用 HAR enter 数据，`40003` 从 HAR 捕获到的 4 条 bet 结果中循环返回，并在历史中标记 `source=dataset`、`datasetIndex`、`datasetCount`。
 
-`/__game/winladder` 会跳转到同一个本地客户端，WebSocket 指向 `ws://127.0.0.1:18082/gate/ws?mode=winladder`。该模式下 `40001` 仍使用 HAR enter 数据，`40003` 由本地服务生成，并按 `400 -> 1200 -> 2400 -> 6000 -> 12000 -> 20000` 循环返回；历史中标记 `source=winladder` 和 `winAmount`。
+`/__game/normalwin` 会跳转到同一个本地客户端，WebSocket 指向 `ws://127.0.0.1:18082/gate/ws?mode=normalwin`。该模式下 `40001` 仍使用 HAR enter 数据，`40003` 由本地服务用 slot-platform Mahjong2 普通中奖盘面生成，并按 `100 -> 200 -> 300 -> 500 -> 600 -> 800` 循环返回；历史中标记 `source=normalwin`、`datasetIndex` 和 `winAmount`。固定入口 `normalwin-1..6` 每次只返回对应档位，便于人工逐条验证普通中奖路径。
+
+`/__game/winladder` 会跳转到同一个本地客户端，WebSocket 指向 `ws://127.0.0.1:18082/gate/ws?mode=winladder`。该模式下 `40001` 仍使用 HAR enter 数据，基础 `40003` 保持真实安全帧；小到大奖励通过购买免费游戏链路 `40006 -> 40007 -> 40004 -> 40005` 承载，按 `400 -> 1200 -> 2400 -> 6000 -> 12000 -> 20000` 输出；历史中标记 `source=freespin-cascade` 和 `winAmount`。
 
 所有模式都会对客户端 `5000` 心跳请求返回本地 `5001` 心跳响应；该响应独立于 HAR replay 游标，避免长时间停留或多次 spin 后因 HAR 心跳样本耗尽而触发“登录超时”。
 
@@ -752,3 +759,114 @@ Playwright 报告：
 
 之后客户端会走本地服务控制的免费级联中奖阶梯。历史记录：
 `http://127.0.0.1:18082/__history.json`
+
+## 13. 普通小奖阶梯：slot-platform 盘面驱动基础 40003（2026-07-09 实施）
+
+### 13.1 问题结论
+用户明确要求“普通小奖励慢慢到大奖励”，不能用免费游戏 / BigWin / MegaWin 截图证明。因此新增独立
+`normalwin` 模式，用普通旋转 `40002 -> 40003` 展示小奖阶梯：
+
+```text
+100 -> 200 -> 300 -> 500 -> 600 -> 800
+显示金额：1.00 -> 2.00 -> 3.00 -> 5.00 -> 6.00 -> 8.00
+```
+
+旧的失败点是基础 `40003` 直接硬塞中奖 lines 后，客户端会在数秒后认证超时。2026-07-10 对不同路径做真机复核后，最终定位到四个必要条件：
+
+- `roundScore(15)` 必须按净分 `win - bet` 写入 uint64 varint。真实 HAR 输局用 `2^64 - 400` 表示 `-400`；
+  因此 100/200/300 小奖必须分别编码为 `-300/-200/-100`，不能写成 0。
+- 普通中奖动画会懒加载额外音频资源。HAR 没收全的 import/native mp3 必须补齐到本地，否则会出现 HTTP 404。
+- 三轴 Ways 的 `lines[].axleId` 是最后中奖轴的 0-based 索引，必须为 `2`；写成 `3` 等于声明四轴中奖，与三轴盘面不一致。
+- 基础游戏中奖后的消除子轮仍走 `40002 -> 40003`，不是免费游戏的 `40004 -> 40005`。首个中奖 `40003`
+  后必须返回一个重力兼容的终止 `40003`：`lines=[]`、`roundWin=0`、`totalWin` 保留本轮奖金，并保持所有未消除符号
+  按列下落顺序不变。把同一个中奖首盘重复返回，会让非顶行路径在下落校验时关闭连接并显示“登录认证超时”。
+
+同时，盘面不能只保证目标 `iconId` 成路，还要清除其他未声明的三轴 Ways；否则客户端高亮、`lines` 和盘面规则仍不完全一致。
+
+### 13.2 实现
+- `tools/lib/boya-har.mjs`
+  - 新增 `NORMAL_WIN_AMOUNTS = [100, 200, 300, 500, 600, 800]`。
+  - 从 `/Users/yang/work/git/slot-platform/slot-server/scripts/scenario-definitions/mahjong2.yaml` 选取普通 3 列 Ways
+    小奖盘面：`mj2-04/06/07/09/10/11`。
+  - 建立 slot-platform -> Boya 符号映射：
+    `10->3, 8->7, 7->9, 5->13, 4->15, 3->17`。
+  - `slotPlatformBoardToBoyaBoard()` 把 slot-platform 5 列 x 7 行盘面转成 Boya 的
+    `drawResult(25)+topResult(5)+buttomResult(5)`。
+  - `createNormalWinFrameFromSlotScenario()` 克隆真实 HAR `40003` 外壳，只替换盘面、lines、金额、净分和余额；
+    移除免费态字段，保持普通旋转协议。
+  - `placeSingleWaysPath()` 先移除目标符号的额外 wild/同类匹配，再清理其他未声明三轴 Ways，确保首盘只有
+    `lines.iconId` 对应的一条中奖路线。
+  - `createNormalWinSettleFrameFromSlotScenario()` 根据首盘实际消除位置生成下落终止盘：未消除符号顺序保持不变，
+    新符号从列顶补入，终止盘无任何三轴 Ways。
+- `tools/local/boya-local-server.mjs`
+  - 新增 `/__game/normalwin` 顺序入口。
+  - 新增 `/__game/normalwin-1..6` 固定档位入口，方便逐条测试不同中奖路线。
+  - 每档使用两步状态机：第一次 `40002` 返回中奖高亮帧，第二次客户端子轮 `40002` 返回终止帧；终止后等待人工下一次旋转。
+- `tests/playwright/boya-mahjong2-normalwin-paths.mjs`
+  - 默认每个档位单独开新页面验证，避免连续普通赢时客户端内部自动旋转状态污染下一档截图。
+  - 监听 WebSocket、HTTP、console、pageerror、client close；保存 highlight/settled/after-wait 截图。
+  - 同时断言首盘只有声明 Ways、终止盘无 Ways、每档恰好两个 `40003`、服务端 `mismatches=0`。
+
+补齐的普通中奖懒加载资源：
+
+```text
+/v2/assets/dy_mjlltwo_en/import/08/0800587f-95a0-4301-8118-e007d5b2432b.dfe7f.json
+/v2/assets/dy_mjlltwo_en/native/08/0800587f-95a0-4301-8118-e007d5b2432b.02a92.mp3
+/v2/assets/dy_mjlltwo_en/import/d7/d783060f-127f-453d-af49-efc3b6d1dc44.e8f47.json
+/v2/assets/dy_mjlltwo_en/native/d7/d783060f-127f-453d-af49-efc3b6d1dc44.4266d.mp3
+/v2/assets/dy_mjlltwo_en/import/6b/6b5b62c5-a5c1-483d-bb27-64debe73b57b.79abb.json
+/v2/assets/dy_mjlltwo_en/native/6b/6b5b62c5-a5c1-483d-bb27-64debe73b57b.23718.mp3
+/v2/assets/dy_mjlltwo_en/import/6c/6c8f62b8-fb2a-44ef-a0ab-3ee7dd0120d8.56416.json
+/v2/assets/dy_mjlltwo_en/native/6c/6c8f62b8-fb2a-44ef-a0ab-3ee7dd0120d8.760ad.mp3
+/v2/assets/dy_mjlltwo_en/import/88/88d452d4-fd1f-43b2-8f22-af95dc42bf48.f40a7.json
+/v2/assets/dy_mjlltwo_en/native/88/88d452d4-fd1f-43b2-8f22-af95dc42bf48.60fdc.mp3
+```
+
+### 13.3 真机验证证据
+最终验证目录：
+`testwebgame/boya-mahjong2/normalwin-final-20260710-093340/`
+
+Playwright 报告：
+- verdict: `PASS`
+- `httpErrors=0`
+- `pageErrors=0`
+- `clientCloses=0`
+- `serverMismatches=0`
+- `send40006/receive40007=0/0`
+- `send40004/receive40005=0/0`
+- `send40002/receive40003=12/12`（每档一个中奖首帧 + 一个下落终止帧）
+- `receive5001=24`，六档各等待两个以上服务端心跳周期，连接保持正常。
+- 6 个普通小奖：
+  - `100 -> iconId 3 -> rows 0/0/0 -> lineSum 100 -> settleLines 0`
+  - `200 -> iconId 7 -> rows 1/2/3 -> lineSum 200 -> settleLines 0`
+  - `300 -> iconId 9 -> rows 3/1/4 -> lineSum 300 -> settleLines 0`
+  - `500 -> iconId 13 -> rows 2/4/1 -> lineSum 500 -> settleLines 0`
+  - `600 -> iconId 15 -> rows 3/0/2 -> lineSum 600 -> settleLines 0`
+  - `800 -> iconId 17 -> rows 1/3/0 -> lineSum 800 -> settleLines 0`
+
+每档报告均为：`declaredWaysOnly=true`、`targetPathMatches=true`、`normalResponseCount=2`、`settleBoardWays=[]`。
+
+免费回放回归在独立端口完成，证据目录：
+`testwebgame/boya-mahjong2/winladder-regression-20260710-093930/`。报告 verdict 为 `PASS`，
+`send40006/receive40007=1/1`、`send40004/receive40005=18/18`、`httpErrors=0`、`clientCloses=0`，
+确认 §11 Phase A 未被 normalwin 状态机改动破坏。
+
+人工截图检查：
+- `normalwin-highlight-contact.png`：六宫格全部截在发光高亮阶段，显示 1.00 / 2.00 / 3.00 / 5.00 / 6.00 / 8.00。
+- 六档高亮路线分别对应报告中的 `iconId + targetRows`，不是同一条顶行路线。
+- `win-00100-after-wait.png` 到 `win-00800-after-wait.png` 均已完成下落结算，画面无“登录认证超时”遮罩。
+
+### 13.4 使用方式
+顺序入口：
+`http://127.0.0.1:18082/__game/normalwin`
+
+固定档位入口：
+
+```text
+http://127.0.0.1:18082/__game/normalwin-1  # 1.00
+http://127.0.0.1:18082/__game/normalwin-2  # 2.00
+http://127.0.0.1:18082/__game/normalwin-3  # 3.00
+http://127.0.0.1:18082/__game/normalwin-4  # 5.00
+http://127.0.0.1:18082/__game/normalwin-5  # 6.00
+http://127.0.0.1:18082/__game/normalwin-6  # 8.00
+```
