@@ -34,9 +34,13 @@ test("admin scenario catalog exposes the route-and-cascade suite", () => {
   assert.ok(suite.scenarios.some((scenario) => scenario.key === "cascade-gold-to-wild"));
   assert.ok(suite.scenarios.some((scenario) => scenario.key === "route-wild-reuse"));
   const doubleGold = suite.scenarios.find((scenario) => scenario.key === "cascade-double-gold-to-wild");
+  const scatterGravity = suite.scenarios.find((scenario) => scenario.key === "cascade-scatter-gravity");
+  const multipleWild = suite.scenarios.find((scenario) => scenario.key === "route-multiple-wild-same-line");
   assert.equal(doubleGold.winSteps, 2);
   assert.deepEqual(doubleGold.multipliers, [1, 2]);
   assert.equal(doubleGold.minPeakWild, 2);
+  assert.equal(scatterGravity.scatterCount, 2);
+  assert.equal(multipleWild.scatterCount, 0);
 });
 
 test("admin user API exposes local balances and RTP by token", async () => {

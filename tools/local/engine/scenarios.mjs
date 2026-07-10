@@ -440,7 +440,7 @@ export function createRouteAndCascadeScenarios() {
       { reel: 2, row: 1, symbol: 1 }
     ],
     tags: ["cascade", "scatter", "gravity"],
-    expect: { winSteps: 1, multipliers: [1], scatter: true }
+    expect: { winSteps: 1, multipliers: [1], scatterCount: 2 }
   }));
 
   scenarios.push(routeScenario({
@@ -475,15 +475,15 @@ export function createRouteAndCascadeScenarios() {
     excluded: [13],
     placements: [
       { reel: 0, row: 1, symbol: 13 },
-      { reel: 0, row: 2, symbol: 1 },
-      { reel: 0, row: 3, symbol: 1 },
-      { reel: 0, row: 4, symbol: 1 },
+      { reel: 0, row: 2, symbol: 13 },
+      { reel: 0, row: 3, symbol: 13 },
+      { reel: 0, row: 4, symbol: 13 },
       { reel: 1, row: 2, symbol: 2 },
       { reel: 2, row: 3, symbol: 2 },
       { reel: 3, row: 1, symbol: 13 }
     ],
     tags: ["wild", "multi-wild", "four-reel"],
-    expect: { winSteps: 1, multipliers: [1], minPeakWild: 2, scatter: true }
+    expect: { winSteps: 1, multipliers: [1], minPeakWild: 2 }
   }));
 
   scenarios.push(routeScenario({
@@ -508,15 +508,12 @@ export function createRouteAndCascadeScenarios() {
     excluded: [13],
     placements: [
       { reel: 0, row: 1, symbol: 13 },
-      { reel: 0, row: 2, symbol: 1 },
-      { reel: 0, row: 3, symbol: 1 },
-      { reel: 0, row: 4, symbol: 1 },
       { reel: 1, row: 2, symbol: 14 },
       { reel: 2, row: 3, symbol: 2 },
       { reel: 3, row: 1, symbol: 13 }
     ],
     tags: ["gold", "wild", "mixed", "four-reel"],
-    expect: { winSteps: 1, multipliers: [1], minPeakWild: 1, goldToWild: true, scatter: true }
+    expect: { winSteps: 1, multipliers: [1], minPeakWild: 1, goldToWild: true }
   }));
 
   return scenarios;

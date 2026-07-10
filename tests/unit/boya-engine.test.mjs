@@ -170,6 +170,23 @@ test("round plan preserves the formula through a winning step and a legal termin
   for (const step of plan.steps) assert.doesNotThrow(() => validateStep(step));
 });
 
+test("winning frame exposes the symbols that refill its following cascade", () => {
+  const scenario = createRouteAndCascadeScenarios({ betMulti: 20, betCoin: 400 })
+    .find((entry) => entry.key === "cascade-limit-terminal");
+  const plan = buildRoundPlan({
+    initialBoard: scenario.initialBoard,
+    initialBuffers: scenario.initialBuffers,
+    betMulti: 20,
+    betCoin: 400,
+    mode: "base",
+    maxCascades: scenario.maxCascades,
+    nextSymbol: scenario.createNextSymbol()
+  });
+
+  assert.deepEqual(plan.steps[0].topResult.slice(0, 3), [7, 7, 7]);
+  assert.deepEqual(plan.steps[1].topResult.slice(0, 3), [3, 5, 11]);
+});
+
 test("route-and-cascade catalog covers routes, multi-line, Wild, gold, and the cascade limit", () => {
   const scenarios = createRouteAndCascadeScenarios({ betMulti: 20, betCoin: 400 });
   assert.ok(scenarios.length >= 28);
@@ -201,9 +218,13 @@ test("route-and-cascade catalog covers routes, multi-line, Wild, gold, and the c
       scenario.key
     );
     assert.equal(
-      plan.steps.some((step) => step.board.includes(1)),
-      Boolean(scenario.expect.scatter),
+      plan.steps[0].board.filter((symbol) => symbol === 1).length,
+      scenario.expect.scatterCount || 0,
       scenario.key
+    );
+    assert.ok(
+      plan.steps.every((step) => step.board.filter((symbol) => symbol === 1).length <= 2),
+      `${scenario.key} must not trigger free spins`
     );
     assert.equal(plan.steps.at(-1).lines.length, 0, `${scenario.key} terminal step`);
     return [scenario.key, plan];
@@ -228,6 +249,8 @@ test("route-and-cascade catalog covers routes, multi-line, Wild, gold, and the c
     plans["cascade-wild-next-eliminate"].steps[1].board[index] === 2
   )));
   assert.equal(plans["route-wild-reuse"].steps[0].lines.length, 2);
+  assert.equal(plans["route-multiple-wild-same-line"].steps[0].lines.length, 1);
+  assert.equal(plans["route-multiple-wild-same-line"].steps[0].lines[0].iconId, 13);
   assert.equal(plans["cascade-refill-win"].steps.filter((step) => step.lines.length).length, 2);
   assert.equal(plans["cascade-limit-terminal"].cascadeLimitHit, true);
   assert.equal(plans["cascade-limit-terminal"].steps.at(-1).roundWin, 0);

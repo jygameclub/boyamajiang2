@@ -101,7 +101,7 @@ export function buildScenarioCatalog() {
             multipliers: scenario.expect.multipliers,
             minPeakWild: scenario.expect.minPeakWild || 0,
             goldToWild: Boolean(scenario.expect.goldToWild),
-            scatter: Boolean(scenario.expect.scatter),
+            scatterCount: scenario.expect.scatterCount || 0,
             amount: evaluation.roundWin,
             iconId: firstLine?.iconId ?? null,
             axleId: firstLine?.axleId ?? null,

@@ -64,11 +64,10 @@ export function buildRoundPlan({
     if (!evaluation.lines.length) break;
 
     const cascaded = cascadeBoard(board, evaluation, { nextSymbol });
+    step.topResult = cascaded.incomingByReel.map((incoming, reel) => (
+      incoming.at(-1) ?? buffers.topResult[reel]
+    ));
     board = cascaded.board;
-    buffers = {
-      topResult: cascaded.incomingByReel.map((incoming, reel) => incoming[0] ?? buffers.topResult[reel]),
-      buttomResult: [...buffers.buttomResult]
-    };
     if (cascadeIndex === maxCascades) {
       const terminalCascadeIndex = cascadeIndex + 1;
       const terminalGameNum = multiplierForCascade(terminalCascadeIndex, mode);

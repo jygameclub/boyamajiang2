@@ -9,6 +9,8 @@ import {
 } from "../../tools/lib/boya-har.mjs";
 import { createControlledResponder } from "../../tools/local/server/controlled-responder.mjs";
 import { openLocalStore } from "../../tools/local/server/database.mjs";
+import { calculateWays } from "../../tools/local/engine/ways-calculator.mjs";
+import { createRouteAndCascadeScenarios } from "../../tools/local/engine/scenarios.mjs";
 
 const rawFrames = JSON.parse(await readFile("debugserver-data/boya-mahjong2/raw-frames.json", "utf8"));
 const spinRequest = Buffer.from(
@@ -40,6 +42,57 @@ function requestWithBet(cmd, betMult) {
 function decodeResponse(info) {
   return decodeBoyaRotateFromPayload(parseFrameBase64(info.buffer).payload);
 }
+
+function protocolLines(lines) {
+  return lines.map(({ iconId, axleId, lineNum, score, multi, odds }) => ({
+    iconId,
+    axleId,
+    lineNum,
+    score,
+    multi,
+    odds
+  }));
+}
+
+test("every deterministic route remains formula-correct after protobuf compilation", () => {
+  for (const scenario of createRouteAndCascadeScenarios()) {
+    const initialScatterCount = scenario.initialBoard.filter((symbol) => symbol === 1).length;
+    assert.equal(initialScatterCount, scenario.expect.scatterCount ?? 0, scenario.key);
+    assert.ok(initialScatterCount <= 2, `${scenario.key} must not trigger free spins`);
+    const store = openLocalStore(":memory:");
+    store.updateTestState({
+      suiteKey: "route-and-cascade",
+      scenarioKey: scenario.key,
+      cursor: 0,
+      cycle: true
+    });
+    const responder = createControlledResponder({
+      rawFrames,
+      connectionIndex: 1,
+      mode: "test",
+      store,
+      seed: `compiled-${scenario.key}`
+    });
+    const decoded = [];
+    for (let step = 0; step < 12; step += 1) {
+      const rotate = decodeResponse(responder.nextResponsesForClientFrame(spinRequest)[0]);
+      const calculated = calculateWays(rotate.drawResult, {
+        betMulti: rotate.betMulti,
+        multiplier: rotate.gameNum,
+        mode: "base",
+        cascadeIndex: step
+      });
+      assert.deepEqual(protocolLines(rotate.lines), protocolLines(calculated.lines), scenario.key);
+      assert.equal(rotate.roundWin, calculated.roundWin, scenario.key);
+      decoded.push(rotate);
+      if (!rotate.lines.length) break;
+    }
+    assert.equal(decoded.filter((rotate) => rotate.lines.length).length, scenario.expect.winSteps, scenario.key);
+    assert.equal(decoded.at(-1).lines.length, 0, scenario.key);
+    responder.close("test-done");
+    store.close();
+  }
+});
 
 test("live responder starts from and persists the selected local user balance", () => {
   const store = openLocalStore(":memory:");
